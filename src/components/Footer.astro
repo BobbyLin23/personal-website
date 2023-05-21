@@ -1,0 +1,26 @@
+---
+import Social from "./Social.astro";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Document</title>
+    <style>
+      footer {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <footer>
+      <Social platform='twitter' username='bobby'/>
+      <Social platform='github' username='bobby'/>
+      <Social platform='youtube' username='bobby'/>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+---
+const { platform, username } = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Document</title>
+    <style>
+      a {
+        padding: 0.5rem 1rem;
+        color: white;
+        background-color: #4c1d95;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body> 
+    <a href={`https://www.${platform}.com/${username}`}>{platform}</a>
+  </body>
+</html>
