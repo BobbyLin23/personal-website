@@ -1,0 +1,6 @@
+---
+alwaysApply: true
+---
+
+## Basic Rules
+- Use `pnpm` as package manager
