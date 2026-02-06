@@ -2,9 +2,10 @@ shellEmulator: true
 
 trustPolicy: no-downgrade
 
-ignoredBuiltDependencies:
+onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@tailwindcss/oxide'
+  - better-sqlite3
   - esbuild
-  - unrs-resolver
+  - sharp
   - vue-demi
