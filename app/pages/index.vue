@@ -4,14 +4,12 @@ const { data: recentPosts } = await useAsyncData('recent-posts', () =>
     .select('title', 'description', 'date', 'path', 'stem')
     .order('date', 'DESC')
     .limit(4)
-    .all(),
-)
+    .all())
 
 const { data: featuredProjects } = await useAsyncData('featured-projects', () =>
   queryCollection('projects')
     .where('featured', '=', true)
-    .all(),
-)
+    .all())
 
 const socialLinks = [
   { icon: 'i-simple-icons-github', label: 'GitHub', to: 'https://github.com' },
@@ -33,7 +31,7 @@ const socialLinks = [
           :transition="{ type: 'spring', stiffness: 200, damping: 15 }"
         >
           <UAvatar
-            text="ZS"
+            text="BL"
             size="3xl"
             :ui="{
               root: 'ring-4 ring-green-100 dark:ring-green-900/30',
@@ -49,7 +47,7 @@ const socialLinks = [
             :transition="{ duration: 0.5, delay: 0.2 }"
           >
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
-              Hi, I'm <span class="gradient-text">ZhangSheng</span>
+              Hi, I'm <span class="gradient-text">Bobby Lin</span>
               <span class="inline-block animate-bounce">👋</span>
             </h1>
           </Motion>

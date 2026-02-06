@@ -8,8 +8,6 @@ tags:
   - Migration
 ---
 
-# Tailwind CSS v4: What's New and Migration Guide
-
 Tailwind CSS v4 represents a major evolution of the framework, with native CSS layers, lightning-fast performance, and a simplified configuration experience.
 
 ## Key Changes

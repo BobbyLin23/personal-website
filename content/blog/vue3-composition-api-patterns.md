@@ -8,8 +8,6 @@ tags:
   - Best Practices
 ---
 
-# Deep Dive into Vue 3 Composition API Patterns
-
 The Composition API is one of the most powerful features of Vue 3. In this article, we'll explore advanced patterns that will help you write cleaner, more maintainable code.
 
 ## Composable Patterns

@@ -8,8 +8,6 @@ tags:
   - Web Development
 ---
 
-# Building a Modern Personal Website with Nuxt 4
-
 Nuxt 4 brings a host of exciting features that make building personal websites easier and more performant than ever. In this post, we'll explore the key improvements and walk through setting up a modern personal site from scratch.
 
 ## What's New in Nuxt 4

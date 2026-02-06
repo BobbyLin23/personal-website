@@ -38,11 +38,10 @@ function toggleLang() {
 </script>
 
 <template>
-  <UHeader title="ZhangSheng">
+  <UHeader title="Bobby Lin">
     <UNavigationMenu :items="navItems" />
 
     <template #right>
-      <!-- Language Toggle -->
       <UButton
         color="neutral"
         variant="ghost"
@@ -51,7 +50,6 @@ function toggleLang() {
         @click="toggleLang"
       />
 
-      <!-- RSS -->
       <UTooltip text="RSS">
         <UButton
           icon="i-lucide-rss"
@@ -62,7 +60,6 @@ function toggleLang() {
         />
       </UTooltip>
 
-      <!-- Dark Mode -->
       <UColorModeButton />
     </template>
 
