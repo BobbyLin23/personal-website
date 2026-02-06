@@ -1,5 +1,5 @@
 name: UI Theme
-description: A beautiful and customizable theme for Nuxt UI with predefined color palettes.
+description: A beautiful and customizable theme for Nuxt UI with predefined color palettes and component variants.
 icon: i-lucide-palette
 iconBg: bg-blue-50 dark:bg-blue-900/20
 iconColor: text-blue-500
@@ -8,4 +8,6 @@ languageColor: bg-blue-400
 stars: 86
 forks: 12
 url: https://github.com
+github: https://github.com
+demo: https://ui-theme.dev
 featured: true

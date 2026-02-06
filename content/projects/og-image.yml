@@ -1,0 +1,13 @@
+name: OG Image
+description: Automatic Open Graph image generation for your Nuxt website with customizable templates and fonts.
+icon: i-lucide-image
+iconBg: bg-rose-50 dark:bg-rose-900/20
+iconColor: text-rose-500
+language: TypeScript
+languageColor: bg-emerald-400
+stars: 67
+forks: 15
+url: https://github.com
+github: https://github.com
+demo: https://og-image.dev
+featured: false

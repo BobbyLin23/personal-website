@@ -28,6 +28,8 @@ export default defineContentConfig({
         stars: z.number(),
         forks: z.number(),
         url: z.string().optional(),
+        github: z.string().optional(),
+        demo: z.string().optional(),
         featured: z.boolean().default(false),
       }),
     }),

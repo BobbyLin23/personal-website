@@ -1,5 +1,5 @@
 name: Vue Utils
-description: A collection of essential Vue 3 composables and utilities for everyday development.
+description: A collection of essential Vue 3 composables and utilities for everyday development. Includes state management helpers, DOM utilities, and more.
 icon: i-lucide-code
 iconBg: bg-green-50 dark:bg-green-900/20
 iconColor: text-green-500
@@ -8,4 +8,6 @@ languageColor: bg-emerald-400
 stars: 128
 forks: 23
 url: https://github.com
+github: https://github.com
+demo: https://vue-utils.dev
 featured: true

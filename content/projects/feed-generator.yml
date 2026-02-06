@@ -1,0 +1,12 @@
+name: Feed Generator
+description: A lightweight RSS/Atom feed generator for Nuxt Content. Automatically generates feeds from your markdown content.
+icon: i-lucide-rss
+iconBg: bg-orange-50 dark:bg-orange-900/20
+iconColor: text-orange-500
+language: TypeScript
+languageColor: bg-emerald-400
+stars: 34
+forks: 5
+url: https://github.com
+github: https://github.com
+featured: false
