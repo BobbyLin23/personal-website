@@ -1,0 +1,11 @@
+name: UI Theme
+description: A beautiful and customizable theme for Nuxt UI with predefined color palettes.
+icon: i-lucide-palette
+iconBg: bg-blue-50 dark:bg-blue-900/20
+iconColor: text-blue-500
+language: Vue
+languageColor: bg-blue-400
+stars: 86
+forks: 12
+url: https://github.com
+featured: true

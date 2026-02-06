@@ -11,10 +11,13 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@iconify-json/lucide": "^1.2.88",
+    "@iconify-json/simple-icons": "^1.2.69",
     "@nuxt/content": "3.11.2",
     "@nuxt/image": "2.0.0",
     "@nuxt/ui": "4.4.0",
     "better-sqlite3": "^12.6.2",
+    "motion-v": "^1.10.2",
     "nuxt": "^4.3.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",

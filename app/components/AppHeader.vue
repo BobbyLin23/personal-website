@@ -1,0 +1,73 @@
+<script setup lang="ts">
+import type { NavigationMenuItem } from '@nuxt/ui'
+
+const route = useRoute()
+
+const navItems = computed<NavigationMenuItem[]>(() => [
+  {
+    label: 'Home',
+    icon: 'i-lucide-home',
+    to: '/',
+    active: route.path === '/',
+  },
+  {
+    label: 'Blog',
+    icon: 'i-lucide-book-open',
+    to: '/blog',
+    active: route.path.startsWith('/blog'),
+  },
+  {
+    label: 'Projects',
+    icon: 'i-lucide-folder-git-2',
+    to: '/projects',
+    active: route.path.startsWith('/projects'),
+  },
+  {
+    label: 'Weekly',
+    icon: 'i-lucide-calendar',
+    to: '/weekly',
+    active: route.path.startsWith('/weekly'),
+  },
+])
+
+const currentLang = shallowRef<'en' | 'zh'>('en')
+
+function toggleLang() {
+  currentLang.value = currentLang.value === 'en' ? 'zh' : 'en'
+}
+</script>
+
+<template>
+  <UHeader title="ZhangSheng">
+    <UNavigationMenu :items="navItems" />
+
+    <template #right>
+      <!-- Language Toggle -->
+      <UButton
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        :label="currentLang === 'en' ? 'EN / 中' : '中 / EN'"
+        @click="toggleLang"
+      />
+
+      <!-- RSS -->
+      <UTooltip text="RSS">
+        <UButton
+          icon="i-lucide-rss"
+          color="neutral"
+          variant="ghost"
+          to="/rss.xml"
+          aria-label="RSS"
+        />
+      </UTooltip>
+
+      <!-- Dark Mode -->
+      <UColorModeButton />
+    </template>
+
+    <template #body>
+      <UNavigationMenu :items="navItems" orientation="vertical" class="-mx-2.5" />
+    </template>
+  </UHeader>
+</template>

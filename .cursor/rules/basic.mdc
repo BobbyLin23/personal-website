@@ -4,3 +4,5 @@ alwaysApply: true
 
 ## Basic Rules
 - Use `pnpm` as package manager
+- Use skills before coding
+- Use MCP to fetch the docs

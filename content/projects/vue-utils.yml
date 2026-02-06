@@ -1,0 +1,11 @@
+name: Vue Utils
+description: A collection of essential Vue 3 composables and utilities for everyday development.
+icon: i-lucide-code
+iconBg: bg-green-50 dark:bg-green-900/20
+iconColor: text-green-500
+language: TypeScript
+languageColor: bg-emerald-400
+stars: 128
+forks: 23
+url: https://github.com
+featured: true

@@ -1,0 +1,11 @@
+name: CLI Tool
+description: A powerful CLI tool for scaffolding and managing Nuxt projects efficiently.
+icon: i-lucide-terminal
+iconBg: bg-purple-50 dark:bg-purple-900/20
+iconColor: text-purple-500
+language: JavaScript
+languageColor: bg-yellow-400
+stars: 52
+forks: 8
+url: https://github.com
+featured: true

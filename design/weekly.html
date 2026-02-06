@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly - 个人网站</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .fade-in { animation: fadeIn 0.6s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #22c55e; transition: width 0.3s ease; }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+    .cal-day { transition: all 0.15s ease; }
+    .cal-day:hover { background: #f3f4f6; }
+    .dark .cal-day:hover { background: #1f2937; }
+    .cal-has-weekly { position: relative; cursor: pointer; }
+    .cal-has-weekly::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; border-radius: 50%; background: #22c55e; }
+  </style>
+</head>
+<body class="bg-white dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-neutral-950/80 border-b border-neutral-200 dark:border-neutral-800">
+    <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="index.html" class="text-lg font-semibold tracking-tight hover:text-primary-500 transition-colors">ZhangSheng</a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="nav-link text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">Home</a>
+        <a href="blog.html" class="nav-link text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">Blog</a>
+        <a href="project.html" class="nav-link text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">Projects</a>
+        <a href="weekly.html" class="nav-link active text-sm font-medium text-primary-500">Weekly</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <button class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors px-2 py-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800" onclick="toggleLang(this)">EN / 中</button>
+        <a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-orange-500 transition-colors p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800"><i class="fas fa-rss text-sm"></i></a>
+        <button onclick="toggleDark()" class="p-2 rounded-md text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+          <i class="fas fa-moon text-sm dark:hidden"></i><i class="fas fa-sun text-sm hidden dark:inline"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-4xl mx-auto px-6 py-16 fade-in">
+    <!-- Page Header -->
+    <div class="mb-12">
+      <h1 class="text-3xl font-bold tracking-tight mb-3">Weekly</h1>
+      <p class="text-neutral-500 dark:text-neutral-400">A weekly journal of my learnings, discoveries, and reflections.</p>
+    </div>
+
+    <!-- Calendar -->
+    <div class="mb-12 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-6">
+      <!-- Calendar Header -->
+      <div class="flex items-center justify-between mb-6">
+        <button class="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100">
+          <i class="fas fa-chevron-left text-sm"></i>
+        </button>
+        <h2 class="text-lg font-semibold">February 2026</h2>
+        <button class="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100">
+          <i class="fas fa-chevron-right text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Day Headers -->
+      <div class="grid grid-cols-7 gap-1 mb-2">
+        <div class="text-center text-xs font-medium text-neutral-400 dark:text-neutral-500 py-2">Sun</div>
+        <div class="text-center text-xs font-medium text-neutral-400 dark:text-neutral-500 py-2">Mon</div>
+        <div class="text-center text-xs font-medium text-neutral-400 dark:text-neutral-500 py-2">Tue</div>
+        <div class="text-center text-xs font-medium text-neutral-400 dark:text-neutral-500 py-2">Wed</div>
+        <div class="text-center text-xs font-medium text-neutral-400 dark:text-neutral-500 py-2">Thu</div>
+        <div class="text-center text-xs font-medium text-neutral-400 dark:text-neutral-500 py-2">Fri</div>
+        <div class="text-center text-xs font-medium text-neutral-400 dark:text-neutral-500 py-2">Sat</div>
+      </div>
+
+      <!-- Calendar Days -->
+      <div class="grid grid-cols-7 gap-1">
+        <!-- Empty days for alignment (Feb 2026 starts on Sunday) -->
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm text-neutral-300 dark:text-neutral-700">26</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm text-neutral-300 dark:text-neutral-700">27</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm text-neutral-300 dark:text-neutral-700">28</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm text-neutral-300 dark:text-neutral-700">29</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm text-neutral-300 dark:text-neutral-700">30</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm text-neutral-300 dark:text-neutral-700">31</div>
+
+        <!-- Week 1: Feb 1 (has weekly) -->
+        <a href="weekly-detail.html" class="cal-day cal-has-weekly aspect-square flex items-center justify-center rounded-lg text-sm font-medium bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/30">1</a>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">2</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">3</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">4</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">5</div>
+
+        <!-- Today -->
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm font-semibold ring-2 ring-primary-500 text-primary-600 dark:text-primary-400">6</div>
+
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">7</div>
+
+        <!-- Week 2: Feb 8 (has weekly) -->
+        <a href="weekly-detail.html" class="cal-day cal-has-weekly aspect-square flex items-center justify-center rounded-lg text-sm font-medium bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/30">8</a>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">9</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">10</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">11</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">12</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">13</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">14</div>
+
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">15</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">16</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">17</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">18</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">19</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">20</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">21</div>
+
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">22</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">23</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">24</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">25</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">26</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">27</div>
+        <div class="cal-day aspect-square flex items-center justify-center rounded-lg text-sm">28</div>
+      </div>
+
+      <!-- Legend -->
+      <div class="flex items-center gap-6 mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
+        <div class="flex items-center gap-2 text-xs text-neutral-500">
+          <span class="w-2.5 h-2.5 rounded-full bg-primary-500"></span> Has weekly report
+        </div>
+        <div class="flex items-center gap-2 text-xs text-neutral-500">
+          <span class="w-5 h-5 rounded ring-2 ring-primary-500 flex items-center justify-center text-[10px] font-semibold text-primary-600">6</span> Today
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly List (below calendar) -->
+    <section>
+      <h2 class="text-lg font-semibold mb-6">All Weekly Reports</h2>
+      <div class="space-y-3">
+        <a href="weekly-detail.html" class="group flex items-center gap-4 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-700 bg-white dark:bg-neutral-900 transition-all">
+          <div class="w-12 h-12 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex flex-col items-center justify-center flex-shrink-0">
+            <span class="text-xs font-medium text-primary-600 dark:text-primary-400">W06</span>
+            <span class="text-[10px] text-primary-400 dark:text-primary-500">2026</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-sm font-medium group-hover:text-primary-500 transition-colors">Week 6: Feb 2 - Feb 8</h3>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 truncate">Explored Nuxt 4 migration strategies, built a CLI prototype, reviewed team PRs...</p>
+          </div>
+          <i class="fas fa-chevron-right text-xs text-neutral-300 dark:text-neutral-600 group-hover:text-primary-500 transition-colors"></i>
+        </a>
+
+        <a href="weekly-detail.html" class="group flex items-center gap-4 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-700 bg-white dark:bg-neutral-900 transition-all">
+          <div class="w-12 h-12 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex flex-col items-center justify-center flex-shrink-0">
+            <span class="text-xs font-medium text-primary-600 dark:text-primary-400">W05</span>
+            <span class="text-[10px] text-primary-400 dark:text-primary-500">2026</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-sm font-medium group-hover:text-primary-500 transition-colors">Week 5: Jan 26 - Feb 1</h3>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 truncate">Published blog post about Nuxt 4, started weekly journal initiative, fixed CI/CD pipeline...</p>
+          </div>
+          <i class="fas fa-chevron-right text-xs text-neutral-300 dark:text-neutral-600 group-hover:text-primary-500 transition-colors"></i>
+        </a>
+
+        <a href="weekly-detail.html" class="group flex items-center gap-4 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-700 bg-white dark:bg-neutral-900 transition-all">
+          <div class="w-12 h-12 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex flex-col items-center justify-center flex-shrink-0">
+            <span class="text-xs font-medium text-primary-600 dark:text-primary-400">W04</span>
+            <span class="text-[10px] text-primary-400 dark:text-primary-500">2026</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-sm font-medium group-hover:text-primary-500 transition-colors">Week 4: Jan 19 - Jan 25</h3>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 truncate">Deep dive into Vue 3 Composition API patterns, redesigned personal website layout...</p>
+          </div>
+          <i class="fas fa-chevron-right text-xs text-neutral-300 dark:text-neutral-600 group-hover:text-primary-500 transition-colors"></i>
+        </a>
+
+        <a href="weekly-detail.html" class="group flex items-center gap-4 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:border-primary-300 dark:hover:border-primary-700 bg-white dark:bg-neutral-900 transition-all">
+          <div class="w-12 h-12 rounded-lg bg-primary-50 dark:bg-primary-900/20 flex flex-col items-center justify-center flex-shrink-0">
+            <span class="text-xs font-medium text-primary-600 dark:text-primary-400">W03</span>
+            <span class="text-[10px] text-primary-400 dark:text-primary-500">2026</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-sm font-medium group-hover:text-primary-500 transition-colors">Week 3: Jan 12 - Jan 18</h3>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5 truncate">Investigated Tailwind CSS v4 migration, contributed to open source, attended Vue meetup...</p>
+          </div>
+          <i class="fas fa-chevron-right text-xs text-neutral-300 dark:text-neutral-600 group-hover:text-primary-500 transition-colors"></i>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-200 dark:border-neutral-800">
+    <div class="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-neutral-500 dark:text-neutral-400">
+      <p>&copy; 2026 ZhangSheng. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"><i class="fab fa-github"></i></a>
+        <a href="#" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-orange-500 transition-colors"><i class="fas fa-rss"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDark() { document.documentElement.classList.toggle('dark'); }
+    function toggleLang(el) { el.textContent = el.textContent.trim() === 'EN / 中' ? '中 / EN' : 'EN / 中'; }
+  </script>
+</body>
+</html>
