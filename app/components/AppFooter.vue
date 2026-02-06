@@ -6,7 +6,7 @@ const currentYear = new Date().getFullYear()
   <UFooter>
     <template #left>
       <p class="text-sm text-muted">
-        &copy; {{ currentYear }} ZhangSheng. All rights reserved.
+        &copy; {{ currentYear }} Bobby Lin. All rights reserved.
       </p>
     </template>
 

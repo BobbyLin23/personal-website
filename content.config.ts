@@ -33,5 +33,20 @@ export default defineContentConfig({
         featured: z.boolean().default(false),
       }),
     }),
+    weekly: defineCollection({
+      type: 'page',
+      source: 'weekly/*.md',
+      schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        date: z.string(),
+        week: z.number(),
+        year: z.number(),
+        commits: z.number().default(0),
+        prs: z.number().default(0),
+        blogs: z.number().default(0),
+        books: z.number().default(0),
+      }),
+    }),
   },
 })
