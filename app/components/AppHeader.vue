@@ -30,6 +30,14 @@ const navItems = computed<NavigationMenuItem[]>(() => [
   },
 ])
 
+const config = useRuntimeConfig()
+const base = (config.app.baseURL || '/').replace(/\/$/, '') || ''
+const rssItems = [[
+  { label: 'All', icon: 'i-lucide-rss', href: `${base}/rss.xml`, target: '_blank' },
+  { label: 'Blog', icon: 'i-lucide-book-open', href: `${base}/rss/blog.xml`, target: '_blank' },
+  { label: 'Weekly', icon: 'i-lucide-calendar', href: `${base}/rss/weekly.xml`, target: '_blank' },
+]]
+
 const currentLang = shallowRef<'en' | 'zh'>('en')
 
 function toggleLang() {
@@ -50,15 +58,14 @@ function toggleLang() {
         @click="toggleLang"
       />
 
-      <UTooltip text="RSS">
+      <UDropdownMenu :items="rssItems">
         <UButton
           icon="i-lucide-rss"
           color="neutral"
           variant="ghost"
-          to="/rss.xml"
           aria-label="RSS"
         />
-      </UTooltip>
+      </UDropdownMenu>
 
       <UColorModeButton />
     </template>
