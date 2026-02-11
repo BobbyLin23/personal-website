@@ -7,6 +7,15 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image',
     'motion-v/nuxt',
+    'nuxt-studio',
   ],
   css: ['~/assets/css/main.css'],
+  studio: {
+    repository: {
+      provider: 'github',
+      owner: 'BobbyLin23',
+      repo: 'personal-website',
+      branch: 'master',
+    },
+  },
 })

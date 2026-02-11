@@ -12,10 +12,9 @@ const { data: featuredProjects } = await useAsyncData('featured-projects', () =>
     .all())
 
 const socialLinks = [
-  { icon: 'i-simple-icons-github', label: 'GitHub', to: 'https://github.com' },
-  { icon: 'i-simple-icons-x', label: 'Twitter', to: 'https://x.com' },
-  { icon: 'i-lucide-mail', label: 'Email', to: 'mailto:hello@example.com' },
-  { icon: 'i-simple-icons-bilibili', label: 'Bilibili', to: 'https://bilibili.com' },
+  { icon: 'i-simple-icons-github', label: 'GitHub', to: 'https://github.com/bobbylin23' },
+  { icon: 'i-simple-icons-x', label: 'Twitter', to: 'https://x.com/BobbyLin23' },
+  { icon: 'i-lucide-mail', label: 'Email', to: 'mailto:linzhangsheng23@gmail.com' },
 ]
 </script>
 
@@ -156,24 +155,27 @@ const socialLinks = [
           />
         </div>
 
-        <div v-if="featuredProjects?.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div v-if="featuredProjects?.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
           <Motion
             v-for="(project, index) in featuredProjects"
             :key="project.id"
+            class="h-full"
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
             :transition="{ duration: 0.4, delay: 0.6 + index * 0.15 }"
           >
             <UPageCard
+              class="h-full"
               :title="project.name"
               :description="project.description"
               :icon="project.icon"
               :to="project.url"
               target="_blank"
               :ui="{
-                root: 'hover-lift',
+                root: 'hover-lift h-full flex flex-col',
                 leading: project.iconBg,
                 leadingIcon: project.iconColor,
+                description: 'line-clamp-2',
               }"
             >
               <template #footer>

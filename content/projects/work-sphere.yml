@@ -1,0 +1,12 @@
+name: Work Sphere
+description: A platform for managing and tracking work projects.
+icon: i-lucide-terminal
+iconBg: bg-purple-50 dark:bg-purple-900/20
+iconColor: text-purple-500
+language: Next.js
+languageColor: bg-blue-400
+stars: 0
+forks: 0
+url: https://work-sphere.com
+github: https://github.com/bobbylin23/work-sphere
+featured: true
