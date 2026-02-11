@@ -13,6 +13,9 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/rss.xml', '/rss/blog.xml', '/rss/weekly.xml'],
     },
+    externals: {
+      inline: ['minimark'],
+    },
   },
   modules: [
     '@nuxt/content',
