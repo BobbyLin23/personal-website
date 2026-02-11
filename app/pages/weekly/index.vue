@@ -2,9 +2,11 @@
 import type { DateValue } from '@internationalized/date'
 import { CalendarDate, getLocalTimeZone, today } from '@internationalized/date'
 
+const config = useRuntimeConfig()
 useSeoMeta({
   title: 'Weekly',
   description: 'A weekly journal of my learnings, discoveries, and reflections.',
+  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/weekly` : undefined,
 })
 
 const { data: weeklies } = await useAsyncData('all-weeklies', () =>

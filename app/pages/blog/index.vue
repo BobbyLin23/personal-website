@@ -1,7 +1,9 @@
 <script setup lang="ts">
+const config = useRuntimeConfig()
 useSeoMeta({
   title: 'Blog',
   description: 'Thoughts on web development, design, and technology.',
+  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/blog` : undefined,
 })
 
 const { data: posts } = await useAsyncData('blog-posts', () =>

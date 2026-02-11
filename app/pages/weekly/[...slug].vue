@@ -13,9 +13,11 @@ const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
     fields: ['title', 'description', 'date', 'week'],
   }))
 
+const config = useRuntimeConfig()
 useSeoMeta({
   title: page.value.title,
   description: page.value.description,
+  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
 function formatDateRange(dateStr: string) {

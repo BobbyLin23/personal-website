@@ -1,7 +1,9 @@
 <script setup lang="ts">
+const config = useRuntimeConfig()
 useSeoMeta({
   title: 'Projects',
   description: 'Open source projects and tools I\'ve built or contributed to.',
+  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/projects` : undefined,
 })
 
 const { data: projects } = await useAsyncData('all-projects', () =>

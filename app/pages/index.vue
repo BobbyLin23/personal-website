@@ -1,4 +1,11 @@
 <script setup lang="ts">
+const config = useRuntimeConfig()
+useSeoMeta({
+  title: 'Bobby Lin - Full Stack Developer',
+  description: 'A passionate full-stack developer focused on building beautiful and performant web applications. Love open source, writing, and sharing knowledge.',
+  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/` : undefined,
+})
+
 const { data: recentPosts } = await useAsyncData('recent-posts', () =>
   queryCollection('blog')
     .select('title', 'description', 'date', 'path', 'stem')
