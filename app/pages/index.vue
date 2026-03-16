@@ -23,84 +23,139 @@ const socialLinks = [
   { icon: 'i-simple-icons-x', label: 'Twitter', to: 'https://x.com/BobbyLin23' },
   { icon: 'i-lucide-mail', label: 'Email', to: 'mailto:linzhangsheng23@gmail.com' },
 ]
+
+const heroPrinciples = [
+  'Production-first engineering',
+  'Clear hierarchy and spacing',
+  'Accessible, responsive interfaces',
+]
 </script>
 
 <template>
-  <UContainer class="py-10 sm:py-16">
-    <!-- Hero Section -->
-    <section class="mb-16 sm:mb-20">
-      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 mb-8">
-        <!-- Avatar -->
+  <UContainer class="py-8 sm:py-12">
+    <section class="impeccable-hero mb-16 sm:mb-24">
+      <div class="impeccable-hero-grid">
         <Motion
-          :initial="{ scale: 0, rotate: -180 }"
-          :animate="{ scale: 1, rotate: 0 }"
-          :transition="{ type: 'spring', stiffness: 200, damping: 15 }"
+          :initial="{ opacity: 0, y: 20 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5 }"
+          class="impeccable-hero-left"
         >
-          <UAvatar
-            text="BL"
-            size="3xl"
-            :ui="{
-              root: 'ring-4 ring-green-100 dark:ring-green-900/30',
-              fallback: 'bg-gradient-to-br from-green-400 to-cyan-400 text-white font-bold',
-            }"
-          />
+          <p class="impeccable-eyebrow">
+            Full-stack developer
+          </p>
+          <h1 class="impeccable-title">
+            Bobby Lin
+          </h1>
+          <p class="impeccable-tagline">
+            Building fast products with thoughtful interfaces.
+          </p>
+          <p class="impeccable-hook">
+            I design and ship end-to-end products, from backend APIs to polished frontend experiences, with a strong focus on clarity, performance, and maintainability.
+          </p>
+
+          <div class="impeccable-included-box">
+            <span class="impeccable-included-title">Approach</span>
+            <ul class="impeccable-included-items">
+              <li v-for="principle in heroPrinciples" :key="principle">
+                {{ principle }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="impeccable-cta-group">
+            <UButton
+              label="View projects"
+              to="/projects"
+              trailing-icon="i-lucide-arrow-right"
+              size="md"
+              class="impeccable-primary-cta"
+            />
+            <UButton
+              label="Read blog"
+              to="/blog"
+              variant="ghost"
+              color="neutral"
+              size="md"
+            />
+          </div>
+
+          <div class="impeccable-social-row">
+            <UButton
+              v-for="link in socialLinks"
+              :key="link.label"
+              :icon="link.icon"
+              :label="link.label"
+              :to="link.to"
+              target="_blank"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+            />
+          </div>
         </Motion>
 
-        <div class="text-center sm:text-left">
-          <Motion
-            :initial="{ opacity: 0, x: -20 }"
-            :animate="{ opacity: 1, x: 0 }"
-            :transition="{ duration: 0.5, delay: 0.2 }"
-          >
-            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
-              Hi, I'm <span class="gradient-text">Bobby Lin</span>
-              <span class="inline-block animate-bounce">👋</span>
-            </h1>
-          </Motion>
+        <Motion
+          :initial="{ opacity: 0, y: 20 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5, delay: 0.15 }"
+          class="impeccable-hero-right"
+        >
+          <div class="impeccable-split-comparison">
+            <div class="impeccable-split-container">
+              <div class="impeccable-split-pane impeccable-split-before">
+                <span class="impeccable-split-badge">Before</span>
+                <article class="impeccable-demo-card impeccable-demo-before">
+                  <p class="impeccable-demo-title">
+                    Generic portfolio
+                  </p>
+                  <p class="impeccable-demo-body">
+                    Template copy, weak hierarchy, and unclear action.
+                  </p>
+                  <button class="impeccable-demo-button" type="button">
+                    Get started
+                  </button>
+                </article>
+              </div>
 
-          <Motion
-            :initial="{ opacity: 0, x: -20 }"
-            :animate="{ opacity: 1, x: 0 }"
-            :transition="{ duration: 0.5, delay: 0.4 }"
-          >
-            <p class="text-base sm:text-lg text-muted leading-relaxed max-w-xl">
-              A passionate full-stack developer focused on building beautiful and performant web applications. Love open source, writing, and sharing knowledge.
-            </p>
-          </Motion>
-        </div>
+              <div class="impeccable-split-pane impeccable-split-after">
+                <span class="impeccable-split-badge impeccable-split-badge-after">After</span>
+                <article class="impeccable-demo-card impeccable-demo-after">
+                  <p class="impeccable-demo-eyebrow">
+                    Introducing
+                  </p>
+                  <p class="impeccable-demo-title">
+                    Thoughtful systems
+                  </p>
+                  <p class="impeccable-demo-body">
+                    Strong hierarchy, better spacing, and meaningful interactions.
+                  </p>
+                  <button class="impeccable-demo-button impeccable-demo-button-after" type="button">
+                    Explore work
+                  </button>
+                </article>
+              </div>
+
+              <div class="impeccable-split-divider" />
+            </div>
+
+            <div class="impeccable-split-labels">
+              <span>Generic output</span>
+              <span>Refined design language</span>
+            </div>
+          </div>
+        </Motion>
       </div>
-
-      <!-- Social Links -->
-      <Motion
-        :initial="{ opacity: 0, y: 20 }"
-        :animate="{ opacity: 1, y: 0 }"
-        :transition="{ duration: 0.5, delay: 0.6 }"
-      >
-        <div class="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3">
-          <UButton
-            v-for="link in socialLinks"
-            :key="link.label"
-            :icon="link.icon"
-            :label="link.label"
-            :to="link.to"
-            target="_blank"
-            color="neutral"
-            variant="subtle"
-            size="sm"
-          />
-        </div>
-      </Motion>
     </section>
 
-    <!-- Recent Blog Posts -->
     <Motion
       :initial="{ opacity: 0, y: 30 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.6, delay: 0.3 }"
     >
       <section class="mb-16 sm:mb-20">
-        <div class="flex items-center justify-between mb-6 sm:mb-8">
-          <h2 class="text-lg sm:text-xl font-semibold tracking-tight">
+        <div class="impeccable-section-head">
+          <h2 class="impeccable-section-title">
             Recent Posts
           </h2>
           <UButton
@@ -113,12 +168,12 @@ const socialLinks = [
           />
         </div>
 
-        <div v-if="recentPosts?.length" class="space-y-1">
+        <div v-if="recentPosts?.length" class="impeccable-list">
           <NuxtLink
             v-for="(post, index) in recentPosts"
             :key="post.path"
             :to="post.path"
-            class="group flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 px-4 -mx-4 rounded-lg hover:bg-elevated/50 transition-colors"
+            class="impeccable-post-row"
           >
             <Motion
               :initial="{ opacity: 0, x: -20 }"
@@ -126,30 +181,32 @@ const socialLinks = [
               :transition="{ duration: 0.4, delay: 0.4 + index * 0.1 }"
               class="flex-1 min-w-0"
             >
-              <h3 class="text-sm sm:text-base font-medium group-hover:text-primary transition-colors truncate">
+              <h3 class="impeccable-post-title">
                 {{ post.title }}
               </h3>
-              <p class="text-sm text-muted mt-1 truncate">
+              <p class="impeccable-post-description">
                 {{ post.description }}
               </p>
             </Motion>
-            <time class="text-xs sm:text-sm text-muted mt-1 sm:mt-0 sm:ml-4 shrink-0">
+            <time class="impeccable-post-time">
               {{ post.date }}
             </time>
           </NuxtLink>
         </div>
+        <p v-else class="text-muted">
+          No blog posts published yet.
+        </p>
       </section>
     </Motion>
 
-    <!-- Featured Projects -->
     <Motion
       :initial="{ opacity: 0, y: 30 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.6, delay: 0.5 }"
     >
       <section class="mb-16 sm:mb-20">
-        <div class="flex items-center justify-between mb-6 sm:mb-8">
-          <h2 class="text-lg sm:text-xl font-semibold tracking-tight">
+        <div class="impeccable-section-head">
+          <h2 class="impeccable-section-title">
             Featured Projects
           </h2>
           <UButton
@@ -166,7 +223,7 @@ const socialLinks = [
           <Motion
             v-for="(project, index) in featuredProjects"
             :key="project.id"
-            class="h-full"
+            class="h-full impeccable-project-card"
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
             :transition="{ duration: 0.4, delay: 0.6 + index * 0.15 }"
@@ -179,7 +236,7 @@ const socialLinks = [
               :to="project.url"
               target="_blank"
               :ui="{
-                root: 'hover-lift h-full flex flex-col',
+                root: 'h-full flex flex-col',
                 leading: project.iconBg,
                 leadingIcon: project.iconColor,
                 description: 'line-clamp-2',
@@ -204,6 +261,9 @@ const socialLinks = [
             </UPageCard>
           </Motion>
         </div>
+        <p v-else class="text-muted">
+          No featured projects yet.
+        </p>
       </section>
     </Motion>
   </UContainer>
