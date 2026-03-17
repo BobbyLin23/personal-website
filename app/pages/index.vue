@@ -29,47 +29,53 @@ const heroPrinciples = [
   'Clear hierarchy and spacing',
   'Accessible, responsive interfaces',
 ]
+
+const quickFacts = [
+  { icon: 'i-lucide-code-2', label: 'Core stack', value: 'Nuxt, Vue, TypeScript, Node.js' },
+  { icon: 'i-lucide-bot', label: 'Current focus', value: 'AI-assisted developer experience and tooling' },
+  { icon: 'i-lucide-map-pin', label: 'Work mode', value: 'Remote-friendly collaboration' },
+]
 </script>
 
 <template>
   <UContainer class="py-8 sm:py-12">
-    <section class="impeccable-hero mb-16 sm:mb-24">
-      <div class="impeccable-hero-grid">
+    <section class="home-hero mb-16 sm:mb-24">
+      <div class="home-hero-grid">
         <Motion
           :initial="{ opacity: 0, y: 20 }"
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5 }"
-          class="impeccable-hero-left"
+          class="home-hero-left"
         >
-          <p class="impeccable-eyebrow">
+          <p class="home-eyebrow">
             Full-stack developer
           </p>
-          <h1 class="impeccable-title">
+          <h1 class="home-title">
             Bobby Lin
           </h1>
-          <p class="impeccable-tagline">
+          <p class="home-tagline">
             Building fast products with thoughtful interfaces.
           </p>
-          <p class="impeccable-hook">
+          <p class="home-hook">
             I design and ship end-to-end products, from backend APIs to polished frontend experiences, with a strong focus on clarity, performance, and maintainability.
           </p>
 
-          <div class="impeccable-included-box">
-            <span class="impeccable-included-title">Approach</span>
-            <ul class="impeccable-included-items">
+          <div class="home-details-box">
+            <span class="home-details-title">Approach</span>
+            <ul class="home-details-items">
               <li v-for="principle in heroPrinciples" :key="principle">
                 {{ principle }}
               </li>
             </ul>
           </div>
 
-          <div class="impeccable-cta-group">
+          <div class="home-cta-group">
             <UButton
               label="View projects"
               to="/projects"
               trailing-icon="i-lucide-arrow-right"
               size="md"
-              class="impeccable-primary-cta"
+              class="home-primary-cta"
             />
             <UButton
               label="Read blog"
@@ -80,7 +86,7 @@ const heroPrinciples = [
             />
           </div>
 
-          <div class="impeccable-social-row">
+          <div class="home-social-row">
             <UButton
               v-for="link in socialLinks"
               :key="link.label"
@@ -99,50 +105,50 @@ const heroPrinciples = [
           :initial="{ opacity: 0, y: 20 }"
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5, delay: 0.15 }"
-          class="impeccable-hero-right"
+          class="home-hero-right"
         >
-          <div class="impeccable-split-comparison">
-            <div class="impeccable-split-container">
-              <div class="impeccable-split-pane impeccable-split-before">
-                <span class="impeccable-split-badge">Before</span>
-                <article class="impeccable-demo-card impeccable-demo-before">
-                  <p class="impeccable-demo-title">
-                    Generic portfolio
-                  </p>
-                  <p class="impeccable-demo-body">
-                    Template copy, weak hierarchy, and unclear action.
-                  </p>
-                  <button class="impeccable-demo-button" type="button">
-                    Get started
-                  </button>
-                </article>
+          <div class="home-profile-panel">
+            <article class="home-profile-card">
+              <p class="home-profile-eyebrow">
+                At a glance
+              </p>
+              <h2 class="home-profile-title">
+                What I build
+              </h2>
+              <p class="home-profile-body">
+                Product-focused web apps, developer tools, and reliable backend services that scale with team and user needs.
+              </p>
+              <ul class="home-highlights-list">
+                <li v-for="fact in quickFacts" :key="fact.label" class="home-highlights-item">
+                  <UIcon :name="fact.icon" class="home-highlights-icon" />
+                  <div>
+                    <p class="home-highlights-label">
+                      {{ fact.label }}
+                    </p>
+                    <p class="home-highlights-value">
+                      {{ fact.value }}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div class="home-profile-actions">
+                <UButton
+                  label="Open GitHub"
+                  icon="i-simple-icons-github"
+                  to="https://github.com/bobbylin23"
+                  target="_blank"
+                  size="sm"
+                />
+                <UButton
+                  label="Email me"
+                  icon="i-lucide-mail"
+                  to="mailto:linzhangsheng23@gmail.com"
+                  variant="ghost"
+                  color="neutral"
+                  size="sm"
+                />
               </div>
-
-              <div class="impeccable-split-pane impeccable-split-after">
-                <span class="impeccable-split-badge impeccable-split-badge-after">After</span>
-                <article class="impeccable-demo-card impeccable-demo-after">
-                  <p class="impeccable-demo-eyebrow">
-                    Introducing
-                  </p>
-                  <p class="impeccable-demo-title">
-                    Thoughtful systems
-                  </p>
-                  <p class="impeccable-demo-body">
-                    Strong hierarchy, better spacing, and meaningful interactions.
-                  </p>
-                  <button class="impeccable-demo-button impeccable-demo-button-after" type="button">
-                    Explore work
-                  </button>
-                </article>
-              </div>
-
-              <div class="impeccable-split-divider" />
-            </div>
-
-            <div class="impeccable-split-labels">
-              <span>Generic output</span>
-              <span>Refined design language</span>
-            </div>
+            </article>
           </div>
         </Motion>
       </div>
@@ -154,8 +160,8 @@ const heroPrinciples = [
       :transition="{ duration: 0.6, delay: 0.3 }"
     >
       <section class="mb-16 sm:mb-20">
-        <div class="impeccable-section-head">
-          <h2 class="impeccable-section-title">
+        <div class="home-section-head">
+          <h2 class="home-section-title">
             Recent Posts
           </h2>
           <UButton
@@ -168,12 +174,12 @@ const heroPrinciples = [
           />
         </div>
 
-        <div v-if="recentPosts?.length" class="impeccable-list">
+        <div v-if="recentPosts?.length" class="home-list">
           <NuxtLink
             v-for="(post, index) in recentPosts"
             :key="post.path"
             :to="post.path"
-            class="impeccable-post-row"
+            class="home-post-row"
           >
             <Motion
               :initial="{ opacity: 0, x: -20 }"
@@ -181,14 +187,14 @@ const heroPrinciples = [
               :transition="{ duration: 0.4, delay: 0.4 + index * 0.1 }"
               class="flex-1 min-w-0"
             >
-              <h3 class="impeccable-post-title">
+              <h3 class="home-post-title">
                 {{ post.title }}
               </h3>
-              <p class="impeccable-post-description">
+              <p class="home-post-description">
                 {{ post.description }}
               </p>
             </Motion>
-            <time class="impeccable-post-time">
+            <time class="home-post-time">
               {{ post.date }}
             </time>
           </NuxtLink>
@@ -205,8 +211,8 @@ const heroPrinciples = [
       :transition="{ duration: 0.6, delay: 0.5 }"
     >
       <section class="mb-16 sm:mb-20">
-        <div class="impeccable-section-head">
-          <h2 class="impeccable-section-title">
+        <div class="home-section-head">
+          <h2 class="home-section-title">
             Featured Projects
           </h2>
           <UButton
@@ -223,7 +229,7 @@ const heroPrinciples = [
           <Motion
             v-for="(project, index) in featuredProjects"
             :key="project.id"
-            class="h-full impeccable-project-card"
+            class="h-full home-project-card"
             :initial="{ opacity: 0, y: 20 }"
             :animate="{ opacity: 1, y: 0 }"
             :transition="{ duration: 0.4, delay: 0.6 + index * 0.15 }"
