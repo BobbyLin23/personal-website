@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const WHITESPACE_SPLIT = /\s+/
+
 const route = useRoute()
 
 const { data: page } = await useAsyncData(route.path, () =>
@@ -20,12 +22,14 @@ useSeoMeta({
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
+const fullDateFormatter = new Intl.DateTimeFormat(undefined, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
+
 function formatFullDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  return fullDateFormatter.format(new Date(dateStr))
 }
 
 const readingTime = computed(() => {
@@ -33,7 +37,7 @@ const readingTime = computed(() => {
     return '3 min read'
   // Rough estimate: count text nodes in AST
   const text = JSON.stringify(page.value.body)
-  const wordCount = text.split(/\s+/).length / 3 // JSON overhead factor
+  const wordCount = text.split(WHITESPACE_SPLIT).length / 3 // JSON overhead factor
   const minutes = Math.max(1, Math.ceil(wordCount / 200))
   return `${minutes} min read`
 })
@@ -47,7 +51,7 @@ function getTagColor(index: number) {
 <template>
   <UContainer class="py-10 sm:py-16">
     <!-- Back Link -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, x: -10 }"
       :animate="{ opacity: 1, x: 0 }"
       :transition="{ duration: 0.3 }"
@@ -60,13 +64,13 @@ function getTagColor(index: number) {
         label="Back to Blog"
         class="mb-8 -ml-2.5"
       />
-    </Motion>
+    </SafeMotion>
 
     <div class="lg:grid lg:grid-cols-[1fr_200px] lg:gap-12">
       <!-- Article -->
       <article class="min-w-0">
         <!-- Meta Header -->
-        <Motion
+        <SafeMotion
           :initial="{ opacity: 0, y: 20 }"
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5, delay: 0.1 }"
@@ -77,12 +81,15 @@ function getTagColor(index: number) {
             </h1>
 
             <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
-              <time class="flex items-center gap-1.5">
-                <UIcon name="i-lucide-calendar" class="size-3.5" />
+              <time
+                class="flex items-center gap-1.5 tabular-nums"
+                :datetime="page?.date"
+              >
+                <UIcon name="i-lucide-calendar" class="size-3.5" aria-hidden="true" />
                 {{ formatFullDate(page?.date ?? '') }}
               </time>
               <span class="flex items-center gap-1.5">
-                <UIcon name="i-lucide-clock" class="size-3.5" />
+                <UIcon name="i-lucide-clock" class="size-3.5" aria-hidden="true" />
                 {{ readingTime }}
               </span>
             </div>
@@ -98,21 +105,21 @@ function getTagColor(index: number) {
               />
             </div>
           </header>
-        </Motion>
+        </SafeMotion>
 
         <!-- Content -->
-        <Motion
+        <SafeMotion
           :initial="{ opacity: 0, y: 20 }"
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5, delay: 0.2 }"
         >
           <ContentRenderer v-if="page" :value="page" />
-        </Motion>
+        </SafeMotion>
       </article>
 
       <!-- TOC Sidebar (desktop) -->
       <aside class="hidden lg:block">
-        <Motion
+        <SafeMotion
           :initial="{ opacity: 0, x: 20 }"
           :animate="{ opacity: 1, x: 0 }"
           :transition="{ duration: 0.5, delay: 0.3 }"
@@ -125,12 +132,12 @@ function getTagColor(index: number) {
               color="primary"
             />
           </div>
-        </Motion>
+        </SafeMotion>
       </aside>
     </div>
 
     <!-- Prev / Next Navigation -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 20 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5, delay: 0.4 }"
@@ -139,6 +146,6 @@ function getTagColor(index: number) {
         :surround="(surround as any)"
         class="mt-16"
       />
-    </Motion>
+    </SafeMotion>
   </UContainer>
 </template>

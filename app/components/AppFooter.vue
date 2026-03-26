@@ -15,7 +15,7 @@ const currentYear = new Date().getFullYear()
         icon="i-simple-icons-github"
         color="neutral"
         variant="ghost"
-        to="https://github.com"
+        to="https://github.com/bobbylin23"
         target="_blank"
         aria-label="GitHub"
       />
@@ -23,7 +23,7 @@ const currentYear = new Date().getFullYear()
         icon="i-simple-icons-x"
         color="neutral"
         variant="ghost"
-        to="https://x.com"
+        to="https://x.com/BobbyLin23"
         target="_blank"
         aria-label="X"
       />

@@ -63,7 +63,7 @@ function onPickerSelect(date: any) {
 <template>
   <UContainer class="py-10 sm:py-16">
     <!-- Page Header -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 20 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5 }"
@@ -76,10 +76,10 @@ function onPickerSelect(date: any) {
           A weekly journal of my learnings, discoveries, and reflections.
         </p>
       </div>
-    </Motion>
+    </SafeMotion>
 
     <!-- Calendar Section -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 30 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5, delay: 0.1 }"
@@ -145,19 +145,29 @@ function onPickerSelect(date: any) {
         </UCalendar>
 
         <!-- Legend -->
-        <div class="flex items-center gap-6 mt-4 pt-4 border-t border-default">
+        <div class="flex flex-wrap items-center gap-6 mt-4 pt-4 border-t border-default">
           <div class="flex items-center gap-2 text-xs text-muted">
-            <span class="w-2 h-2 rounded-full bg-primary" />
+            <span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true" />
             Has weekly report
           </div>
           <div class="flex items-center gap-2 text-xs text-muted">
-            <span class="w-5 h-5 rounded ring-2 ring-primary flex items-center justify-center text-[10px] font-semibold text-primary">
+            <span
+              class="w-5 h-5 rounded ring-2 ring-primary flex items-center justify-center text-[10px] font-semibold text-primary tabular-nums"
+              aria-hidden="true"
+            >
               {{ todayDate.day }}
             </span>
             Today
           </div>
         </div>
+
+        <p
+          v-if="weeklies && weeklies.length === 0"
+          class="mt-4 text-center text-sm text-muted"
+        >
+          No weekly entries published yet. Dates with a report show a dot on the calendar.
+        </p>
       </div>
-    </Motion>
+    </SafeMotion>
   </UContainer>
 </template>

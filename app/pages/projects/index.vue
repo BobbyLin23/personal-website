@@ -8,16 +8,12 @@ useSeoMeta({
 
 const { data: projects } = await useAsyncData('all-projects', () =>
   queryCollection('projects').all())
-
-if (!projects.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Projects not found', fatal: true })
-}
 </script>
 
 <template>
   <UContainer class="py-10 sm:py-16">
     <!-- Page Header -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 20 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5 }"
@@ -30,11 +26,14 @@ if (!projects.value) {
           Open source projects and tools I've built or contributed to.
         </p>
       </div>
-    </Motion>
+    </SafeMotion>
 
     <!-- Projects Grid -->
-    <div v-if="projects?.length" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <Motion
+    <div
+      v-if="projects && projects.length > 0"
+      class="grid grid-cols-1 md:grid-cols-2 gap-4"
+    >
+      <SafeMotion
         v-for="(project, index) in projects"
         :key="project.id"
         :initial="{ opacity: 0, y: 20 }"
@@ -90,17 +89,27 @@ if (!projects.value) {
               <span class="w-2.5 h-2.5 rounded-full" :class="project.languageColor" />
               {{ project.language }}
             </span>
-            <span class="flex items-center gap-1">
-              <UIcon name="i-lucide-star" class="size-3" />
+            <span class="flex items-center gap-1 tabular-nums">
+              <UIcon name="i-lucide-star" class="size-3" aria-hidden="true" />
               {{ project.stars }}
             </span>
-            <span class="flex items-center gap-1">
-              <UIcon name="i-lucide-git-fork" class="size-3" />
+            <span class="flex items-center gap-1 tabular-nums">
+              <UIcon name="i-lucide-git-fork" class="size-3" aria-hidden="true" />
               {{ project.forks }}
             </span>
           </div>
         </div>
-      </Motion>
+      </SafeMotion>
+    </div>
+
+    <div
+      v-else-if="projects && projects.length === 0"
+      class="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-default py-16 text-center"
+    >
+      <UIcon name="i-lucide-folder-git-2" class="size-10 text-muted" aria-hidden="true" />
+      <p class="text-sm text-muted">
+        No projects listed yet.
+      </p>
     </div>
   </UContainer>
 </template>

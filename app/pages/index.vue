@@ -23,6 +23,16 @@ const socialLinks = [
   { icon: 'i-simple-icons-x', label: 'Twitter', to: 'https://x.com/BobbyLin23' },
   { icon: 'i-lucide-mail', label: 'Email', to: 'mailto:linzhangsheng23@gmail.com' },
 ]
+
+const postDateFormatter = new Intl.DateTimeFormat(undefined, {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+})
+
+function formatPostDate(iso: string) {
+  return postDateFormatter.format(new Date(iso))
+}
 </script>
 
 <template>
@@ -31,7 +41,7 @@ const socialLinks = [
     <section class="mb-16 sm:mb-20">
       <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 mb-8">
         <!-- Avatar -->
-        <Motion
+        <SafeMotion
           :initial="{ scale: 0, rotate: -180 }"
           :animate="{ scale: 1, rotate: 0 }"
           :transition="{ type: 'spring', stiffness: 200, damping: 15 }"
@@ -44,21 +54,21 @@ const socialLinks = [
               fallback: 'bg-gradient-to-br from-green-400 to-cyan-400 text-white font-bold',
             }"
           />
-        </Motion>
+        </SafeMotion>
 
         <div class="text-center sm:text-left">
-          <Motion
+          <SafeMotion
             :initial="{ opacity: 0, x: -20 }"
             :animate="{ opacity: 1, x: 0 }"
             :transition="{ duration: 0.5, delay: 0.2 }"
           >
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
               Hi, I'm <span class="gradient-text">Bobby Lin</span>
-              <span class="inline-block animate-bounce">👋</span>
+              <span class="inline-block motion-safe:animate-bounce" aria-hidden="true">👋</span>
             </h1>
-          </Motion>
+          </SafeMotion>
 
-          <Motion
+          <SafeMotion
             :initial="{ opacity: 0, x: -20 }"
             :animate="{ opacity: 1, x: 0 }"
             :transition="{ duration: 0.5, delay: 0.4 }"
@@ -66,12 +76,12 @@ const socialLinks = [
             <p class="text-base sm:text-lg text-muted leading-relaxed max-w-xl">
               A passionate full-stack developer focused on building beautiful and performant web applications. Love open source, writing, and sharing knowledge.
             </p>
-          </Motion>
+          </SafeMotion>
         </div>
       </div>
 
       <!-- Social Links -->
-      <Motion
+      <SafeMotion
         :initial="{ opacity: 0, y: 20 }"
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5, delay: 0.6 }"
@@ -89,11 +99,11 @@ const socialLinks = [
             size="sm"
           />
         </div>
-      </Motion>
+      </SafeMotion>
     </section>
 
     <!-- Recent Blog Posts -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 30 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.6, delay: 0.3 }"
@@ -120,7 +130,7 @@ const socialLinks = [
             :to="post.path"
             class="group flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 px-4 -mx-4 rounded-lg hover:bg-elevated/50 transition-colors"
           >
-            <Motion
+            <SafeMotion
               :initial="{ opacity: 0, x: -20 }"
               :animate="{ opacity: 1, x: 0 }"
               :transition="{ duration: 0.4, delay: 0.4 + index * 0.1 }"
@@ -132,17 +142,29 @@ const socialLinks = [
               <p class="text-sm text-muted mt-1 truncate">
                 {{ post.description }}
               </p>
-            </Motion>
-            <time class="text-xs sm:text-sm text-muted mt-1 sm:mt-0 sm:ml-4 shrink-0">
-              {{ post.date }}
+            </SafeMotion>
+            <time
+              class="text-xs sm:text-sm text-muted mt-1 sm:mt-0 sm:ml-4 shrink-0 tabular-nums"
+              :datetime="post.date"
+            >
+              {{ formatPostDate(post.date) }}
             </time>
           </NuxtLink>
         </div>
+        <div
+          v-else
+          class="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-default py-12 text-center"
+        >
+          <UIcon name="i-lucide-file-text" class="size-10 text-muted" aria-hidden="true" />
+          <p class="text-sm text-muted">
+            No posts yet. Check back soon.
+          </p>
+        </div>
       </section>
-    </Motion>
+    </SafeMotion>
 
     <!-- Featured Projects -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 30 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.6, delay: 0.5 }"
@@ -162,8 +184,11 @@ const socialLinks = [
           />
         </div>
 
-        <div v-if="featuredProjects?.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
-          <Motion
+        <div
+          v-if="featuredProjects?.length"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch"
+        >
+          <SafeMotion
             v-for="(project, index) in featuredProjects"
             :key="project.id"
             class="h-full"
@@ -191,20 +216,29 @@ const socialLinks = [
                     <span class="w-2.5 h-2.5 rounded-full" :class="project.languageColor" />
                     {{ project.language }}
                   </span>
-                  <span class="flex items-center gap-1">
-                    <UIcon name="i-lucide-star" class="size-3" />
+                  <span class="flex items-center gap-1 tabular-nums">
+                    <UIcon name="i-lucide-star" class="size-3" aria-hidden="true" />
                     {{ project.stars }}
                   </span>
-                  <span class="flex items-center gap-1">
-                    <UIcon name="i-lucide-git-fork" class="size-3" />
+                  <span class="flex items-center gap-1 tabular-nums">
+                    <UIcon name="i-lucide-git-fork" class="size-3" aria-hidden="true" />
                     {{ project.forks }}
                   </span>
                 </div>
               </template>
             </UPageCard>
-          </Motion>
+          </SafeMotion>
+        </div>
+        <div
+          v-else
+          class="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-default py-12 text-center"
+        >
+          <UIcon name="i-lucide-folder-git-2" class="size-10 text-muted" aria-hidden="true" />
+          <p class="text-sm text-muted">
+            No featured projects yet.
+          </p>
         </div>
       </section>
-    </Motion>
+    </SafeMotion>
   </UContainer>
 </template>

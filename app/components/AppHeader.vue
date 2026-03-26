@@ -37,12 +37,6 @@ const rssItems = [[
   { label: 'Blog', icon: 'i-lucide-book-open', href: `${base}/rss/blog.xml`, target: '_blank' },
   { label: 'Weekly', icon: 'i-lucide-calendar', href: `${base}/rss/weekly.xml`, target: '_blank' },
 ]]
-
-const currentLang = shallowRef<'en' | 'zh'>('en')
-
-function toggleLang() {
-  currentLang.value = currentLang.value === 'en' ? 'zh' : 'en'
-}
 </script>
 
 <template>
@@ -50,24 +44,16 @@ function toggleLang() {
     <UNavigationMenu :items="navItems" />
 
     <template #right>
-      <UButton
-        color="neutral"
-        variant="ghost"
-        size="sm"
-        :label="currentLang === 'en' ? 'EN / 中' : '中 / EN'"
-        @click="toggleLang"
-      />
-
       <UDropdownMenu :items="rssItems">
         <UButton
           icon="i-lucide-rss"
           color="neutral"
           variant="ghost"
-          aria-label="RSS"
+          aria-label="RSS feeds"
         />
       </UDropdownMenu>
 
-      <UColorModeButton />
+      <UColorModeButton aria-label="Toggle color theme" />
     </template>
 
     <template #body>

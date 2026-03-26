@@ -31,16 +31,20 @@ const postsByYear = computed(() => {
   }))
 })
 
+const listDateFormatter = new Intl.DateTimeFormat(undefined, {
+  month: '2-digit',
+  day: '2-digit',
+})
+
 function formatDate(dateStr: string) {
-  const d = new Date(dateStr)
-  return `${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+  return listDateFormatter.format(new Date(dateStr))
 }
 </script>
 
 <template>
   <UContainer class="py-10 sm:py-16">
     <!-- Page Header -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 20 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5 }"
@@ -53,11 +57,11 @@ function formatDate(dateStr: string) {
           Thoughts on web development, design, and technology.
         </p>
       </div>
-    </Motion>
+    </SafeMotion>
 
     <!-- Posts grouped by year -->
     <div v-if="postsByYear.length">
-      <Motion
+      <SafeMotion
         v-for="(group, groupIndex) in postsByYear"
         :key="group.year"
         :initial="{ opacity: 0, y: 30 }"
@@ -76,7 +80,7 @@ function formatDate(dateStr: string) {
               :to="post.path"
               class="group flex items-center justify-between py-3.5 px-4 -mx-4 rounded-lg hover:bg-elevated/50 transition-colors"
             >
-              <Motion
+              <SafeMotion
                 :initial="{ opacity: 0, x: -20 }"
                 :animate="{ opacity: 1, x: 0 }"
                 :transition="{ duration: 0.4, delay: 0.2 + groupIndex * 0.15 + postIndex * 0.05 }"
@@ -85,14 +89,27 @@ function formatDate(dateStr: string) {
                 <span class="text-base font-medium group-hover:text-primary transition-colors truncate block">
                   {{ post.title }}
                 </span>
-              </Motion>
-              <time class="text-sm text-muted ml-4 shrink-0">
+              </SafeMotion>
+              <time
+                class="text-sm text-muted ml-4 shrink-0 tabular-nums"
+                :datetime="post.date"
+              >
                 {{ formatDate(post.date) }}
               </time>
             </NuxtLink>
           </div>
         </section>
-      </Motion>
+      </SafeMotion>
+    </div>
+
+    <div
+      v-else
+      class="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-default py-16 text-center"
+    >
+      <UIcon name="i-lucide-book-open" class="size-10 text-muted" aria-hidden="true" />
+      <p class="text-sm text-muted">
+        No blog posts yet.
+      </p>
     </div>
   </UContainer>
 </template>

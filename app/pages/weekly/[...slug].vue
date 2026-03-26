@@ -20,16 +20,24 @@ useSeoMeta({
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
+const fmtFull = new Intl.DateTimeFormat(undefined, {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+})
+const fmtShort = new Intl.DateTimeFormat(undefined, {
+  month: 'long',
+  day: 'numeric',
+})
+
 function formatDateRange(dateStr: string) {
   const end = new Date(dateStr)
   const start = new Date(end)
   start.setDate(start.getDate() - 6)
-  const fmtFull = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-  const fmtShort = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
   if (start.getFullYear() === end.getFullYear()) {
-    return `${fmtShort(start)} - ${fmtFull(end)}`
+    return `${fmtShort.format(start)} - ${fmtFull.format(end)}`
   }
-  return `${fmtFull(start)} - ${fmtFull(end)}`
+  return `${fmtFull.format(start)} - ${fmtFull.format(end)}`
 }
 
 function formatWeekNumber(week: number): string {
@@ -47,7 +55,7 @@ const stats = computed(() => [
 <template>
   <UContainer class="py-10 sm:py-16">
     <!-- Back Link -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, x: -10 }"
       :animate="{ opacity: 1, x: 0 }"
       :transition="{ duration: 0.3 }"
@@ -60,12 +68,12 @@ const stats = computed(() => [
         label="Back to Weekly"
         class="mb-8 -ml-2.5"
       />
-    </Motion>
+    </SafeMotion>
 
     <!-- Article -->
     <article>
       <!-- Header -->
-      <Motion
+      <SafeMotion
         :initial="{ opacity: 0, y: 20 }"
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5, delay: 0.1 }"
@@ -89,16 +97,16 @@ const stats = computed(() => [
             {{ page?.description }}
           </p>
         </header>
-      </Motion>
+      </SafeMotion>
 
       <!-- Stats Summary -->
-      <Motion
+      <SafeMotion
         :initial="{ opacity: 0, y: 20 }"
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5, delay: 0.15 }"
       >
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
-          <Motion
+          <SafeMotion
             v-for="(stat, index) in stats"
             :key="stat.label"
             :initial="{ opacity: 0, scale: 0.9 }"
@@ -106,29 +114,29 @@ const stats = computed(() => [
             :transition="{ duration: 0.3, delay: 0.2 + index * 0.08 }"
           >
             <div class="rounded-xl bg-elevated/50 ring ring-default p-4 text-center">
-              <div class="text-2xl font-bold" :class="stat.color">
+              <div class="text-2xl font-bold tabular-nums" :class="stat.color">
                 {{ stat.value }}
               </div>
               <div class="text-xs text-muted mt-1">
                 {{ stat.label }}
               </div>
             </div>
-          </Motion>
+          </SafeMotion>
         </div>
-      </Motion>
+      </SafeMotion>
 
       <!-- Markdown Content -->
-      <Motion
+      <SafeMotion
         :initial="{ opacity: 0, y: 20 }"
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5, delay: 0.3 }"
       >
         <ContentRenderer v-if="page" :value="page" />
-      </Motion>
+      </SafeMotion>
     </article>
 
     <!-- Prev / Next Navigation -->
-    <Motion
+    <SafeMotion
       :initial="{ opacity: 0, y: 20 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5, delay: 0.4 }"
@@ -137,6 +145,6 @@ const stats = computed(() => [
         :surround="(surround as any)"
         class="mt-16"
       />
-    </Motion>
+    </SafeMotion>
   </UContainer>
 </template>
