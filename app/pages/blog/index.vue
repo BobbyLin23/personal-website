@@ -42,56 +42,47 @@ function formatDate(dateStr: string) {
 </script>
 
 <template>
-  <UContainer class="py-10 sm:py-16">
-    <!-- Page Header -->
+  <UContainer class="py-16 sm:py-24">
     <SafeMotion
-      :initial="{ opacity: 0, y: 20 }"
+      :initial="{ opacity: 0, y: 16 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5 }"
     >
-      <div class="mb-12">
-        <h1 class="text-3xl font-bold tracking-tight mb-3">
+      <div class="mb-16">
+        <h1 class="display-heading text-4xl sm:text-5xl mb-4">
           Blog
         </h1>
-        <p class="text-muted">
+        <p class="text-muted text-base sm:text-lg max-w-lg">
           Thoughts on web development, design, and technology.
         </p>
       </div>
     </SafeMotion>
 
-    <!-- Posts grouped by year -->
     <div v-if="postsByYear.length">
       <SafeMotion
         v-for="(group, groupIndex) in postsByYear"
         :key="group.year"
-        :initial="{ opacity: 0, y: 30 }"
+        :initial="{ opacity: 0, y: 20 }"
         :animate="{ opacity: 1, y: 0 }"
-        :transition="{ duration: 0.5, delay: 0.1 + groupIndex * 0.15 }"
+        :transition="{ duration: 0.5, delay: 0.1 + groupIndex * 0.1 }"
       >
-        <section class="mb-12 mt-6">
-          <h2 class="text-xl font-semibold text-muted uppercase tracking-widest mb-4">
+        <section class="mb-14">
+          <h2 class="text-sm font-medium text-muted tracking-widest uppercase mb-6">
             {{ group.year }}
           </h2>
 
-          <div class="space-y-1">
+          <div class="divide-y divide-default">
             <NuxtLink
-              v-for="(post, postIndex) in group.posts"
+              v-for="post in group.posts"
               :key="post.path"
               :to="post.path"
-              class="group flex items-center justify-between py-3.5 px-4 -mx-4 rounded-lg hover:bg-elevated/50 transition-colors"
+              class="group flex items-baseline justify-between gap-4 py-4 first:pt-0 last:pb-0"
             >
-              <SafeMotion
-                :initial="{ opacity: 0, x: -20 }"
-                :animate="{ opacity: 1, x: 0 }"
-                :transition="{ duration: 0.4, delay: 0.2 + groupIndex * 0.15 + postIndex * 0.05 }"
-                class="flex-1 min-w-0"
-              >
-                <span class="text-base font-medium group-hover:text-primary transition-colors truncate block">
-                  {{ post.title }}
-                </span>
-              </SafeMotion>
+              <span class="text-base font-medium group-hover:text-primary transition-colors truncate">
+                {{ post.title }}
+              </span>
               <time
-                class="text-sm text-muted ml-4 shrink-0 tabular-nums"
+                class="text-sm text-muted shrink-0 tabular-nums"
                 :datetime="post.date"
               >
                 {{ formatDate(post.date) }}
@@ -102,14 +93,8 @@ function formatDate(dateStr: string) {
       </SafeMotion>
     </div>
 
-    <div
-      v-else
-      class="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-default py-16 text-center"
-    >
-      <UIcon name="i-lucide-book-open" class="size-10 text-muted" aria-hidden="true" />
-      <p class="text-sm text-muted">
-        No blog posts yet.
-      </p>
-    </div>
+    <p v-else class="text-sm text-muted py-16 text-center">
+      No blog posts yet.
+    </p>
   </UContainer>
 </template>

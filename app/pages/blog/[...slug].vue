@@ -35,9 +35,8 @@ function formatFullDate(dateStr: string) {
 const readingTime = computed(() => {
   if (!page.value?.body)
     return '3 min read'
-  // Rough estimate: count text nodes in AST
   const text = JSON.stringify(page.value.body)
-  const wordCount = text.split(WHITESPACE_SPLIT).length / 3 // JSON overhead factor
+  const wordCount = text.split(WHITESPACE_SPLIT).length / 3
   const minutes = Math.max(1, Math.ceil(wordCount / 200))
   return `${minutes} min read`
 })
@@ -49,52 +48,45 @@ function getTagColor(index: number) {
 </script>
 
 <template>
-  <UContainer class="py-10 sm:py-16">
-    <!-- Back Link -->
+  <UContainer class="py-16 sm:py-24">
     <SafeMotion
-      :initial="{ opacity: 0, x: -10 }"
+      :initial="{ opacity: 0, x: -8 }"
       :animate="{ opacity: 1, x: 0 }"
       :transition="{ duration: 0.3 }"
     >
-      <UButton
+      <NuxtLink
         to="/blog"
-        variant="link"
-        color="neutral"
-        icon="i-lucide-arrow-left"
-        label="Back to Blog"
-        class="mb-8 -ml-2.5"
-      />
+        class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-highlighted transition-colors mb-12"
+      >
+        <UIcon name="i-lucide-arrow-left" class="size-3.5" />
+        Back to Blog
+      </NuxtLink>
     </SafeMotion>
 
-    <div class="lg:grid lg:grid-cols-[1fr_200px] lg:gap-12">
-      <!-- Article -->
+    <div class="lg:grid lg:grid-cols-[1fr_200px] lg:gap-16">
       <article class="min-w-0">
-        <!-- Meta Header -->
         <SafeMotion
-          :initial="{ opacity: 0, y: 20 }"
+          :initial="{ opacity: 0, y: 16 }"
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5, delay: 0.1 }"
         >
-          <header class="mb-10">
-            <h1 class="text-3xl font-bold tracking-tight mb-4">
+          <header class="mb-12">
+            <h1 class="display-heading text-3xl sm:text-4xl mb-5">
               {{ page?.title }}
             </h1>
 
             <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
               <time
-                class="flex items-center gap-1.5 tabular-nums"
+                class="tabular-nums"
                 :datetime="page?.date"
               >
-                <UIcon name="i-lucide-calendar" class="size-3.5" aria-hidden="true" />
                 {{ formatFullDate(page?.date ?? '') }}
               </time>
-              <span class="flex items-center gap-1.5">
-                <UIcon name="i-lucide-clock" class="size-3.5" aria-hidden="true" />
-                {{ readingTime }}
-              </span>
+              <span class="w-1 h-1 rounded-full bg-muted" aria-hidden="true" />
+              <span>{{ readingTime }}</span>
             </div>
 
-            <div v-if="page?.tags?.length" class="flex flex-wrap gap-2 mt-4">
+            <div v-if="page?.tags?.length" class="flex flex-wrap gap-2 mt-5">
               <UBadge
                 v-for="(tag, index) in page?.tags"
                 :key="tag"
@@ -107,9 +99,8 @@ function getTagColor(index: number) {
           </header>
         </SafeMotion>
 
-        <!-- Content -->
         <SafeMotion
-          :initial="{ opacity: 0, y: 20 }"
+          :initial="{ opacity: 0, y: 16 }"
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5, delay: 0.2 }"
         >
@@ -117,10 +108,9 @@ function getTagColor(index: number) {
         </SafeMotion>
       </article>
 
-      <!-- TOC Sidebar (desktop) -->
       <aside class="hidden lg:block">
         <SafeMotion
-          :initial="{ opacity: 0, x: 20 }"
+          :initial="{ opacity: 0, x: 16 }"
           :animate="{ opacity: 1, x: 0 }"
           :transition="{ duration: 0.5, delay: 0.3 }"
         >
@@ -136,15 +126,14 @@ function getTagColor(index: number) {
       </aside>
     </div>
 
-    <!-- Prev / Next Navigation -->
     <SafeMotion
-      :initial="{ opacity: 0, y: 20 }"
+      :initial="{ opacity: 0, y: 16 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5, delay: 0.4 }"
     >
       <UContentSurround
         :surround="(surround as any)"
-        class="mt-16"
+        class="mt-20"
       />
     </SafeMotion>
   </UContainer>

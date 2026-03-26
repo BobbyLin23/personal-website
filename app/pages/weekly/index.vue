@@ -15,13 +15,11 @@ const { data: weeklies } = await useAsyncData('all-weeklies', () =>
     .order('date', 'DESC')
     .all())
 
-// Calendar state
 const todayDate = today(getLocalTimeZone())
 const placeholder = ref(new CalendarDate(todayDate.year, todayDate.month, todayDate.day)) as Ref<DateValue>
 const selectedDate = ref<DateValue>()
 const pickerOpen = ref(false)
 
-// Build date -> path lookup map from weekly posts
 const weeklyDateMap = computed(() => {
   const map = new Map<string, string>()
   if (weeklies.value) {
@@ -41,7 +39,6 @@ function hasWeekly(day: DateValue): boolean {
   return weeklyDateMap.value.has(dateKey(day))
 }
 
-// Navigate to weekly detail when a highlighted date is clicked
 function onDaySelect(date: any) {
   if (!date || !date.year)
     return
@@ -51,7 +48,6 @@ function onDaySelect(date: any) {
   }
 }
 
-// Date picker: jump to selected month
 function onPickerSelect(date: any) {
   if (!date || !date.year)
     return
@@ -61,26 +57,24 @@ function onPickerSelect(date: any) {
 </script>
 
 <template>
-  <UContainer class="py-10 sm:py-16">
-    <!-- Page Header -->
+  <UContainer class="py-16 sm:py-24">
     <SafeMotion
-      :initial="{ opacity: 0, y: 20 }"
+      :initial="{ opacity: 0, y: 16 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5 }"
     >
-      <div class="mb-12">
-        <h1 class="text-3xl font-bold tracking-tight mb-3">
+      <div class="mb-16">
+        <h1 class="display-heading text-4xl sm:text-5xl mb-4">
           Weekly
         </h1>
-        <p class="text-muted">
+        <p class="text-muted text-base sm:text-lg max-w-lg">
           A weekly journal of my learnings, discoveries, and reflections.
         </p>
       </div>
     </SafeMotion>
 
-    <!-- Calendar Section -->
     <SafeMotion
-      :initial="{ opacity: 0, y: 30 }"
+      :initial="{ opacity: 0, y: 20 }"
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5, delay: 0.1 }"
     >
@@ -108,7 +102,6 @@ function onPickerSelect(date: any) {
           }"
           @update:model-value="onDaySelect"
         >
-          <!-- Clickable heading for date picker -->
           <template #heading="{ value }">
             <UPopover v-model:open="pickerOpen">
               <UButton
@@ -134,7 +127,6 @@ function onPickerSelect(date: any) {
             </UPopover>
           </template>
 
-          <!-- Custom day cell with dot indicator -->
           <template #day="{ day }">
             {{ day.day }}
             <span
@@ -144,7 +136,6 @@ function onPickerSelect(date: any) {
           </template>
         </UCalendar>
 
-        <!-- Legend -->
         <div class="flex flex-wrap items-center gap-6 mt-4 pt-4 border-t border-default">
           <div class="flex items-center gap-2 text-xs text-muted">
             <span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true" />
@@ -165,7 +156,7 @@ function onPickerSelect(date: any) {
           v-if="weeklies && weeklies.length === 0"
           class="mt-4 text-center text-sm text-muted"
         >
-          No weekly entries published yet. Dates with a report show a dot on the calendar.
+          No weekly entries published yet.
         </p>
       </div>
     </SafeMotion>

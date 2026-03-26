@@ -74,9 +74,9 @@ CopilotKit 的架构主要分为三层：
    1. 遍历所有订阅者
    2. 执行传入的 handler 函数
    3. 捕获错误并打印，避免一个订阅者失败影响其他订阅者
-   :br`emitError`
-   1. 专门用于发送错误事件
-   2. 调用 `notifySubscribers` 触发 `onError` 回调
+      :br`emitError`
+   4. 专门用于发送错误事件
+   5. 调用 `notifySubscribers` 触发 `onError` 回调
 4. Getter
 5. Setter
 6. 委托方法：所有业务方法都委托给相应的子系统

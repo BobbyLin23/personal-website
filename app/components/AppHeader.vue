@@ -6,25 +6,21 @@ const route = useRoute()
 const navItems = computed<NavigationMenuItem[]>(() => [
   {
     label: 'Home',
-    icon: 'i-lucide-home',
     to: '/',
     active: route.path === '/',
   },
   {
     label: 'Blog',
-    icon: 'i-lucide-book-open',
     to: '/blog',
     active: route.path.startsWith('/blog'),
   },
   {
     label: 'Projects',
-    icon: 'i-lucide-folder-git-2',
     to: '/projects',
     active: route.path.startsWith('/projects'),
   },
   {
     label: 'Weekly',
-    icon: 'i-lucide-calendar',
     to: '/weekly',
     active: route.path.startsWith('/weekly'),
   },
@@ -40,7 +36,13 @@ const rssItems = [[
 </script>
 
 <template>
-  <UHeader title="Bobby Lin">
+  <UHeader>
+    <template #left>
+      <NuxtLink to="/" class="font-serif text-lg font-normal tracking-tight">
+        Bobby Lin
+      </NuxtLink>
+    </template>
+
     <UNavigationMenu :items="navItems" />
 
     <template #right>

@@ -36,67 +36,55 @@ function formatPostDate(iso: string) {
 </script>
 
 <template>
-  <UContainer class="py-10 sm:py-16">
+  <UContainer class="py-16 sm:py-24">
     <!-- Hero Section -->
-    <section class="mb-16 sm:mb-20">
-      <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 mb-8">
-        <!-- Avatar -->
-        <SafeMotion
-          :initial="{ scale: 0, rotate: -180 }"
-          :animate="{ scale: 1, rotate: 0 }"
-          :transition="{ type: 'spring', stiffness: 200, damping: 15 }"
-        >
-          <UAvatar
-            text="BL"
-            size="3xl"
-            :ui="{
-              root: 'ring-4 ring-green-100 dark:ring-green-900/30',
-              fallback: 'bg-gradient-to-br from-green-400 to-cyan-400 text-white font-bold',
-            }"
-          />
-        </SafeMotion>
+    <section class="mb-24 sm:mb-32">
+      <SafeMotion
+        :initial="{ opacity: 0, y: 16 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: 0.6 }"
+      >
+        <p class="text-sm font-medium tracking-widest uppercase text-muted mb-4">
+          Full-Stack Developer
+        </p>
+      </SafeMotion>
 
-        <div class="text-center sm:text-left">
-          <SafeMotion
-            :initial="{ opacity: 0, x: -20 }"
-            :animate="{ opacity: 1, x: 0 }"
-            :transition="{ duration: 0.5, delay: 0.2 }"
-          >
-            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
-              Hi, I'm <span class="gradient-text">Bobby Lin</span>
-              <span class="inline-block motion-safe:animate-bounce" aria-hidden="true">👋</span>
-            </h1>
-          </SafeMotion>
-
-          <SafeMotion
-            :initial="{ opacity: 0, x: -20 }"
-            :animate="{ opacity: 1, x: 0 }"
-            :transition="{ duration: 0.5, delay: 0.4 }"
-          >
-            <p class="text-base sm:text-lg text-muted leading-relaxed max-w-xl">
-              A passionate full-stack developer focused on building beautiful and performant web applications. Love open source, writing, and sharing knowledge.
-            </p>
-          </SafeMotion>
-        </div>
-      </div>
-
-      <!-- Social Links -->
       <SafeMotion
         :initial="{ opacity: 0, y: 20 }"
         :animate="{ opacity: 1, y: 0 }"
-        :transition="{ duration: 0.5, delay: 0.6 }"
+        :transition="{ duration: 0.7, delay: 0.1 }"
       >
-        <div class="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3">
+        <h1 class="display-heading text-4xl sm:text-5xl lg:text-6xl mb-6">
+          Bobby Lin
+        </h1>
+      </SafeMotion>
+
+      <SafeMotion
+        :initial="{ opacity: 0, y: 16 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: 0.6, delay: 0.25 }"
+      >
+        <p class="text-base sm:text-lg text-muted leading-relaxed max-w-lg">
+          Building beautiful, performant web applications. Passionate about open source, writing, and sharing knowledge.
+        </p>
+      </SafeMotion>
+
+      <SafeMotion
+        :initial="{ opacity: 0, y: 12 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ duration: 0.5, delay: 0.4 }"
+      >
+        <div class="flex items-center gap-3 mt-8">
           <UButton
             v-for="link in socialLinks"
             :key="link.label"
             :icon="link.icon"
-            :label="link.label"
             :to="link.to"
             target="_blank"
             color="neutral"
-            variant="subtle"
-            size="sm"
+            variant="ghost"
+            size="lg"
+            :aria-label="link.label"
           />
         </div>
       </SafeMotion>
@@ -104,140 +92,124 @@ function formatPostDate(iso: string) {
 
     <!-- Recent Blog Posts -->
     <SafeMotion
-      :initial="{ opacity: 0, y: 30 }"
+      :initial="{ opacity: 0, y: 24 }"
       :animate="{ opacity: 1, y: 0 }"
-      :transition="{ duration: 0.6, delay: 0.3 }"
+      :transition="{ duration: 0.6, delay: 0.2 }"
     >
-      <section class="mb-16 sm:mb-20">
-        <div class="flex items-center justify-between mb-6 sm:mb-8">
-          <h2 class="text-lg sm:text-xl font-semibold tracking-tight">
-            Recent Posts
+      <section class="mb-24 sm:mb-32">
+        <div class="flex items-baseline justify-between mb-8 sm:mb-10">
+          <h2 class="display-heading text-2xl sm:text-3xl">
+            Writing
           </h2>
-          <UButton
-            label="View all"
+          <NuxtLink
             to="/blog"
-            variant="link"
-            trailing-icon="i-lucide-arrow-right"
-            color="primary"
-            size="sm"
-          />
+            class="text-sm text-muted hover:text-primary transition-colors"
+          >
+            View all &rarr;
+          </NuxtLink>
         </div>
 
-        <div v-if="recentPosts?.length" class="space-y-1">
+        <div v-if="recentPosts?.length" class="divide-y divide-default">
           <NuxtLink
             v-for="(post, index) in recentPosts"
             :key="post.path"
             :to="post.path"
-            class="group flex flex-col sm:flex-row sm:items-center sm:justify-between py-4 px-4 -mx-4 rounded-lg hover:bg-elevated/50 transition-colors"
+            class="group block py-5 first:pt-0 last:pb-0"
           >
             <SafeMotion
-              :initial="{ opacity: 0, x: -20 }"
+              :initial="{ opacity: 0, x: -12 }"
               :animate="{ opacity: 1, x: 0 }"
-              :transition="{ duration: 0.4, delay: 0.4 + index * 0.1 }"
-              class="flex-1 min-w-0"
+              :transition="{ duration: 0.4, delay: 0.3 + index * 0.08 }"
             >
-              <h3 class="text-sm sm:text-base font-medium group-hover:text-primary transition-colors truncate">
-                {{ post.title }}
-              </h3>
-              <p class="text-sm text-muted mt-1 truncate">
+              <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                <h3 class="text-base font-medium group-hover:text-primary transition-colors">
+                  {{ post.title }}
+                </h3>
+                <time
+                  class="text-sm text-muted shrink-0 tabular-nums"
+                  :datetime="post.date"
+                >
+                  {{ formatPostDate(post.date) }}
+                </time>
+              </div>
+              <p v-if="post.description" class="text-sm text-muted mt-1.5 line-clamp-1">
                 {{ post.description }}
               </p>
             </SafeMotion>
-            <time
-              class="text-xs sm:text-sm text-muted mt-1 sm:mt-0 sm:ml-4 shrink-0 tabular-nums"
-              :datetime="post.date"
-            >
-              {{ formatPostDate(post.date) }}
-            </time>
           </NuxtLink>
         </div>
-        <div
-          v-else
-          class="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-default py-12 text-center"
-        >
-          <UIcon name="i-lucide-file-text" class="size-10 text-muted" aria-hidden="true" />
-          <p class="text-sm text-muted">
-            No posts yet. Check back soon.
-          </p>
-        </div>
+        <p v-else class="text-sm text-muted py-12 text-center">
+          No posts yet. Check back soon.
+        </p>
       </section>
     </SafeMotion>
 
     <!-- Featured Projects -->
     <SafeMotion
-      :initial="{ opacity: 0, y: 30 }"
+      :initial="{ opacity: 0, y: 24 }"
       :animate="{ opacity: 1, y: 0 }"
-      :transition="{ duration: 0.6, delay: 0.5 }"
+      :transition="{ duration: 0.6, delay: 0.3 }"
     >
-      <section class="mb-16 sm:mb-20">
-        <div class="flex items-center justify-between mb-6 sm:mb-8">
-          <h2 class="text-lg sm:text-xl font-semibold tracking-tight">
-            Featured Projects
+      <section>
+        <div class="flex items-baseline justify-between mb-8 sm:mb-10">
+          <h2 class="display-heading text-2xl sm:text-3xl">
+            Projects
           </h2>
-          <UButton
-            label="View all"
+          <NuxtLink
             to="/projects"
-            variant="link"
-            trailing-icon="i-lucide-arrow-right"
-            color="primary"
-            size="sm"
-          />
+            class="text-sm text-muted hover:text-primary transition-colors"
+          >
+            View all &rarr;
+          </NuxtLink>
         </div>
 
         <div
           v-if="featuredProjects?.length"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           <SafeMotion
             v-for="(project, index) in featuredProjects"
             :key="project.id"
             class="h-full"
-            :initial="{ opacity: 0, y: 20 }"
+            :initial="{ opacity: 0, y: 16 }"
             :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.4, delay: 0.6 + index * 0.15 }"
+            :transition="{ duration: 0.4, delay: 0.4 + index * 0.1 }"
           >
-            <UPageCard
-              class="h-full"
-              :title="project.name"
-              :description="project.description"
-              :icon="project.icon"
+            <NuxtLink
               :to="project.url"
               target="_blank"
-              :ui="{
-                root: 'hover-lift h-full flex flex-col',
-                leading: project.iconBg,
-                leadingIcon: project.iconColor,
-                description: 'line-clamp-2',
-              }"
+              class="hover-lift group block h-full rounded-xl ring ring-default bg-default p-5"
             >
-              <template #footer>
-                <div class="flex items-center gap-3 text-xs text-muted">
-                  <span class="flex items-center gap-1">
-                    <span class="w-2.5 h-2.5 rounded-full" :class="project.languageColor" />
-                    {{ project.language }}
-                  </span>
-                  <span class="flex items-center gap-1 tabular-nums">
-                    <UIcon name="i-lucide-star" class="size-3" aria-hidden="true" />
-                    {{ project.stars }}
-                  </span>
-                  <span class="flex items-center gap-1 tabular-nums">
-                    <UIcon name="i-lucide-git-fork" class="size-3" aria-hidden="true" />
-                    {{ project.forks }}
-                  </span>
+              <div class="flex items-center gap-3 mb-3">
+                <div
+                  class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                  :class="project.iconBg"
+                >
+                  <UIcon :name="project.icon" class="size-4.5" :class="project.iconColor" />
                 </div>
-              </template>
-            </UPageCard>
+                <h3 class="font-semibold text-sm text-highlighted group-hover:text-primary transition-colors">
+                  {{ project.name }}
+                </h3>
+              </div>
+              <p class="text-sm text-muted line-clamp-2 mb-4">
+                {{ project.description }}
+              </p>
+              <div class="flex items-center gap-3 text-xs text-muted">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full" :class="project.languageColor" />
+                  {{ project.language }}
+                </span>
+                <span class="flex items-center gap-1 tabular-nums">
+                  <UIcon name="i-lucide-star" class="size-3" aria-hidden="true" />
+                  {{ project.stars }}
+                </span>
+              </div>
+            </NuxtLink>
           </SafeMotion>
         </div>
-        <div
-          v-else
-          class="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-default py-12 text-center"
-        >
-          <UIcon name="i-lucide-folder-git-2" class="size-10 text-muted" aria-hidden="true" />
-          <p class="text-sm text-muted">
-            No featured projects yet.
-          </p>
-        </div>
+        <p v-else class="text-sm text-muted py-12 text-center">
+          No featured projects yet.
+        </p>
       </section>
     </SafeMotion>
   </UContainer>
