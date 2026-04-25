@@ -1,0 +1,73 @@
+{
+  "site": {
+    "name": "Bobby Lin"
+  },
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "projects": "Projects",
+    "weekly": "Weekly"
+  },
+  "rss": {
+    "all": "All",
+    "blog": "Blog",
+    "weekly": "Weekly",
+    "ariaLabel": "RSS feeds",
+    "rss": "RSS"
+  },
+  "theme": {
+    "toggle": "Toggle color theme"
+  },
+  "language": {
+    "switch": "Language",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "role": "Full-Stack Developer",
+    "bio": "Building beautiful, performant web applications. Passionate about open source, writing, and sharing knowledge.",
+    "writing": "Writing",
+    "projects": "Projects",
+    "viewAll": "View all",
+    "noPosts": "No posts yet. Check back soon.",
+    "noProjects": "No featured projects yet."
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Thoughts on web development, design, and technology.",
+    "empty": "No blog posts yet."
+  },
+  "post": {
+    "back": "Back to Blog",
+    "toc": "On this page",
+    "readingTime": "{minutes} min read",
+    "translating": "Translating with AI...",
+    "translatingProgress": "AI is translating ({chars} chars)",
+    "translatedByAi": "AI-translated from English",
+    "translationFailed": "Translation unavailable. Showing original.",
+    "showOriginal": "Show original",
+    "showTranslation": "Show translation",
+    "notFound": "Post not found"
+  },
+  "weekly": {
+    "title": "Weekly",
+    "description": "Weekly reports on learnings and progress.",
+    "empty": "No weekly reports yet.",
+    "back": "Back to Weekly",
+    "commits": "Commits",
+    "prs": "PRs",
+    "blogs": "Blogs",
+    "books": "Books"
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "Selected projects I have been building.",
+    "empty": "No projects yet."
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "common": {
+    "loading": "Loading..."
+  }
+}

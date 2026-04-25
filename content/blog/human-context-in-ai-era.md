@@ -13,6 +13,7 @@ tags:
   - AI Coding
   - Tech
   - AI
+language: en-US
 ---
 
 # Human Context in AI Era file

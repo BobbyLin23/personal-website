@@ -1,43 +1,91 @@
 <script setup lang="ts">
+const LOCALE_PREFIX_RE = /^\/(en|zh)(?=\/|$)/
+
 const route = useRoute()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
-const { data: page } = await useAsyncData(route.path, () =>
-  queryCollection('weekly').path(route.path).first())
+const basePath = computed(() => {
+  const p = route.path.replace(LOCALE_PREFIX_RE, '')
+  return p || '/'
+})
 
-if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Weekly not found', fatal: true })
+const showOriginal = ref(false)
+
+function normalizeLocaleCode(value?: string) {
+  return value?.trim().split('-')[0]?.toLowerCase() || ''
 }
 
+const { data: originalPage } = await useAsyncData(
+  () => `weekly-en-${basePath.value}`,
+  () => queryCollection('weekly').path(basePath.value).first(),
+  { watch: [() => basePath.value] },
+)
+
+if (!originalPage.value) {
+  throw createError({ statusCode: 404, statusMessage: t('post.notFound'), fatal: true })
+}
+
+const sourceLocale = computed(() => normalizeLocaleCode(originalPage.value?.language))
+const currentLocale = computed(() => normalizeLocaleCode(locale.value))
+const shouldTranslate = computed(() => {
+  if (sourceLocale.value)
+    return sourceLocale.value !== currentLocale.value
+  return currentLocale.value === 'zh'
+})
+
+const translation = usePostTranslation({
+  collection: 'weekly',
+  path: () => basePath.value,
+  locale: () => locale.value,
+  enabled: () => shouldTranslate.value && !showOriginal.value,
+})
+
+watch(basePath, () => {
+  showOriginal.value = false
+})
+
+const page = computed(() => {
+  if (shouldTranslate.value && !showOriginal.value && translation.data.value?.body)
+    return translation.data.value
+  return originalPage.value
+})
+
+const isStreaming = computed(() => translation.state.value === 'streaming' || translation.state.value === 'connecting')
+const isTranslatedView = computed(() => shouldTranslate.value && !showOriginal.value)
+
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-  queryCollectionItemSurroundings('weekly', route.path, {
+  queryCollectionItemSurroundings('weekly', basePath.value, {
     fields: ['title', 'description', 'date', 'week'],
   }))
 
 const config = useRuntimeConfig()
 useSeoMeta({
-  title: page.value.title,
-  description: page.value.description,
+  title: () => page.value?.title,
+  description: () => page.value?.description,
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
-const fmtFull = new Intl.DateTimeFormat(undefined, {
+const fmtFull = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
   month: 'long',
   day: 'numeric',
   year: 'numeric',
-})
-const fmtShort = new Intl.DateTimeFormat(undefined, {
+}))
+const fmtShort = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
   month: 'long',
   day: 'numeric',
-})
+}))
 
 function formatDateRange(dateStr: string) {
+  if (!dateStr)
+    return ''
   const end = new Date(dateStr)
   const start = new Date(end)
   start.setDate(start.getDate() - 6)
   if (start.getFullYear() === end.getFullYear()) {
-    return `${fmtShort.format(start)} - ${fmtFull.format(end)}`
+    return `${fmtShort.value.format(start)} - ${fmtFull.value.format(end)}`
   }
-  return `${fmtFull.format(start)} - ${fmtFull.format(end)}`
+  return `${fmtFull.value.format(start)} - ${fmtFull.value.format(end)}`
 }
 
 function formatWeekNumber(week: number): string {
@@ -45,11 +93,15 @@ function formatWeekNumber(week: number): string {
 }
 
 const stats = computed(() => [
-  { value: page.value?.commits ?? 0, label: 'Commits', color: 'text-amber-600 dark:text-amber-400' },
-  { value: page.value?.prs ?? 0, label: 'PRs Merged', color: 'text-sky-600 dark:text-sky-400' },
-  { value: page.value?.blogs ?? 0, label: 'Blog Published', color: 'text-violet-600 dark:text-violet-400' },
-  { value: page.value?.books ?? 0, label: 'Books Read', color: 'text-rose-600 dark:text-rose-400' },
+  { value: originalPage.value?.commits ?? 0, label: t('weekly.commits'), color: 'text-amber-600 dark:text-amber-400' },
+  { value: originalPage.value?.prs ?? 0, label: t('weekly.prs'), color: 'text-sky-600 dark:text-sky-400' },
+  { value: originalPage.value?.blogs ?? 0, label: t('weekly.blogs'), color: 'text-violet-600 dark:text-violet-400' },
+  { value: originalPage.value?.books ?? 0, label: t('weekly.books'), color: 'text-rose-600 dark:text-rose-400' },
 ])
+
+function toggleOriginal() {
+  showOriginal.value = !showOriginal.value
+}
 </script>
 
 <template>
@@ -60,13 +112,49 @@ const stats = computed(() => [
       :transition="{ duration: 0.3 }"
     >
       <NuxtLink
-        to="/weekly"
+        :to="localePath('/weekly')"
         class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-highlighted transition-colors mb-12"
       >
         <UIcon name="i-lucide-arrow-left" class="size-3.5" />
-        Back to Weekly
+        {{ t('weekly.back') }}
       </NuxtLink>
     </SafeMotion>
+
+    <div v-if="shouldTranslate" class="mb-8 flex items-center justify-between gap-3 flex-wrap">
+      <div class="flex items-center gap-2 text-xs text-muted">
+        <UIcon
+          v-if="isStreaming"
+          name="i-lucide-loader-circle"
+          class="size-3.5 animate-spin"
+        />
+        <UIcon
+          v-else
+          name="i-lucide-sparkles"
+          class="size-3.5"
+        />
+        <span v-if="isStreaming">{{ t('post.translating') }}</span>
+        <span v-else-if="isTranslatedView">{{ t('post.translatedByAi') }}</span>
+        <span v-else class="opacity-60">{{ t('post.translationFailed') }}</span>
+      </div>
+
+      <UButton
+        size="xs"
+        color="neutral"
+        variant="soft"
+        :icon="showOriginal ? 'i-lucide-languages' : 'i-lucide-book-open'"
+        :label="showOriginal ? t('post.showTranslation') : t('post.showOriginal')"
+        @click="toggleOriginal"
+      />
+    </div>
+
+    <UAlert
+      v-if="translation.error.value && isTranslatedView"
+      color="warning"
+      variant="subtle"
+      :title="t('post.translationFailed')"
+      :description="translation.error.value"
+      class="mb-8"
+    />
 
     <article>
       <SafeMotion
@@ -77,7 +165,7 @@ const stats = computed(() => [
         <header class="mb-12">
           <div class="flex items-center gap-3 mb-5">
             <UBadge
-              :label="formatWeekNumber(page?.week ?? 0)"
+              :label="formatWeekNumber(originalPage?.week ?? 0)"
               color="primary"
               variant="subtle"
               size="lg"
@@ -125,7 +213,11 @@ const stats = computed(() => [
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5, delay: 0.3 }"
       >
-        <ContentRenderer v-if="page" :value="page" />
+        <ContentRenderer
+          v-if="page"
+          :key="`${isTranslatedView ? currentLocale : sourceLocale || 'source'}-${translation.state.value}`"
+          :value="(page as any)"
+        />
       </SafeMotion>
     </article>
 

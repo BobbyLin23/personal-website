@@ -1,0 +1,73 @@
+{
+  "site": {
+    "name": "Bobby Lin"
+  },
+  "nav": {
+    "home": "首页",
+    "blog": "博客",
+    "projects": "项目",
+    "weekly": "周报"
+  },
+  "rss": {
+    "all": "全部",
+    "blog": "博客",
+    "weekly": "周报",
+    "ariaLabel": "RSS 订阅",
+    "rss": "RSS"
+  },
+  "theme": {
+    "toggle": "切换主题"
+  },
+  "language": {
+    "switch": "语言",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "role": "全栈开发者",
+    "bio": "专注于构建美观、高性能的 Web 应用。热爱开源、写作与分享。",
+    "writing": "写作",
+    "projects": "项目",
+    "viewAll": "查看全部",
+    "noPosts": "暂时没有文章,敬请期待。",
+    "noProjects": "暂时没有精选项目。"
+  },
+  "blog": {
+    "title": "博客",
+    "description": "关于 Web 开发、设计与技术的思考。",
+    "empty": "暂时没有文章。"
+  },
+  "post": {
+    "back": "返回博客",
+    "toc": "目录",
+    "readingTime": "阅读约 {minutes} 分钟",
+    "translating": "AI 翻译中...",
+    "translatingProgress": "AI 翻译中(已 {chars} 字)",
+    "translatedByAi": "本文由 AI 翻译自英文原文",
+    "translationFailed": "翻译失败,已显示原文。",
+    "showOriginal": "查看原文",
+    "showTranslation": "查看译文",
+    "notFound": "文章不存在"
+  },
+  "weekly": {
+    "title": "周报",
+    "description": "每周的学习与进展记录。",
+    "empty": "暂时没有周报。",
+    "back": "返回周报",
+    "commits": "提交",
+    "prs": "PR",
+    "blogs": "博客",
+    "books": "书籍"
+  },
+  "projects": {
+    "title": "项目",
+    "description": "我正在构建的一些项目。",
+    "empty": "暂时没有项目。"
+  },
+  "footer": {
+    "rights": "保留所有权利。"
+  },
+  "common": {
+    "loading": "加载中..."
+  }
+}

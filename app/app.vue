@@ -1,13 +1,23 @@
 <script setup lang="ts">
+import * as locales from '@nuxt/ui/locale'
+
 const colorMode = useColorMode()
+const { locale } = useI18n()
 
 const themeColor = computed(() =>
   colorMode.value === 'dark' ? '#1c1917' : '#fafaf9',
 )
 
+const uiLocale = computed(() => {
+  const code = locale.value === 'zh' ? 'zh-CN' : 'en'
+  return (locales as Record<string, any>)[code] || locales.en
+})
+
+const htmlLang = computed(() => locale.value === 'zh' ? 'zh-CN' : 'en')
+
 useHead({
   htmlAttrs: {
-    lang: 'en',
+    lang: htmlLang,
   },
   meta: computed(() => [
     { name: 'theme-color', content: themeColor.value },
@@ -29,7 +39,7 @@ useHead({
 </script>
 
 <template>
-  <UApp>
+  <UApp :locale="uiLocale">
     <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const currentYear = new Date().getFullYear()
 </script>
 
@@ -6,7 +7,7 @@ const currentYear = new Date().getFullYear()
   <UFooter>
     <template #left>
       <p class="text-sm text-muted">
-        &copy; {{ currentYear }} Bobby Lin
+        &copy; {{ currentYear }} {{ t('site.name') }}
       </p>
     </template>
 
@@ -32,7 +33,7 @@ const currentYear = new Date().getFullYear()
         color="neutral"
         variant="ghost"
         to="/rss.xml"
-        aria-label="RSS"
+        :aria-label="t('rss.rss')"
       />
     </template>
   </UFooter>
