@@ -11,12 +11,12 @@ export default defineEventHandler(async (event) => {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Bobby Lin - Blog</title>
-    <link>${escapeXml(`${siteUrl}/blog`)}</link>
+    <link>${escapeXml(`${siteUrl}/en/blog`)}</link>
     <description>Thoughts on web development, design, and technology.</description>
     <atom:link href="${escapeXml(`${siteUrl}/rss/blog.xml`)}" rel="self" type="application/rss+xml"/>
     <language>en</language>
 ${items.map((item) => {
-  const link = `${siteUrl}${item.path}`
+  const link = `${siteUrl}/en${item.path}`
   const html = bodyToHtml(item.body)
   return `    <item>
       <title>${escapeXml(item.title)}</title>

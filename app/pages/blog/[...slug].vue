@@ -1,49 +1,105 @@
 <script setup lang="ts">
 const WHITESPACE_SPLIT = /\s+/
+const LOCALE_PREFIX_RE = /^\/(en|zh)(?=\/|$)/
 
 const route = useRoute()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
 
-const { data: page } = await useAsyncData(route.path, () =>
-  queryCollection('blog').path(route.path).first())
+const basePath = computed(() => {
+  const p = route.path.replace(LOCALE_PREFIX_RE, '')
+  return p || '/'
+})
 
-if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Post not found', fatal: true })
+const showOriginal = ref(false)
+
+function normalizeLocaleCode(value?: string) {
+  return value?.trim().split('-')[0]?.toLowerCase() || ''
 }
 
+// Always fetch the source post via @nuxt/content (works on SSR + client).
+const { data: originalPage } = await useAsyncData(
+  () => `post-en-${basePath.value}`,
+  () => queryCollection('blog').path(basePath.value).first(),
+  { watch: [() => basePath.value] },
+)
+
+if (!originalPage.value) {
+  throw createError({ statusCode: 404, statusMessage: t('post.notFound'), fatal: true })
+}
+
+const sourceLocale = computed(() => normalizeLocaleCode(originalPage.value?.language))
+const currentLocale = computed(() => normalizeLocaleCode(locale.value))
+const shouldTranslate = computed(() => {
+  if (sourceLocale.value)
+    return sourceLocale.value !== currentLocale.value
+  return currentLocale.value === 'zh'
+})
+
+// Stream the translated version on the client when the source language differs.
+const translation = usePostTranslation({
+  collection: 'blog',
+  path: () => basePath.value,
+  locale: () => locale.value,
+  enabled: () => shouldTranslate.value && !showOriginal.value,
+})
+
+// Reset toggle when navigating to a different post.
+watch(basePath, () => {
+  showOriginal.value = false
+})
+
+// What to actually render.
+const page = computed(() => {
+  if (shouldTranslate.value && !showOriginal.value && translation.data.value?.body) {
+    return translation.data.value
+  }
+  return originalPage.value
+})
+
+const isStreaming = computed(() => translation.state.value === 'streaming' || translation.state.value === 'connecting')
+const isTranslatedView = computed(() => shouldTranslate.value && !showOriginal.value)
+
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
-  queryCollectionItemSurroundings('blog', route.path, {
+  queryCollectionItemSurroundings('blog', basePath.value, {
     fields: ['title', 'description'],
   }))
 
 const config = useRuntimeConfig()
 useSeoMeta({
-  title: page.value.title,
-  description: page.value.description,
+  title: () => page.value?.title,
+  description: () => page.value?.description,
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
-const fullDateFormatter = new Intl.DateTimeFormat(undefined, {
+const fullDateFormatter = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
-})
+}))
 
 function formatFullDate(dateStr: string) {
-  return fullDateFormatter.format(new Date(dateStr))
+  if (!dateStr)
+    return ''
+  return fullDateFormatter.value.format(new Date(dateStr))
 }
 
 const readingTime = computed(() => {
   if (!page.value?.body)
-    return '3 min read'
+    return t('post.readingTime', { minutes: 3 })
   const text = JSON.stringify(page.value.body)
   const wordCount = text.split(WHITESPACE_SPLIT).length / 3
   const minutes = Math.max(1, Math.ceil(wordCount / 200))
-  return `${minutes} min read`
+  return t('post.readingTime', { minutes })
 })
 
 const tagColors = ['primary', 'info', 'secondary', 'success', 'warning'] as const
 function getTagColor(index: number) {
   return tagColors[index % tagColors.length]
+}
+
+function toggleOriginal() {
+  showOriginal.value = !showOriginal.value
 }
 </script>
 
@@ -55,13 +111,49 @@ function getTagColor(index: number) {
       :transition="{ duration: 0.3 }"
     >
       <NuxtLink
-        to="/blog"
+        :to="localePath('/blog')"
         class="inline-flex items-center gap-1.5 text-sm text-muted hover:text-highlighted transition-colors mb-12"
       >
         <UIcon name="i-lucide-arrow-left" class="size-3.5" />
-        Back to Blog
+        {{ t('post.back') }}
       </NuxtLink>
     </SafeMotion>
+
+    <div v-if="shouldTranslate" class="mb-8 flex items-center justify-between gap-3 flex-wrap">
+      <div class="flex items-center gap-2 text-xs text-muted">
+        <UIcon
+          v-if="isStreaming"
+          name="i-lucide-loader-circle"
+          class="size-3.5 animate-spin"
+        />
+        <UIcon
+          v-else
+          name="i-lucide-sparkles"
+          class="size-3.5"
+        />
+        <span v-if="isStreaming">{{ t('post.translating') }}</span>
+        <span v-else-if="isTranslatedView">{{ t('post.translatedByAi') }}</span>
+        <span v-else class="opacity-60">{{ t('post.translationFailed') }}</span>
+      </div>
+
+      <UButton
+        size="xs"
+        color="neutral"
+        variant="soft"
+        :icon="showOriginal ? 'i-lucide-languages' : 'i-lucide-book-open'"
+        :label="showOriginal ? t('post.showTranslation') : t('post.showOriginal')"
+        @click="toggleOriginal"
+      />
+    </div>
+
+    <UAlert
+      v-if="translation.error.value && isTranslatedView"
+      color="warning"
+      variant="subtle"
+      :title="t('post.translationFailed')"
+      :description="translation.error.value"
+      class="mb-8"
+    />
 
     <div class="lg:grid lg:grid-cols-[1fr_200px] lg:gap-16">
       <article class="min-w-0">
@@ -86,12 +178,12 @@ function getTagColor(index: number) {
               <span>{{ readingTime }}</span>
             </div>
 
-            <div v-if="page?.tags?.length" class="flex flex-wrap gap-2 mt-5">
+            <div v-if="originalPage?.tags?.length" class="flex flex-wrap gap-2 mt-5">
               <UBadge
-                v-for="(tag, index) in page?.tags"
+                v-for="(tag, index) in originalPage?.tags"
                 :key="tag"
                 :label="tag"
-                :color="getTagColor(index)"
+                :color="getTagColor(index as number)"
                 variant="subtle"
                 size="sm"
               />
@@ -104,7 +196,11 @@ function getTagColor(index: number) {
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5, delay: 0.2 }"
         >
-          <ContentRenderer v-if="page" :value="page" />
+          <ContentRenderer
+            v-if="page"
+            :key="`${isTranslatedView ? currentLocale : sourceLocale || 'source'}-${translation.state.value}`"
+            :value="(page as any)"
+          />
         </SafeMotion>
       </article>
 
@@ -117,7 +213,7 @@ function getTagColor(index: number) {
           <div class="sticky top-24">
             <UContentToc
               :links="page?.body?.toc?.links"
-              title="On this page"
+              :title="t('post.toc')"
               highlight
               color="primary"
             />

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Projects',
-  description: 'Open source projects and tools I\'ve built or contributed to.',
+  title: () => t('projects.title'),
+  description: () => t('projects.description'),
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/projects` : undefined,
 })
 
@@ -19,10 +21,10 @@ const { data: projects } = await useAsyncData('all-projects', () =>
     >
       <div class="mb-16">
         <h1 class="display-heading text-4xl sm:text-5xl mb-4">
-          Projects
+          {{ t('projects.title') }}
         </h1>
         <p class="text-muted text-base sm:text-lg max-w-lg">
-          Open source projects and tools I've built or contributed to.
+          {{ t('projects.description') }}
         </p>
       </div>
     </SafeMotion>
@@ -101,7 +103,7 @@ const { data: projects } = await useAsyncData('all-projects', () =>
       v-else-if="projects && projects.length === 0"
       class="text-sm text-muted py-16 text-center"
     >
-      No projects listed yet.
+      {{ t('projects.empty') }}
     </p>
   </UContainer>
 </template>

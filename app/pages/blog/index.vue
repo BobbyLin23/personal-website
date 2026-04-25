@@ -1,8 +1,11 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
+
 useSeoMeta({
-  title: 'Blog',
-  description: 'Thoughts on web development, design, and technology.',
+  title: () => t('blog.title'),
+  description: () => t('blog.description'),
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/blog` : undefined,
 })
 
@@ -31,13 +34,13 @@ const postsByYear = computed(() => {
   }))
 })
 
-const listDateFormatter = new Intl.DateTimeFormat(undefined, {
+const listDateFormatter = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
   month: '2-digit',
   day: '2-digit',
-})
+}))
 
 function formatDate(dateStr: string) {
-  return listDateFormatter.format(new Date(dateStr))
+  return listDateFormatter.value.format(new Date(dateStr))
 }
 </script>
 
@@ -50,10 +53,10 @@ function formatDate(dateStr: string) {
     >
       <div class="mb-16">
         <h1 class="display-heading text-4xl sm:text-5xl mb-4">
-          Blog
+          {{ t('blog.title') }}
         </h1>
         <p class="text-muted text-base sm:text-lg max-w-lg">
-          Thoughts on web development, design, and technology.
+          {{ t('blog.description') }}
         </p>
       </div>
     </SafeMotion>
@@ -75,7 +78,7 @@ function formatDate(dateStr: string) {
             <NuxtLink
               v-for="post in group.posts"
               :key="post.path"
-              :to="post.path"
+              :to="localePath(post.path)"
               class="group flex items-baseline justify-between gap-4 py-4 first:pt-0 last:pb-0"
             >
               <span class="text-base font-medium group-hover:text-primary transition-colors truncate">
@@ -94,7 +97,7 @@ function formatDate(dateStr: string) {
     </div>
 
     <p v-else class="text-sm text-muted py-16 text-center">
-      No blog posts yet.
+      {{ t('blog.empty') }}
     </p>
   </UContainer>
 </template>

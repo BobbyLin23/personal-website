@@ -7,6 +7,7 @@ tags:
   - AI Coding
   - Tech
   - Source Code
+language: zh-CN 
 ---
 
 ## 基本介绍

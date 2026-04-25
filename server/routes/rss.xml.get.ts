@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     <atom:link href="${escapeXml(`${siteUrl}/rss.xml`)}" rel="self" type="application/rss+xml"/>
     <language>en</language>
 ${combined.map((item) => {
-  const link = `${siteUrl}${item.path}`
+  const link = `${siteUrl}/en${item.path}`
   const html = bodyToHtml(item.body)
   const typeLabel = item._type === 'blog' ? '[Blog]' : '[Weekly]'
   return `    <item>

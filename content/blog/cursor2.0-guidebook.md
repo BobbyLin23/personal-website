@@ -6,6 +6,7 @@ tags:
   - AI Coding
   - Tech
   - AI
+language: zh-CN
 ---
 
 2026年，随着Coding Agent进一步的发展，Cursor针对Agents新出的各种feature和能力都有了进一步的提升。

@@ -3,9 +3,11 @@ import type { DateValue } from '@internationalized/date'
 import { CalendarDate, getLocalTimeZone, today } from '@internationalized/date'
 
 const config = useRuntimeConfig()
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Weekly',
-  description: 'A weekly journal of my learnings, discoveries, and reflections.',
+  title: () => t('weekly.title'),
+  description: () => t('weekly.description'),
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/weekly` : undefined,
 })
 
@@ -65,10 +67,10 @@ function onPickerSelect(date: any) {
     >
       <div class="mb-16">
         <h1 class="display-heading text-4xl sm:text-5xl mb-4">
-          Weekly
+          {{ t('weekly.title') }}
         </h1>
         <p class="text-muted text-base sm:text-lg max-w-lg">
-          A weekly journal of my learnings, discoveries, and reflections.
+          {{ t('weekly.description') }}
         </p>
       </div>
     </SafeMotion>
@@ -156,7 +158,7 @@ function onPickerSelect(date: any) {
           v-if="weeklies && weeklies.length === 0"
           class="mt-4 text-center text-sm text-muted"
         >
-          No weekly entries published yet.
+          {{ t('weekly.empty') }}
         </p>
       </div>
     </SafeMotion>

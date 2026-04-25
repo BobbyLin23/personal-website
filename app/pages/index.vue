@@ -1,8 +1,11 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
+const { t, locale } = useI18n()
+const localePath = useLocalePath()
+
 useSeoMeta({
-  title: 'Bobby Lin - Full Stack Developer',
-  description: 'A passionate full-stack developer focused on building beautiful and performant web applications. Love open source, writing, and sharing knowledge.',
+  title: () => `Bobby Lin - ${t('home.role')}`,
+  description: () => t('home.bio'),
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/` : undefined,
 })
 
@@ -24,14 +27,14 @@ const socialLinks = [
   { icon: 'i-lucide-mail', label: 'Email', to: 'mailto:linzhangsheng23@gmail.com' },
 ]
 
-const postDateFormatter = new Intl.DateTimeFormat(undefined, {
+const postDateFormatter = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
-})
+}))
 
 function formatPostDate(iso: string) {
-  return postDateFormatter.format(new Date(iso))
+  return postDateFormatter.value.format(new Date(iso))
 }
 </script>
 
@@ -45,7 +48,7 @@ function formatPostDate(iso: string) {
         :transition="{ duration: 0.6 }"
       >
         <p class="text-sm font-medium tracking-widest uppercase text-muted mb-4">
-          Full-Stack Developer
+          {{ t('home.role') }}
         </p>
       </SafeMotion>
 
@@ -55,7 +58,7 @@ function formatPostDate(iso: string) {
         :transition="{ duration: 0.7, delay: 0.1 }"
       >
         <h1 class="display-heading text-4xl sm:text-5xl lg:text-6xl mb-6">
-          Bobby Lin
+          {{ t('site.name') }}
         </h1>
       </SafeMotion>
 
@@ -65,7 +68,7 @@ function formatPostDate(iso: string) {
         :transition="{ duration: 0.6, delay: 0.25 }"
       >
         <p class="text-base sm:text-lg text-muted leading-relaxed max-w-lg">
-          Building beautiful, performant web applications. Passionate about open source, writing, and sharing knowledge.
+          {{ t('home.bio') }}
         </p>
       </SafeMotion>
 
@@ -99,13 +102,13 @@ function formatPostDate(iso: string) {
       <section class="mb-24 sm:mb-32">
         <div class="flex items-baseline justify-between mb-8 sm:mb-10">
           <h2 class="display-heading text-2xl sm:text-3xl">
-            Writing
+            {{ t('home.writing') }}
           </h2>
           <NuxtLink
-            to="/blog"
+            :to="localePath('/blog')"
             class="text-sm text-muted hover:text-primary transition-colors"
           >
-            View all &rarr;
+            {{ t('home.viewAll') }} &rarr;
           </NuxtLink>
         </div>
 
@@ -113,7 +116,7 @@ function formatPostDate(iso: string) {
           <NuxtLink
             v-for="(post, index) in recentPosts"
             :key="post.path"
-            :to="post.path"
+            :to="localePath(post.path)"
             class="group block py-5 first:pt-0 last:pb-0"
           >
             <SafeMotion
@@ -139,7 +142,7 @@ function formatPostDate(iso: string) {
           </NuxtLink>
         </div>
         <p v-else class="text-sm text-muted py-12 text-center">
-          No posts yet. Check back soon.
+          {{ t('home.noPosts') }}
         </p>
       </section>
     </SafeMotion>
@@ -153,13 +156,13 @@ function formatPostDate(iso: string) {
       <section>
         <div class="flex items-baseline justify-between mb-8 sm:mb-10">
           <h2 class="display-heading text-2xl sm:text-3xl">
-            Projects
+            {{ t('home.projects') }}
           </h2>
           <NuxtLink
-            to="/projects"
+            :to="localePath('/projects')"
             class="text-sm text-muted hover:text-primary transition-colors"
           >
-            View all &rarr;
+            {{ t('home.viewAll') }} &rarr;
           </NuxtLink>
         </div>
 
@@ -208,7 +211,7 @@ function formatPostDate(iso: string) {
           </SafeMotion>
         </div>
         <p v-else class="text-sm text-muted py-12 text-center">
-          No featured projects yet.
+          {{ t('home.noProjects') }}
         </p>
       </section>
     </SafeMotion>
