@@ -47,7 +47,13 @@
     "translationFailed": "翻译失败,已显示原文。",
     "showOriginal": "查看原文",
     "showTranslation": "查看译文",
-    "notFound": "文章不存在"
+    "notFound": "文章不存在",
+    "aiInsights": {
+      "title": "AI 洞察",
+      "keyPoints": "要点",
+      "takeaways": "收获",
+      "unavailable": "AI 洞察暂不可用"
+    }
   },
   "weekly": {
     "title": "周报",

@@ -47,7 +47,13 @@
     "translationFailed": "Translation unavailable. Showing original.",
     "showOriginal": "Show original",
     "showTranslation": "Show translation",
-    "notFound": "Post not found"
+    "notFound": "Post not found",
+    "aiInsights": {
+      "title": "AI insights",
+      "keyPoints": "Key points",
+      "takeaways": "Takeaways",
+      "unavailable": "AI insights unavailable"
+    }
   },
   "weekly": {
     "title": "Weekly",
