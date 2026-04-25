@@ -16,6 +16,13 @@ interface DeepSeekChatResponse {
   }>
 }
 
+export interface PostInsightPayload {
+  summary: string
+  keyPoints: string[]
+  takeaways: string[]
+  audience: string
+}
+
 export interface TranslateOptions {
   targetLocale: string
 }
@@ -44,6 +51,24 @@ function buildSystemPrompt(targetLocale: string): string {
   return targetLocale === 'zh'
     ? TRANSLATION_SYSTEM_PROMPT
     : TRANSLATION_SYSTEM_PROMPT.replace('Simplified Chinese (zh-CN)', `locale "${targetLocale}"`)
+}
+
+function buildInsightSystemPrompt(targetLocale: string): string {
+  const outputLanguage = targetLocale === 'zh' ? 'Simplified Chinese' : 'English'
+  return `You analyze technical blog posts and produce concise reader-facing insights.
+
+Rules:
+- Output language: ${outputLanguage}.
+- Return ONLY valid JSON with this exact shape:
+  {
+    "summary": "One concise paragraph, 45-80 words.",
+    "keyPoints": ["3-5 concrete points from the post."],
+    "takeaways": ["2-4 practical takeaways for a software engineer."],
+    "audience": "One short sentence describing who should read this."
+  }
+- Do not wrap the JSON in Markdown or code fences.
+- Do not invent facts that are not supported by the source post.
+- Keep product names, code identifiers, URLs, and technical terms accurate.`
 }
 
 export async function translateMarkdown(
@@ -84,6 +109,53 @@ export async function translateMarkdown(
   }
 
   return stripCodeFenceWrapper(content.trim())
+}
+
+export async function generatePostInsights(
+  text: string,
+  options: TranslateOptions = { targetLocale: 'en' },
+): Promise<PostInsightPayload> {
+  if (!text.trim()) {
+    return {
+      summary: '',
+      keyPoints: [],
+      takeaways: [],
+      audience: '',
+    }
+  }
+
+  const { apiKey, model, baseUrl } = getDeepSeekConfig()
+
+  const res = await $fetch<DeepSeekChatResponse>(`${baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: {
+      model,
+      temperature: 0.2,
+      stream: false,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: buildInsightSystemPrompt(options.targetLocale) },
+        { role: 'user', content: text },
+      ],
+    },
+    timeout: 60_000,
+    retry: 1,
+    retryStatusCodes: [408, 409, 425, 429, 500, 502, 503, 504],
+  })
+
+  const content = res?.choices?.[0]?.message?.content
+  if (!content) {
+    throw createError({
+      statusCode: 502,
+      statusMessage: 'DeepSeek returned empty insights.',
+    })
+  }
+
+  return normalizeInsights(JSON.parse(stripCodeFenceWrapper(content.trim())))
 }
 
 export interface StreamTranslateOptions extends TranslateOptions {
@@ -183,4 +255,24 @@ function stripCodeFenceWrapper(text: string): string {
   const fence = /^```(?:markdown|md)?[ \t]*\r?\n([\s\S]*?)\r?\n```$/i
   const match = text.match(fence)
   return match ? match[1]! : text
+}
+
+function normalizeInsights(value: unknown): PostInsightPayload {
+  const input = value as Partial<PostInsightPayload>
+  return {
+    summary: typeof input.summary === 'string' ? input.summary.trim() : '',
+    keyPoints: normalizeStringList(input.keyPoints, 5),
+    takeaways: normalizeStringList(input.takeaways, 4),
+    audience: typeof input.audience === 'string' ? input.audience.trim() : '',
+  }
+}
+
+function normalizeStringList(value: unknown, limit: number): string[] {
+  if (!Array.isArray(value))
+    return []
+  return value
+    .filter((item): item is string => typeof item === 'string')
+    .map(item => item.trim())
+    .filter(Boolean)
+    .slice(0, limit)
 }

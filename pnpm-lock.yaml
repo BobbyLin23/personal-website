@@ -38,9 +38,6 @@ importers:
       better-sqlite3:
         specifier: ^12.9.0
         version: 12.9.0
-      ioredis:
-        specifier: ^5.10.1
-        version: 5.10.1
       minimark:
         specifier: ^1.0.0
         version: 1.0.0

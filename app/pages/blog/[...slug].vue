@@ -44,6 +44,12 @@ const translation = usePostTranslation({
   enabled: () => shouldTranslate.value && !showOriginal.value,
 })
 
+const insights = usePostInsights({
+  path: () => basePath.value,
+  locale: () => currentLocale.value || 'en',
+  enabled: () => !!originalPage.value,
+})
+
 // Reset toggle when navigating to a different post.
 watch(basePath, () => {
   showOriginal.value = false
@@ -101,6 +107,11 @@ function getTagColor(index: number) {
 function toggleOriginal() {
   showOriginal.value = !showOriginal.value
 }
+
+const hasInsights = computed(() => {
+  const value = insights.data.value
+  return !!(value?.summary || value?.keyPoints.length || value?.takeaways.length || value?.audience)
+})
 </script>
 
 <template>
@@ -196,6 +207,91 @@ function toggleOriginal() {
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.5, delay: 0.2 }"
         >
+          <section
+            class="mb-12 rounded-lg border border-default bg-elevated/35 p-5 sm:p-6"
+            aria-labelledby="ai-insights-title"
+          >
+            <div class="mb-4 flex items-start justify-between gap-4">
+              <div class="flex items-center gap-2">
+                <span class="inline-flex size-8 items-center justify-center rounded-md bg-primary/10 text-primary">
+                  <UIcon name="i-lucide-sparkles" class="size-4" />
+                </span>
+                <div>
+                  <h2 id="ai-insights-title" class="text-sm font-semibold text-highlighted">
+                    {{ t('post.aiInsights.title') }}
+                  </h2>
+                </div>
+              </div>
+
+              <UIcon
+                v-if="insights.pending.value"
+                name="i-lucide-loader-circle"
+                class="mt-1 size-4 animate-spin text-muted"
+              />
+            </div>
+
+            <div v-if="insights.pending.value" class="space-y-3">
+              <USkeleton class="h-4 w-11/12" />
+              <USkeleton class="h-4 w-10/12" />
+              <USkeleton class="h-4 w-8/12" />
+            </div>
+
+            <UAlert
+              v-else-if="insights.error.value"
+              color="warning"
+              variant="subtle"
+              :title="t('post.aiInsights.unavailable')"
+              :description="insights.error.value"
+            />
+
+            <div v-else-if="hasInsights" class="space-y-5">
+              <p v-if="insights.data.value?.summary" class="text-sm leading-6 text-toned">
+                {{ insights.data.value.summary }}
+              </p>
+
+              <div v-if="insights.data.value?.keyPoints.length" class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <h3 class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted">
+                    <UIcon name="i-lucide-list-checks" class="size-3.5" />
+                    {{ t('post.aiInsights.keyPoints') }}
+                  </h3>
+                  <ul class="space-y-2 text-sm text-toned">
+                    <li
+                      v-for="point in insights.data.value.keyPoints"
+                      :key="point"
+                      class="flex gap-2"
+                    >
+                      <span class="mt-2 size-1 rounded-full bg-primary" aria-hidden="true" />
+                      <span>{{ point }}</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <div v-if="insights.data.value?.takeaways.length">
+                  <h3 class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted">
+                    <UIcon name="i-lucide-lightbulb" class="size-3.5" />
+                    {{ t('post.aiInsights.takeaways') }}
+                  </h3>
+                  <ul class="space-y-2 text-sm text-toned">
+                    <li
+                      v-for="takeaway in insights.data.value.takeaways"
+                      :key="takeaway"
+                      class="flex gap-2"
+                    >
+                      <span class="mt-2 size-1 rounded-full bg-success" aria-hidden="true" />
+                      <span>{{ takeaway }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <p v-if="insights.data.value?.audience" class="flex items-start gap-2 border-t border-default pt-4 text-xs text-muted">
+                <UIcon name="i-lucide-user-round-check" class="mt-0.5 size-3.5 shrink-0" />
+                <span>{{ insights.data.value.audience }}</span>
+              </p>
+            </div>
+          </section>
+
           <ContentRenderer
             v-if="page"
             :key="`${isTranslatedView ? currentLocale : sourceLocale || 'source'}-${translation.state.value}`"
