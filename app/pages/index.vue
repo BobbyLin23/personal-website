@@ -9,12 +9,14 @@ useSeoMeta({
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/` : undefined,
 })
 
-const { data: recentPosts } = await useAsyncData('recent-posts', () =>
-  queryCollection('blog')
+const { data: recentPosts } = await useAsyncData('recent-posts', async () => {
+  const items = await queryCollection('blog')
     .select('title', 'description', 'date', 'path', 'stem')
-    .order('date', 'DESC')
-    .limit(4)
-    .all())
+    .all()
+  return [...items]
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+    .slice(0, 4)
+})
 
 const { data: featuredProjects } = await useAsyncData('featured-projects', () =>
   queryCollection('projects')

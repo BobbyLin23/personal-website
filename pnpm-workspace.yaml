@@ -2,6 +2,10 @@ shellEmulator: true
 
 trustPolicy: no-downgrade
 
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - semver@6.3.1
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@tailwindcss/oxide'
@@ -9,3 +13,10 @@ onlyBuiltDependencies:
   - esbuild
   - sharp
   - vue-demi
+
+allowBuilds:
+  '@parcel/watcher': true
+  better-sqlite3: true
+  esbuild: true
+  sharp: true
+  vue-demi: true
