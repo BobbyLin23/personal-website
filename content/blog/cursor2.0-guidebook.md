@@ -1,7 +1,7 @@
 ---
 title: Cursor 2.0 Guidebook
 description: Some tips for Cursor 2.x in 2026.
-date: '2026-1-22'
+date: '2026-01-22'
 tags:
   - AI Coding
   - Tech

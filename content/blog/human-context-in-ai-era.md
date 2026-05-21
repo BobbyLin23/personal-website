@@ -1,6 +1,6 @@
 ---
 title: Human Context in AI Era file
-date: 2026-4-20
+date: 2026-04-20
 description: Some thoughts about human works with AI
 draft: false
 navigation:

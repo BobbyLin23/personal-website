@@ -9,11 +9,12 @@ useSeoMeta({
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/blog` : undefined,
 })
 
-const { data: posts } = await useAsyncData('blog-posts', () =>
-  queryCollection('blog')
+const { data: posts } = await useAsyncData('blog-posts', async () => {
+  const items = await queryCollection('blog')
     .select('title', 'date', 'path', 'stem')
-    .order('date', 'DESC')
-    .all())
+    .all()
+  return [...items].sort((a, b) => +new Date(b.date) - +new Date(a.date))
+})
 
 const postsByYear = computed(() => {
   if (!posts.value)

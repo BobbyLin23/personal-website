@@ -1,6 +1,6 @@
 ---
 title: CopilotKit 源码学习
-date: 2026-2-10
+date: 2026-02-10
 description: Notes for CopilotKit source code.
 draft: false
 tags:
