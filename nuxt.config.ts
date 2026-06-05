@@ -22,6 +22,9 @@ function buildCacheStorage() {
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  ui: {
+    fonts: false,
+  },
   runtimeConfig: {
     deepseekApiKey: process.env.NUXT_DEEPSEEK_API_KEY || '',
     deepseekModel: process.env.NUXT_DEEPSEEK_MODEL || 'deepseek-chat',

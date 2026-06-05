@@ -1,5 +1,5 @@
 ---
-title: Human Context in AI Era file
+title: Human Context in AI Era
 date: 2026-04-20
 description: Some thoughts about human works with AI
 draft: false
@@ -16,7 +16,7 @@ tags:
 language: en-US
 ---
 
-# Human Context in AI Era file
+# Human Context in AI Era
 
 In the AI era, people can use AI agents to do their work, especially in software development. There are many tools we can use to accelerate our work—Claude Code, Codex, and Cursor can handle much of the coding, and in many situations, they can even outperform humans. But if you actually try using agents to code, you’ll quickly find their limits. Agents are driven by LLMs; LLMs don’t have memories, and their responses depend heavily on the context window. If you don’t provide the right context, the results will likely be poor. That’s why context matters so much for agents.
 
