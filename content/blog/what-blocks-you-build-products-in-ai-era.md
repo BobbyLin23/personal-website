@@ -1,14 +1,14 @@
 ---
 title: What blocks you build products in AI Era?
 date: 2026-05-07
-description: Exploring why AI agents alone aren't enough to build products — the real bottlenecks are context management, role boundaries, and our own limitations as builders.
+description: Why AI agents alone aren't enough to build products — the real bottlenecks are context management, role boundaries, and our own limitations as builders.
 draft: false
 navigation:
   title: What blocks you build products in AI Era?
-  description: Exploring why AI agents alone aren't enough to build products — the real bottlenecks are context management, role boundaries, and our own limitations as builders.
+  description: Why AI agents alone aren't enough to build products — the real bottlenecks are context management, role boundaries, and our own limitations as builders.
 seo:
   title: What blocks you build products in AI Era?
-  description: Exploring why AI agents alone aren't enough to build products — the real bottlenecks are context management, role boundaries, and our own limitations as builders.
+  description: Why AI agents alone aren't enough to build products — the real bottlenecks are context management, role boundaries, and our own limitations as builders.
 tags:
   - AI Coding
   - Tech
