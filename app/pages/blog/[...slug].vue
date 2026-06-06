@@ -71,11 +71,10 @@ const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
     fields: ['title', 'description'],
   }))
 
-const config = useRuntimeConfig()
-useSeoMeta({
+const { pageUrl } = usePostSeo({
   title: () => page.value?.title,
   description: () => page.value?.description,
-  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
+  image: () => originalPage.value?.image,
 })
 
 const fullDateFormatter = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
@@ -178,15 +177,23 @@ const hasInsights = computed(() => {
               {{ page?.title }}
             </h1>
 
-            <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
-              <time
-                class="tabular-nums"
-                :datetime="page?.date"
-              >
-                {{ formatFullDate(page?.date ?? '') }}
-              </time>
-              <span class="w-1 h-1 rounded-full bg-muted" aria-hidden="true" />
-              <span>{{ readingTime }}</span>
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
+                <time
+                  class="tabular-nums"
+                  :datetime="page?.date"
+                >
+                  {{ formatFullDate(page?.date ?? '') }}
+                </time>
+                <span class="w-1 h-1 rounded-full bg-muted" aria-hidden="true" />
+                <span>{{ readingTime }}</span>
+              </div>
+
+              <PostShare
+                v-if="page?.title"
+                :title="page.title"
+                :url="pageUrl"
+              />
             </div>
 
             <div v-if="originalPage?.tags?.length" class="flex flex-wrap gap-2 mt-5">
