@@ -30,7 +30,8 @@
     "projects": "Projects",
     "viewAll": "View all",
     "noPosts": "No posts yet. Check back soon.",
-    "noProjects": "No featured projects yet."
+    "noProjects": "No featured projects yet.",
+    "resume": "Resume"
   },
   "blog": {
     "title": "Blog",

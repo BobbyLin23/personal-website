@@ -30,7 +30,8 @@
     "projects": "项目",
     "viewAll": "查看全部",
     "noPosts": "暂时没有文章,敬请期待。",
-    "noProjects": "暂时没有精选项目。"
+    "noProjects": "暂时没有精选项目。",
+    "resume": "简历"
   },
   "blog": {
     "title": "博客",

@@ -79,7 +79,17 @@ function formatPostDate(iso: string) {
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5, delay: 0.4 }"
       >
-        <div class="flex items-center gap-3 mt-8">
+        <div class="flex flex-wrap items-center gap-3 mt-8">
+          <UButton
+            :to="localePath('/resume')"
+            icon="i-lucide-file-text"
+            color="primary"
+            variant="soft"
+            size="lg"
+          >
+            {{ t('home.resume') }}
+          </UButton>
+
           <UButton
             v-for="link in socialLinks"
             :key="link.label"
