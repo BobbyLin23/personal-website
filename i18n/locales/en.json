@@ -24,8 +24,8 @@
     "chinese": "中文"
   },
   "home": {
-    "role": "Full-Stack Developer",
-    "bio": "Building beautiful, performant web applications. Passionate about open source, writing, and sharing knowledge.",
+    "role": "AI Builder",
+    "bio": "Building beautiful, performant web applications. Passionate about open source, writing, AI and sharing knowledge.",
     "writing": "Writing",
     "projects": "Projects",
     "viewAll": "View all",
@@ -53,6 +53,15 @@
       "keyPoints": "Key points",
       "takeaways": "Takeaways",
       "unavailable": "AI insights unavailable"
+    },
+    "share": {
+      "button": "Share",
+      "copyLink": "Copy link",
+      "copied": "Link copied",
+      "copyFailed": "Could not copy link",
+      "x": "Share on X",
+      "linkedin": "Share on LinkedIn",
+      "native": "Share..."
     }
   },
   "weekly": {

@@ -12,6 +12,7 @@ export default defineContentConfig({
         date: z.string(),
         language: z.string().optional(),
         tags: z.array(z.string()).optional(),
+        image: z.string().optional(),
         draft: z.boolean().default(false),
       }),
     }),

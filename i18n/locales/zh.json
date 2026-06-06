@@ -24,8 +24,8 @@
     "chinese": "中文"
   },
   "home": {
-    "role": "全栈开发者",
-    "bio": "专注于构建美观、高性能的 Web 应用。热爱开源、写作与分享。",
+    "role": "AI Builder",
+    "bio": "专注于构建美观、高性能的 Web 应用。热爱开源、写作、AI 与分享。",
     "writing": "写作",
     "projects": "项目",
     "viewAll": "查看全部",
@@ -53,6 +53,15 @@
       "keyPoints": "要点",
       "takeaways": "收获",
       "unavailable": "AI 洞察暂不可用"
+    },
+    "share": {
+      "button": "分享",
+      "copyLink": "复制链接",
+      "copied": "链接已复制",
+      "copyFailed": "复制失败",
+      "x": "分享到 X",
+      "linkedin": "分享到 LinkedIn",
+      "native": "分享..."
     }
   },
   "weekly": {
