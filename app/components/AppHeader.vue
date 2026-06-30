@@ -5,6 +5,15 @@ const route = useRoute()
 const { t, locale, locales, setLocale } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
+const colorMode = useColorMode()
+
+const colorModeIcon = computed(() =>
+  colorMode.value === 'dark' ? 'i-lucide-moon' : 'i-lucide-sun',
+)
+
+function toggleColorMode() {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
 
 const navItems = computed<NavigationMenuItem[]>(() => [
   {
@@ -88,7 +97,13 @@ const languageItems = computed<DropdownMenuItem[][]>(() => [
         />
       </UDropdownMenu>
 
-      <UColorModeButton :aria-label="t('theme.toggle')" />
+      <UButton
+        :icon="colorModeIcon"
+        color="neutral"
+        variant="ghost"
+        :aria-label="t('theme.toggle')"
+        @click="toggleColorMode"
+      />
     </template>
 
     <template #body>

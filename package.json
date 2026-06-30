@@ -11,7 +11,11 @@
     "lint": "oxlint --type-aware",
     "lint:fix": "oxlint --type-aware --fix",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "verify:agent": "pnpm lint && pnpm fmt:check && pnpm test:e2e"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.2.8",
@@ -37,6 +41,8 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@nuxt/test-utils": "^4.0.3",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^25.9.1",
     "oxfmt": "^0.56.0",
     "oxlint": "^1.71.0",

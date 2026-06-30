@@ -54,6 +54,8 @@ pnpm lint               # oxlint (type-aware)
 pnpm lint:fix           # oxlint with auto-fix
 pnpm fmt                # oxfmt
 pnpm fmt:check          # check formatting without writing
+pnpm test:e2e           # Playwright E2E tests
+pnpm verify:agent       # lint + format check + E2E gate for agent handoff
 ```
 
 ## Content Collections (see `content.config.ts`)
@@ -68,6 +70,7 @@ When adding/modifying content, keep frontmatter compliant with these Zod schemas
 
 - **Formatting**: Oxfmt — single quotes, no semicolons, trailing commas (see `.oxfmtrc.json`). Follow `.editorconfig` — 2-space indent, LF, UTF-8, trim trailing whitespace, final newline. Markdown preserves trailing whitespace.
 - **Linting**: Oxlint — run `pnpm lint` on touched files before concluding.
+- **E2E**: Playwright tests live in `tests/e2e/`; keep them deterministic by mocking external APIs and asserting user-visible behavior.
 - **Vue**: Use `<script setup lang="ts">` SFCs. Prefer Composition API.
 - **TypeScript**: Rely on Nuxt auto-imports (`ref`, `computed`, `useRoute`, `useAsyncData`, content helpers, etc.). Do not import them manually unless required.
 - **Imports**: `~/` / `@/` map to `app/` (Nuxt default). Use them for intra-app references.
@@ -92,7 +95,7 @@ When adding/modifying content, keep frontmatter compliant with these Zod schemas
 
 - Do keep changes minimal and focused on the requested task.
 - Do match existing file/component style; prefer editing existing files over creating new ones.
-- Do run `pnpm lint` and `pnpm fmt:check` on touched files before concluding.
+- Do run `pnpm verify:agent` before concluding UI-affecting feature work. For content-only changes, `pnpm lint` and `pnpm fmt:check` are sufficient.
 - Don't add new top-level dependencies unless necessary; check `package.json` first.
 - Don't commit build artifacts (`.nuxt/`, `.output/`, `.data/`).
 - Don't modify `pnpm-lock.yaml` manually — let pnpm manage it.

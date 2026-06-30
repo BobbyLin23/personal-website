@@ -4,6 +4,7 @@ import { CalendarDate, getLocalTimeZone, today } from '@internationalized/date'
 
 const config = useRuntimeConfig()
 const { t } = useI18n()
+const localePath = useLocalePath()
 
 useSeoMeta({
   title: () => t('weekly.title'),
@@ -45,7 +46,7 @@ function onDaySelect(date: any) {
   if (!date || !date.year) return
   const path = weeklyDateMap.value.get(dateKey(date as DateValue))
   if (path) {
-    navigateTo(path)
+    navigateTo(localePath(path))
   }
 }
 
