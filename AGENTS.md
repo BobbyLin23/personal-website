@@ -15,8 +15,9 @@ Personal website built with **Nuxt 4** (Vue 3). Content-driven (blog, weekly not
 - **UI**: `@nuxt/ui` v4, Iconify (`lucide`, `simple-icons`)
 - **Validation**: `zod` v4
 - **DB (content SQLite)**: `better-sqlite3`
-- **Package manager**: `pnpm@10.33.2` (enforced via `packageManager` field)
-- **Linter**: ESLint with `@antfu/eslint-config` (vue + typescript + markdown)
+- **Package manager**: `pnpm@11.1.3` (enforced via `packageManager` field)
+- **Linting**: Oxlint (`.oxlintrc.json`, type-aware via `oxlint-tsgolint`)
+- **Formatting**: Oxfmt (`.oxfmtrc.json`)
 
 ## Directory Structure
 
@@ -49,12 +50,10 @@ pnpm dev                # dev server
 pnpm build              # production build
 pnpm generate           # static site generation
 pnpm preview            # preview built output
-```
-
-There are no test or lint scripts defined in `package.json`. To lint manually:
-
-```bash
-pnpm exec eslint .
+pnpm lint               # oxlint (type-aware)
+pnpm lint:fix           # oxlint with auto-fix
+pnpm fmt                # oxfmt
+pnpm fmt:check          # check formatting without writing
 ```
 
 ## Content Collections (see `content.config.ts`)
@@ -67,8 +66,8 @@ When adding/modifying content, keep frontmatter compliant with these Zod schemas
 
 ## Coding Conventions
 
-- **Formatting**: follow `.editorconfig` — 2-space indent, LF, UTF-8, trim trailing whitespace, final newline. Markdown preserves trailing whitespace.
-- **ESLint**: Antfu style — single quotes, no semicolons, trailing commas as configured by the preset. Do not fight the linter; run ESLint before finalizing.
+- **Formatting**: Oxfmt — single quotes, no semicolons, trailing commas (see `.oxfmtrc.json`). Follow `.editorconfig` — 2-space indent, LF, UTF-8, trim trailing whitespace, final newline. Markdown preserves trailing whitespace.
+- **Linting**: Oxlint — run `pnpm lint` on touched files before concluding.
 - **Vue**: Use `<script setup lang="ts">` SFCs. Prefer Composition API.
 - **TypeScript**: Rely on Nuxt auto-imports (`ref`, `computed`, `useRoute`, `useAsyncData`, content helpers, etc.). Do not import them manually unless required.
 - **Imports**: `~/` / `@/` map to `app/` (Nuxt default). Use them for intra-app references.
@@ -93,7 +92,7 @@ When adding/modifying content, keep frontmatter compliant with these Zod schemas
 
 - Do keep changes minimal and focused on the requested task.
 - Do match existing file/component style; prefer editing existing files over creating new ones.
-- Do run ESLint on touched files before concluding.
+- Do run `pnpm lint` and `pnpm fmt:check` on touched files before concluding.
 - Don't add new top-level dependencies unless necessary; check `package.json` first.
 - Don't commit build artifacts (`.nuxt/`, `.output/`, `.data/`).
 - Don't modify `pnpm-lock.yaml` manually — let pnpm manage it.

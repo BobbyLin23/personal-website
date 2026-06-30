@@ -58,7 +58,11 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
     title: '前端开发工程师',
     location: '上海',
     contact: [
-      { label: '邮箱', value: 'linzhangsheng23@gmail.com', href: 'mailto:linzhangsheng23@gmail.com' },
+      {
+        label: '邮箱',
+        value: 'linzhangsheng23@gmail.com',
+        href: 'mailto:linzhangsheng23@gmail.com',
+      },
       { label: '电话', value: '13671893391', href: 'tel:+8613671893391' },
       { label: '微信', value: 'lzs751525853' },
       { label: '个人网站', value: 'bobbylin.top', href: 'https://www.bobbylin.top/' },
@@ -158,7 +162,8 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         period: '2025/10 – 2026/03',
         name: 'Helix AI 科研工作站',
         url: 'https://workstation.newidea.pro',
-        intro: '面向科研/写作场景的 AI 自动化工作站：用户创建与管理 AI 写作任务、查看实时执行日志与仪表盘，并在富文本环境中编辑、审阅与导出内容；支持 SaaS 与一体机等多站点形态。',
+        intro:
+          '面向科研/写作场景的 AI 自动化工作站：用户创建与管理 AI 写作任务、查看实时执行日志与仪表盘，并在富文本环境中编辑、审阅与导出内容；支持 SaaS 与一体机等多站点形态。',
         tech: 'Next.js 14（App Router）+ React 18 + TypeScript + Tailwind CSS；Zustand / Immer；umi-request；SSE；Plate（Slate）富文本编辑器；Chart.js；Zod / TanStack Form；pnpm + biome/Husky。',
         highlights: [
           '负责核心业务页面前端实现：任务列表与分页、任务详情与步骤流转、仪表盘与 Token 用量等模块的数据拉取、状态同步与交互优化。',
@@ -172,7 +177,8 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         period: '2025/05 – 至今',
         name: 'NewIdea AI 医学科研工作台',
         url: 'https://newidea.pro',
-        intro: '面向医学及科研场景的垂直领域 AI 智能协作平台。深度集成 Dify 编排能力，并基于 CopilotKit 构建前端工具调用层，将页面核心能力开放给 AI 助手，打造涵盖文献深度解析、学术论著辅助、基金标书撰写等全链路的 AI 助手矩阵。',
+        intro:
+          '面向医学及科研场景的垂直领域 AI 智能协作平台。深度集成 Dify 编排能力，并基于 CopilotKit 构建前端工具调用层，将页面核心能力开放给 AI 助手，打造涵盖文献深度解析、学术论著辅助、基金标书撰写等全链路的 AI 助手矩阵。',
         tech: 'Next.js、React、Tailwind CSS、Dify、Docker、CopilotKit',
         highlights: [
           '传统工作台页面维护与开发，针对不同场景将一套代码复用为十几个写作工作台部署。',
@@ -184,7 +190,8 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         period: '2024/05 – 2024/12',
         name: '脑力擎编辑器',
         url: 'https://www.knowlengine.com',
-        intro: '参与开发企业级智能写作编辑器系统，基于 React 和 SlateJS 的专业文档编辑平台。项目采用 monorepo 架构，使用 pnpm workspace 进行包管理，实现高度模块化和可扩展的系统设计。',
+        intro:
+          '参与开发企业级智能写作编辑器系统，基于 React 和 SlateJS 的专业文档编辑平台。项目采用 monorepo 架构，使用 pnpm workspace 进行包管理，实现高度模块化和可扩展的系统设计。',
         tech: 'React、TypeScript、SlateJS、Vite、pnpm',
         highlights: [
           '基于 SlateJS 进行二次封装，实现可配置化的编辑器核心功能，设计插件化架构支持功能即插即用，优化大文档编辑性能。',
@@ -194,17 +201,18 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         ],
       },
     ],
-    languages: [
-      '普通话：母语',
-      '英语：熟练',
-    ],
+    languages: ['普通话：母语', '英语：熟练'],
   },
   en: {
     name: 'Lin Zhangsheng',
     title: 'Frontend Engineer',
     location: 'Shanghai, China',
     contact: [
-      { label: 'Email', value: 'linzhangsheng23@gmail.com', href: 'mailto:linzhangsheng23@gmail.com' },
+      {
+        label: 'Email',
+        value: 'linzhangsheng23@gmail.com',
+        href: 'mailto:linzhangsheng23@gmail.com',
+      },
       { label: 'Phone', value: '+86 136 7189 3391', href: 'tel:+8613671893391' },
       { label: 'WeChat', value: 'lzs751525853' },
       { label: 'Website', value: 'bobbylin.top', href: 'https://www.bobbylin.top/' },
@@ -304,7 +312,8 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         period: 'Oct 2025 – Mar 2026',
         name: 'Helix AI Research Workstation',
         url: 'https://workstation.newidea.pro',
-        intro: 'AI-powered research and writing workstation: create and manage AI writing tasks, view real-time execution logs and dashboards, edit/review/export in a rich-text environment; supports SaaS and on-premise multi-site deployments.',
+        intro:
+          'AI-powered research and writing workstation: create and manage AI writing tasks, view real-time execution logs and dashboards, edit/review/export in a rich-text environment; supports SaaS and on-premise multi-site deployments.',
         tech: 'Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Zustand/Immer, umi-request, SSE, Plate (Slate) editor, Chart.js, Zod/TanStack Form, pnpm, biome/Husky.',
         highlights: [
           'Built core business pages: task list/pagination, task detail step flows, dashboards, and token usage with optimized data fetching, state sync, and interaction (visibility-based refresh, debouncing).',
@@ -318,7 +327,8 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         period: 'May 2025 – Present',
         name: 'NewIdea AI Medical Research Workbench',
         url: 'https://newidea.pro',
-        intro: 'Vertical AI collaboration platform for medical and research workflows. Integrates Dify orchestration and CopilotKit tool-calling to expose page capabilities to AI assistants — covering literature analysis, academic writing, and grant proposal assistance.',
+        intro:
+          'Vertical AI collaboration platform for medical and research workflows. Integrates Dify orchestration and CopilotKit tool-calling to expose page capabilities to AI assistants — covering literature analysis, academic writing, and grant proposal assistance.',
         tech: 'Next.js, React, Tailwind CSS, Dify, Docker, CopilotKit',
         highlights: [
           'Maintained and extended writing workbench pages, reusing one codebase across a dozen deployed writing scenarios.',
@@ -330,7 +340,8 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         period: 'May 2024 – Dec 2024',
         name: 'Knowlengine Editor',
         url: 'https://www.knowlengine.com',
-        intro: 'Enterprise intelligent writing editor built on React and SlateJS. Monorepo architecture with pnpm workspaces for modular, extensible document editing.',
+        intro:
+          'Enterprise intelligent writing editor built on React and SlateJS. Monorepo architecture with pnpm workspaces for modular, extensible document editing.',
         tech: 'React, TypeScript, SlateJS, Vite, pnpm',
         highlights: [
           'Extended SlateJS with configurable core editor and plugin architecture; optimized large-document editing performance.',
@@ -340,9 +351,6 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
         ],
       },
     ],
-    languages: [
-      'Mandarin: Native',
-      'English: Proficient',
-    ],
+    languages: ['Mandarin: Native', 'English: Proficient'],
   },
 }

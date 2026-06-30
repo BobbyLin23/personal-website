@@ -31,14 +31,26 @@ const navItems = computed<NavigationMenuItem[]>(() => [
 
 const config = useRuntimeConfig()
 const base = (config.app.baseURL || '/').replace(/\/$/, '') || ''
-const rssItems = computed<DropdownMenuItem[][]>(() => [[
-  { label: t('rss.all'), icon: 'i-lucide-rss', to: `${base}/rss.xml`, target: '_blank' },
-  { label: t('rss.blog'), icon: 'i-lucide-book-open', to: `${base}/rss/blog.xml`, target: '_blank' },
-  { label: t('rss.weekly'), icon: 'i-lucide-calendar', to: `${base}/rss/weekly.xml`, target: '_blank' },
-]])
+const rssItems = computed<DropdownMenuItem[][]>(() => [
+  [
+    { label: t('rss.all'), icon: 'i-lucide-rss', to: `${base}/rss.xml`, target: '_blank' },
+    {
+      label: t('rss.blog'),
+      icon: 'i-lucide-book-open',
+      to: `${base}/rss/blog.xml`,
+      target: '_blank',
+    },
+    {
+      label: t('rss.weekly'),
+      icon: 'i-lucide-calendar',
+      to: `${base}/rss/weekly.xml`,
+      target: '_blank',
+    },
+  ],
+])
 
 const languageItems = computed<DropdownMenuItem[][]>(() => [
-  (locales.value as Array<{ code: string, name?: string }>).map(l => ({
+  (locales.value as Array<{ code: string; name?: string }>).map((l) => ({
     label: l.name || l.code,
     icon: l.code === locale.value ? 'i-lucide-check' : undefined,
     to: switchLocalePath(l.code as 'en' | 'zh') || undefined,

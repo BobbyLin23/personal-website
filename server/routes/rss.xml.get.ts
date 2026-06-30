@@ -9,8 +9,8 @@ export default defineEventHandler(async (event) => {
   ])
 
   const combined = [
-    ...blogItems.map(i => ({ ...i, _type: 'blog' as const })),
-    ...weeklyItems.map(i => ({ ...i, _type: 'weekly' as const })),
+    ...blogItems.map((i) => ({ ...i, _type: 'blog' as const })),
+    ...weeklyItems.map((i) => ({ ...i, _type: 'weekly' as const })),
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
@@ -21,11 +21,12 @@ export default defineEventHandler(async (event) => {
     <description>Personal website - Blog &amp; Weekly reports.</description>
     <atom:link href="${escapeXml(`${siteUrl}/rss.xml`)}" rel="self" type="application/rss+xml"/>
     <language>en</language>
-${combined.map((item) => {
-  const link = `${siteUrl}/en${item.path}`
-  const html = bodyToHtml(item.body)
-  const typeLabel = item._type === 'blog' ? '[Blog]' : '[Weekly]'
-  return `    <item>
+${combined
+  .map((item) => {
+    const link = `${siteUrl}/en${item.path}`
+    const html = bodyToHtml(item.body)
+    const typeLabel = item._type === 'blog' ? '[Blog]' : '[Weekly]'
+    return `    <item>
       <title>${escapeXml(`${typeLabel} ${item.title}`)}</title>
       <link>${escapeXml(link)}</link>
       <guid isPermaLink="true">${escapeXml(link)}</guid>
@@ -33,7 +34,8 @@ ${combined.map((item) => {
       <content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[${html}]]></content:encoded>
       <pubDate>${formatRssDate(new Date(item.date))}</pubDate>
     </item>`
-}).join('\n')}
+  })
+  .join('\n')}
   </channel>
 </rss>`
 

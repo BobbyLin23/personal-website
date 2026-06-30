@@ -13,15 +13,12 @@ const { data: recentPosts } = await useAsyncData('recent-posts', async () => {
   const items = await queryCollection('blog')
     .select('title', 'description', 'date', 'path', 'stem')
     .all()
-  return [...items]
-    .sort((a, b) => +new Date(b.date) - +new Date(a.date))
-    .slice(0, 4)
+  return [...items].sort((a, b) => +new Date(b.date) - +new Date(a.date)).slice(0, 4)
 })
 
 const { data: featuredProjects } = await useAsyncData('featured-projects', () =>
-  queryCollection('projects')
-    .where('featured', '=', true)
-    .all())
+  queryCollection('projects').where('featured', '=', true).all(),
+)
 
 const socialLinks = [
   { icon: 'i-simple-icons-github', label: 'GitHub', to: 'https://github.com/bobbylin23' },
@@ -29,11 +26,14 @@ const socialLinks = [
   { icon: 'i-lucide-mail', label: 'Email', to: 'mailto:linzhangsheng23@gmail.com' },
 ]
 
-const postDateFormatter = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-}))
+const postDateFormatter = computed(
+  () =>
+    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }),
+)
 
 function formatPostDate(iso: string) {
   return postDateFormatter.value.format(new Date(iso))
@@ -140,10 +140,7 @@ function formatPostDate(iso: string) {
                 <h3 class="text-base font-medium group-hover:text-primary transition-colors">
                   {{ post.title }}
                 </h3>
-                <time
-                  class="text-sm text-muted shrink-0 tabular-nums"
-                  :datetime="post.date"
-                >
+                <time class="text-sm text-muted shrink-0 tabular-nums" :datetime="post.date">
                   {{ formatPostDate(post.date) }}
                 </time>
               </div>
@@ -202,7 +199,9 @@ function formatPostDate(iso: string) {
                 >
                   <UIcon :name="project.icon" class="size-4.5" :class="project.iconColor" />
                 </div>
-                <h3 class="font-semibold text-sm text-highlighted group-hover:text-primary transition-colors">
+                <h3
+                  class="font-semibold text-sm text-highlighted group-hover:text-primary transition-colors"
+                >
                   {{ project.name }}
                 </h3>
               </div>

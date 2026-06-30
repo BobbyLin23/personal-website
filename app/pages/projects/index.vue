@@ -9,7 +9,8 @@ useSeoMeta({
 })
 
 const { data: projects } = await useAsyncData('all-projects', () =>
-  queryCollection('projects').all())
+  queryCollection('projects').all(),
+)
 </script>
 
 <template>
@@ -29,10 +30,7 @@ const { data: projects } = await useAsyncData('all-projects', () =>
       </div>
     </SafeMotion>
 
-    <div
-      v-if="projects && projects.length > 0"
-      class="grid grid-cols-1 md:grid-cols-2 gap-5"
-    >
+    <div v-if="projects && projects.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-5">
       <SafeMotion
         v-for="(project, index) in projects"
         :key="project.id"
@@ -40,7 +38,9 @@ const { data: projects } = await useAsyncData('all-projects', () =>
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.4, delay: 0.1 + index * 0.08 }"
       >
-        <div class="hover-lift group rounded-xl ring ring-default bg-default p-6 h-full flex flex-col">
+        <div
+          class="hover-lift group rounded-xl ring ring-default bg-default p-6 h-full flex flex-col"
+        >
           <div class="flex items-start justify-between mb-3">
             <div class="flex items-center gap-3">
               <div
@@ -49,7 +49,9 @@ const { data: projects } = await useAsyncData('all-projects', () =>
               >
                 <UIcon :name="project.icon" class="size-4.5" :class="project.iconColor" />
               </div>
-              <h3 class="font-semibold text-base text-highlighted group-hover:text-primary transition-colors">
+              <h3
+                class="font-semibold text-base text-highlighted group-hover:text-primary transition-colors"
+              >
                 {{ project.name }}
               </h3>
             </div>
@@ -99,10 +101,7 @@ const { data: projects } = await useAsyncData('all-projects', () =>
       </SafeMotion>
     </div>
 
-    <p
-      v-else-if="projects && projects.length === 0"
-      class="text-sm text-muted py-16 text-center"
-    >
+    <p v-else-if="projects && projects.length === 0" class="text-sm text-muted py-16 text-center">
       {{ t('projects.empty') }}
     </p>
   </UContainer>

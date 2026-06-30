@@ -2,10 +2,9 @@ import { queryCollection } from '@nuxt/content/server'
 
 export default defineEventHandler(async (event) => {
   const siteUrl = getSiteUrl(event)
-  const items = (await queryCollection(event, 'blog')
-    .where('draft', '=', false)
-    .all())
-    .sort((a, b) => +new Date(b.date) - +new Date(a.date))
+  const items = (await queryCollection(event, 'blog').where('draft', '=', false).all()).sort(
+    (a, b) => +new Date(b.date) - +new Date(a.date),
+  )
 
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -15,10 +14,11 @@ export default defineEventHandler(async (event) => {
     <description>Thoughts on web development, design, and technology.</description>
     <atom:link href="${escapeXml(`${siteUrl}/rss/blog.xml`)}" rel="self" type="application/rss+xml"/>
     <language>en</language>
-${items.map((item) => {
-  const link = `${siteUrl}/en${item.path}`
-  const html = bodyToHtml(item.body)
-  return `    <item>
+${items
+  .map((item) => {
+    const link = `${siteUrl}/en${item.path}`
+    const html = bodyToHtml(item.body)
+    return `    <item>
       <title>${escapeXml(item.title)}</title>
       <link>${escapeXml(link)}</link>
       <guid isPermaLink="true">${escapeXml(link)}</guid>
@@ -26,7 +26,8 @@ ${items.map((item) => {
       <content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[${html}]]></content:encoded>
       <pubDate>${formatRssDate(new Date(item.date))}</pubDate>
     </item>`
-}).join('\n')}
+  })
+  .join('\n')}
   </channel>
 </rss>`
 

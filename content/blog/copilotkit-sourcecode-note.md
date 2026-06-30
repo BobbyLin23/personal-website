@@ -7,7 +7,7 @@ tags:
   - AI Coding
   - Tech
   - Source Code
-language: zh-CN 
+language: zh-CN
 ---
 
 ## 基本介绍
@@ -120,20 +120,20 @@ Props
 
 包含所有可配置项：
 
-| 属性                              | 说明                              |
-| ------------------------------- | ------------------------------- |
-| runtimeUrl                      | 后端服务地址                          |
-| headers                         | 自定义请求头                          |
-| credentials                     | fetch 请求的 credentials 模式        |
-| publicApiKey / publicLicenseKey | Copilot Cloud API key（两个是别名）    |
-| properties                      | 传递给后端的额外属性                      |
-| useSingleEndpoint               | 是否使用单一端点模式                      |
-| agents\_\_unsafe\_dev\_only     | 仅开发用的本地 Agent                   |
-| renderToolCalls                 | 工具调用的渲染器数组                      |
-| renderActivityMessages          | 活动消息的渲染器数组                      |
-| renderCustomMessages            | 自定义消息渲染器                        |
-| frontendTools                   | 前端工具定义                          |
-| humanInTheLoop                  | 人机协作工具（需要用户确认的工具）               |
+| 属性                            | 说明                                          |
+| ------------------------------- | --------------------------------------------- |
+| runtimeUrl                      | 后端服务地址                                  |
+| headers                         | 自定义请求头                                  |
+| credentials                     | fetch 请求的 credentials 模式                 |
+| publicApiKey / publicLicenseKey | Copilot Cloud API key（两个是别名）           |
+| properties                      | 传递给后端的额外属性                          |
+| useSingleEndpoint               | 是否使用单一端点模式                          |
+| agents\_\_unsafe_dev_only       | 仅开发用的本地 Agent                          |
+| renderToolCalls                 | 工具调用的渲染器数组                          |
+| renderActivityMessages          | 活动消息的渲染器数组                          |
+| renderCustomMessages            | 自定义消息渲染器                              |
+| frontendTools                   | 前端工具定义                                  |
+| humanInTheLoop                  | 人机协作工具（需要用户确认的工具）            |
 | showDevConsole                  | 是否显示开发者调试控制台（true/false/"auto"） |
 
 对于处理数组类型的props，这里定义了一个函数进行处理,将数组 prop 转为稳定的引用，避免不必要的重渲染.
@@ -152,9 +152,9 @@ function useStableArrayProp<T>(
 
   useEffect(() => {
     if (
-      warningMessage
-      && value !== initial.current
-      && (isMeaningfulChange ? isMeaningfulChange(initial.current, value) : true)
+      warningMessage &&
+      value !== initial.current &&
+      (isMeaningfulChange ? isMeaningfulChange(initial.current, value) : true)
     ) {
       console.error(warningMessage)
     }
@@ -225,18 +225,15 @@ export class CopilotKitCoreReact extends CopilotKitCore {
     this._renderToolCalls = renderToolCalls
 
     // Notify React-specific subscribers
-    void this.notifySubscribers(
-      (subscriber) => {
-        const reactSubscriber = subscriber as CopilotKitCoreReactSubscriber
-        if (reactSubscriber.onRenderToolCallsChanged) {
-          reactSubscriber.onRenderToolCallsChanged({
-            copilotkit: this,
-            renderToolCalls: this.renderToolCalls,
-          })
-        }
-      },
-      'Subscriber onRenderToolCallsChanged error:'
-    )
+    void this.notifySubscribers((subscriber) => {
+      const reactSubscriber = subscriber as CopilotKitCoreReactSubscriber
+      if (reactSubscriber.onRenderToolCallsChanged) {
+        reactSubscriber.onRenderToolCallsChanged({
+          copilotkit: this,
+          renderToolCalls: this.renderToolCalls,
+        })
+      }
+    }, 'Subscriber onRenderToolCallsChanged error:')
   }
 
   // Override to accept React-specific subscriber type

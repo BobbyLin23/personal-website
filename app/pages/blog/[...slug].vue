@@ -31,8 +31,7 @@ if (!originalPage.value) {
 const sourceLocale = computed(() => normalizeLocaleCode(originalPage.value?.language))
 const currentLocale = computed(() => normalizeLocaleCode(locale.value))
 const shouldTranslate = computed(() => {
-  if (sourceLocale.value)
-    return sourceLocale.value !== currentLocale.value
+  if (sourceLocale.value) return sourceLocale.value !== currentLocale.value
   return currentLocale.value === 'zh'
 })
 
@@ -63,13 +62,16 @@ const page = computed(() => {
   return originalPage.value
 })
 
-const isStreaming = computed(() => translation.state.value === 'streaming' || translation.state.value === 'connecting')
+const isStreaming = computed(
+  () => translation.state.value === 'streaming' || translation.state.value === 'connecting',
+)
 const isTranslatedView = computed(() => shouldTranslate.value && !showOriginal.value)
 
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
   queryCollectionItemSurroundings('blog', basePath.value, {
     fields: ['title', 'description'],
-  }))
+  }),
+)
 
 const { pageUrl } = usePostSeo({
   title: () => page.value?.title,
@@ -77,21 +79,22 @@ const { pageUrl } = usePostSeo({
   image: () => originalPage.value?.image,
 })
 
-const fullDateFormatter = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}))
+const fullDateFormatter = computed(
+  () =>
+    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+)
 
 function formatFullDate(dateStr: string) {
-  if (!dateStr)
-    return ''
+  if (!dateStr) return ''
   return fullDateFormatter.value.format(new Date(dateStr))
 }
 
 const readingTime = computed(() => {
-  if (!page.value?.body)
-    return t('post.readingTime', { minutes: 3 })
+  if (!page.value?.body) return t('post.readingTime', { minutes: 3 })
   const text = JSON.stringify(page.value.body)
   const wordCount = text.split(WHITESPACE_SPLIT).length / 3
   const minutes = Math.max(1, Math.ceil(wordCount / 200))
@@ -131,16 +134,8 @@ const hasInsights = computed(() => {
 
     <div v-if="shouldTranslate" class="mb-8 flex items-center justify-between gap-3 flex-wrap">
       <div class="flex items-center gap-2 text-xs text-muted">
-        <UIcon
-          v-if="isStreaming"
-          name="i-lucide-loader-circle"
-          class="size-3.5 animate-spin"
-        />
-        <UIcon
-          v-else
-          name="i-lucide-sparkles"
-          class="size-3.5"
-        />
+        <UIcon v-if="isStreaming" name="i-lucide-loader-circle" class="size-3.5 animate-spin" />
+        <UIcon v-else name="i-lucide-sparkles" class="size-3.5" />
         <span v-if="isStreaming">{{ t('post.translating') }}</span>
         <span v-else-if="isTranslatedView">{{ t('post.translatedByAi') }}</span>
         <span v-else class="opacity-60">{{ t('post.translationFailed') }}</span>
@@ -179,21 +174,14 @@ const hasInsights = computed(() => {
 
             <div class="flex flex-wrap items-center justify-between gap-4">
               <div class="flex flex-wrap items-center gap-4 text-sm text-muted">
-                <time
-                  class="tabular-nums"
-                  :datetime="page?.date"
-                >
+                <time class="tabular-nums" :datetime="page?.date">
                   {{ formatFullDate(page?.date ?? '') }}
                 </time>
                 <span class="w-1 h-1 rounded-full bg-muted" aria-hidden="true" />
                 <span>{{ readingTime }}</span>
               </div>
 
-              <PostShare
-                v-if="page?.title"
-                :title="page.title"
-                :url="pageUrl"
-              />
+              <PostShare v-if="page?.title" :title="page.title" :url="pageUrl" />
             </div>
 
             <div v-if="originalPage?.tags?.length" class="flex flex-wrap gap-2 mt-5">
@@ -220,7 +208,9 @@ const hasInsights = computed(() => {
           >
             <div class="mb-4 flex items-start justify-between gap-4">
               <div class="flex items-center gap-2">
-                <span class="inline-flex size-8 items-center justify-center rounded-md bg-primary/10 text-primary">
+                <span
+                  class="inline-flex size-8 items-center justify-center rounded-md bg-primary/10 text-primary"
+                >
                   <UIcon name="i-lucide-sparkles" class="size-4" />
                 </span>
                 <div>
@@ -258,7 +248,9 @@ const hasInsights = computed(() => {
 
               <div v-if="insights.data.value?.keyPoints.length" class="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <h3 class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted">
+                  <h3
+                    class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted"
+                  >
                     <UIcon name="i-lucide-list-checks" class="size-3.5" />
                     {{ t('post.aiInsights.keyPoints') }}
                   </h3>
@@ -275,7 +267,9 @@ const hasInsights = computed(() => {
                 </div>
 
                 <div v-if="insights.data.value?.takeaways.length">
-                  <h3 class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted">
+                  <h3
+                    class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted"
+                  >
                     <UIcon name="i-lucide-lightbulb" class="size-3.5" />
                     {{ t('post.aiInsights.takeaways') }}
                   </h3>
@@ -292,7 +286,10 @@ const hasInsights = computed(() => {
                 </div>
               </div>
 
-              <p v-if="insights.data.value?.audience" class="flex items-start gap-2 border-t border-default pt-4 text-xs text-muted">
+              <p
+                v-if="insights.data.value?.audience"
+                class="flex items-start gap-2 border-t border-default pt-4 text-xs text-muted"
+              >
                 <UIcon name="i-lucide-user-round-check" class="mt-0.5 size-3.5 shrink-0" />
                 <span>{{ insights.data.value.audience }}</span>
               </p>
@@ -302,7 +299,7 @@ const hasInsights = computed(() => {
           <ContentRenderer
             v-if="page"
             :key="`${isTranslatedView ? currentLocale : sourceLocale || 'source'}-${translation.state.value}`"
-            :value="(page as any)"
+            :value="page as any"
           />
         </SafeMotion>
       </article>
@@ -330,10 +327,7 @@ const hasInsights = computed(() => {
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5, delay: 0.4 }"
     >
-      <UContentSurround
-        :surround="(surround as any)"
-        class="mt-20"
-      />
+      <UContentSurround :surround="surround as any" class="mt-20" />
     </SafeMotion>
   </UContainer>
 </template>

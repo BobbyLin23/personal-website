@@ -29,8 +29,7 @@ export function usePostInsights(options: UsePostInsightsOptions) {
   }
 
   const load = async () => {
-    if (!import.meta.client)
-      return
+    if (!import.meta.client) return
 
     const path = options.path()
     const locale = options.locale()
@@ -43,8 +42,7 @@ export function usePostInsights(options: UsePostInsightsOptions) {
     }
 
     const key = `${locale}::${path}`
-    if (key === currentKey && (pending.value || data.value))
-      return
+    if (key === currentKey && (pending.value || data.value)) return
 
     close()
     currentKey = key
@@ -61,12 +59,10 @@ export function usePostInsights(options: UsePostInsightsOptions) {
         },
         signal: controller.signal,
       })
-    }
-    catch (err: any) {
+    } catch (err: any) {
       if (err?.name !== 'AbortError')
         error.value = err?.statusMessage || err?.message || 'AI insights unavailable'
-    }
-    finally {
+    } finally {
       pending.value = false
     }
   }

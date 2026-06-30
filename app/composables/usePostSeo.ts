@@ -6,10 +6,8 @@ interface UsePostSeoOptions {
 }
 
 function resolveAbsoluteUrl(base: string, path: string) {
-  if (!path)
-    return undefined
-  if (/^https?:\/\//i.test(path))
-    return path
+  if (!path) return undefined
+  if (/^https?:\/\//i.test(path)) return path
   const normalizedBase = base.replace(/\/$/, '')
   const normalizedPath = path.startsWith('/') ? path : `/${path}`
   return `${normalizedBase}${normalizedPath}`
@@ -24,8 +22,7 @@ export function usePostSeo(options: UsePostSeoOptions) {
 
   const ogImage = computed(() => {
     const customImage = toValue(options.image)
-    if (customImage)
-      return resolveAbsoluteUrl(siteUrl.value, customImage)
+    if (customImage) return resolveAbsoluteUrl(siteUrl.value, customImage)
     return resolveAbsoluteUrl(siteUrl.value, '/og/default.png')
   })
 
@@ -46,9 +43,7 @@ export function usePostSeo(options: UsePostSeoOptions) {
   })
 
   useHead({
-    link: () => [
-      { rel: 'canonical', href: pageUrl.value },
-    ],
+    link: () => [{ rel: 'canonical', href: pageUrl.value }],
   })
 
   return { pageUrl, ogImage }

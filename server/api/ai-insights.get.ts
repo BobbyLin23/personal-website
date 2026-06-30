@@ -21,8 +21,7 @@ export default defineEventHandler(async (event): Promise<AiInsightResponse> => {
 
   if (!path || !path.startsWith('/'))
     throw createError({ statusCode: 400, statusMessage: 'Invalid path' })
-  if (!locale)
-    throw createError({ statusCode: 400, statusMessage: 'Missing locale' })
+  if (!locale) throw createError({ statusCode: 400, statusMessage: 'Missing locale' })
   if (!VALID_COLLECTIONS.has(collection))
     throw createError({ statusCode: 400, statusMessage: 'Invalid collection' })
 
@@ -31,8 +30,7 @@ export default defineEventHandler(async (event): Promise<AiInsightResponse> => {
 
   const assets = useStorage('assets:content-src')
   const raw = await assets.getItem<string>(assetKey)
-  if (!raw)
-    throw createError({ statusCode: 404, statusMessage: 'Source content not found' })
+  if (!raw) throw createError({ statusCode: 404, statusMessage: 'Source content not found' })
 
   const rawText = typeof raw === 'string' ? raw : String(raw)
   const hash = createHash('sha1').update(rawText).digest('hex').slice(0, 12)
@@ -40,8 +38,7 @@ export default defineEventHandler(async (event): Promise<AiInsightResponse> => {
   const cache = useStorage('cache')
 
   const cached = await cache.getItem<AiInsightResponse>(cacheKey)
-  if (cached)
-    return { ...cached, cached: true }
+  if (cached) return { ...cached, cached: true }
 
   const { frontmatter, body } = splitFrontmatter(rawText)
   const title = getFrontmatterField(frontmatter, 'title') || ''
@@ -54,7 +51,10 @@ export default defineEventHandler(async (event): Promise<AiInsightResponse> => {
     tags && `Tags: ${tags}`,
     '',
     body,
-  ].filter(Boolean).join('\n').slice(0, MAX_SOURCE_CHARS)
+  ]
+    .filter(Boolean)
+    .join('\n')
+    .slice(0, MAX_SOURCE_CHARS)
 
   const insights = await generatePostInsights(source, { targetLocale: locale })
   const payload: AiInsightResponse = {

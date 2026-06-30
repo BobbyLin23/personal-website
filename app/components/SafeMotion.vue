@@ -13,8 +13,7 @@ defineOptions({ inheritAttrs: false })
 const reducedMotion = useReducedMotion()
 
 const initialResolved = computed(() => {
-  if (!reducedMotion.value)
-    return props.initial
+  if (!reducedMotion.value) return props.initial
   return props.animate !== undefined ? props.animate : props.initial
 })
 

@@ -6,9 +6,7 @@ const currentYear = new Date().getFullYear()
 <template>
   <UFooter>
     <template #left>
-      <p class="text-sm text-muted">
-        &copy; {{ currentYear }} {{ t('site.name') }}
-      </p>
+      <p class="text-sm text-muted">&copy; {{ currentYear }} {{ t('site.name') }}</p>
     </template>
 
     <template #right>
