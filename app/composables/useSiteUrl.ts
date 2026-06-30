@@ -4,10 +4,8 @@ export function useSiteUrl() {
 
   return computed(() => {
     const configured = config.public.siteUrl?.replace(/\/$/, '')
-    if (configured)
-      return configured
-    if (import.meta.client)
-      return `${window.location.protocol}//${window.location.host}`
+    if (configured) return configured
+    if (import.meta.client) return `${window.location.protocol}//${window.location.host}`
     return `${requestUrl.protocol}//${requestUrl.host}`
   })
 }

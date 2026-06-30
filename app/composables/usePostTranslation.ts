@@ -38,8 +38,7 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
   }
 
   const start = () => {
-    if (!import.meta.client)
-      return
+    if (!import.meta.client) return
 
     const path = options.path()
     const locale = options.locale()
@@ -52,7 +51,10 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
     }
 
     const key = `${locale}::${path}`
-    if (key === currentKey && (state.value === 'streaming' || state.value === 'cached' || state.value === 'done'))
+    if (
+      key === currentKey &&
+      (state.value === 'streaming' || state.value === 'cached' || state.value === 'done')
+    )
       return
 
     close()
@@ -69,15 +71,18 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
         const payload = JSON.parse((ev as MessageEvent).data) as TranslatedPayload
         data.value = payload
         state.value = 'cached'
-      }
-      catch {}
+      } catch {}
     })
 
     es.addEventListener('meta', (ev) => {
       try {
-        const meta = JSON.parse((ev as MessageEvent).data) as { title: string, description: string, date: string }
+        const meta = JSON.parse((ev as MessageEvent).data) as {
+          title: string
+          description: string
+          date: string
+        }
         data.value = {
-          ...(data.value ?? {} as TranslatedPayload),
+          ...(data.value ?? ({} as TranslatedPayload)),
           title: meta.title,
           description: meta.description,
           date: meta.date,
@@ -88,15 +93,14 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
           sourceLocale: 'en',
         }
         state.value = 'streaming'
-      }
-      catch {}
+      } catch {}
     })
 
     es.addEventListener('chunk', (ev) => {
       try {
         const chunk = JSON.parse((ev as MessageEvent).data) as { body: any }
         data.value = {
-          ...(data.value ?? {} as TranslatedPayload),
+          ...(data.value ?? ({} as TranslatedPayload)),
           body: chunk.body,
           translated: true,
           locale: options.locale(),
@@ -104,8 +108,7 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
           path: options.path(),
         }
         state.value = 'streaming'
-      }
-      catch {}
+      } catch {}
     })
 
     es.addEventListener('done', (ev) => {
@@ -113,8 +116,7 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
         const payload = JSON.parse((ev as MessageEvent).data) as TranslatedPayload
         data.value = payload
         state.value = 'done'
-      }
-      catch {}
+      } catch {}
       close()
     })
 
@@ -125,10 +127,8 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
           const parsed = JSON.parse(messageEvt.data) as { message?: string }
           error.value = parsed.message || 'Translation failed'
         }
-      }
-      catch {}
-      if (!error.value)
-        error.value = 'Translation connection error'
+      } catch {}
+      if (!error.value) error.value = 'Translation connection error'
       state.value = 'error'
       close()
     })
@@ -136,11 +136,9 @@ export function usePostTranslation(options: UsePostTranslationOptions) {
 
   if (import.meta.client) {
     onMounted(() => {
-      stopWatcher = watch(
-        [options.path, options.locale, options.enabled],
-        () => start(),
-        { immediate: true },
-      )
+      stopWatcher = watch([options.path, options.locale, options.enabled], () => start(), {
+        immediate: true,
+      })
     })
   }
 

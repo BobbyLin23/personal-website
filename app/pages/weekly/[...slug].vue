@@ -29,8 +29,7 @@ if (!originalPage.value) {
 const sourceLocale = computed(() => normalizeLocaleCode(originalPage.value?.language))
 const currentLocale = computed(() => normalizeLocaleCode(locale.value))
 const shouldTranslate = computed(() => {
-  if (sourceLocale.value)
-    return sourceLocale.value !== currentLocale.value
+  if (sourceLocale.value) return sourceLocale.value !== currentLocale.value
   return currentLocale.value === 'zh'
 })
 
@@ -51,13 +50,16 @@ const page = computed(() => {
   return originalPage.value
 })
 
-const isStreaming = computed(() => translation.state.value === 'streaming' || translation.state.value === 'connecting')
+const isStreaming = computed(
+  () => translation.state.value === 'streaming' || translation.state.value === 'connecting',
+)
 const isTranslatedView = computed(() => shouldTranslate.value && !showOriginal.value)
 
 const { data: surround } = await useAsyncData(`${route.path}-surround`, () =>
   queryCollectionItemSurroundings('weekly', basePath.value, {
     fields: ['title', 'description', 'date', 'week'],
-  }))
+  }),
+)
 
 const config = useRuntimeConfig()
 useSeoMeta({
@@ -66,19 +68,24 @@ useSeoMeta({
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
-const fmtFull = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-}))
-const fmtShort = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
-  month: 'long',
-  day: 'numeric',
-}))
+const fmtFull = computed(
+  () =>
+    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }),
+)
+const fmtShort = computed(
+  () =>
+    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+      month: 'long',
+      day: 'numeric',
+    }),
+)
 
 function formatDateRange(dateStr: string) {
-  if (!dateStr)
-    return ''
+  if (!dateStr) return ''
   const end = new Date(dateStr)
   const start = new Date(end)
   start.setDate(start.getDate() - 6)
@@ -93,10 +100,26 @@ function formatWeekNumber(week: number): string {
 }
 
 const stats = computed(() => [
-  { value: originalPage.value?.commits ?? 0, label: t('weekly.commits'), color: 'text-amber-600 dark:text-amber-400' },
-  { value: originalPage.value?.prs ?? 0, label: t('weekly.prs'), color: 'text-sky-600 dark:text-sky-400' },
-  { value: originalPage.value?.blogs ?? 0, label: t('weekly.blogs'), color: 'text-violet-600 dark:text-violet-400' },
-  { value: originalPage.value?.books ?? 0, label: t('weekly.books'), color: 'text-rose-600 dark:text-rose-400' },
+  {
+    value: originalPage.value?.commits ?? 0,
+    label: t('weekly.commits'),
+    color: 'text-amber-600 dark:text-amber-400',
+  },
+  {
+    value: originalPage.value?.prs ?? 0,
+    label: t('weekly.prs'),
+    color: 'text-sky-600 dark:text-sky-400',
+  },
+  {
+    value: originalPage.value?.blogs ?? 0,
+    label: t('weekly.blogs'),
+    color: 'text-violet-600 dark:text-violet-400',
+  },
+  {
+    value: originalPage.value?.books ?? 0,
+    label: t('weekly.books'),
+    color: 'text-rose-600 dark:text-rose-400',
+  },
 ])
 
 function toggleOriginal() {
@@ -122,16 +145,8 @@ function toggleOriginal() {
 
     <div v-if="shouldTranslate" class="mb-8 flex items-center justify-between gap-3 flex-wrap">
       <div class="flex items-center gap-2 text-xs text-muted">
-        <UIcon
-          v-if="isStreaming"
-          name="i-lucide-loader-circle"
-          class="size-3.5 animate-spin"
-        />
-        <UIcon
-          v-else
-          name="i-lucide-sparkles"
-          class="size-3.5"
-        />
+        <UIcon v-if="isStreaming" name="i-lucide-loader-circle" class="size-3.5 animate-spin" />
+        <UIcon v-else name="i-lucide-sparkles" class="size-3.5" />
         <span v-if="isStreaming">{{ t('post.translating') }}</span>
         <span v-else-if="isTranslatedView">{{ t('post.translatedByAi') }}</span>
         <span v-else class="opacity-60">{{ t('post.translationFailed') }}</span>
@@ -216,7 +231,7 @@ function toggleOriginal() {
         <ContentRenderer
           v-if="page"
           :key="`${isTranslatedView ? currentLocale : sourceLocale || 'source'}-${translation.state.value}`"
-          :value="(page as any)"
+          :value="page as any"
         />
       </SafeMotion>
     </article>
@@ -226,10 +241,7 @@ function toggleOriginal() {
       :animate="{ opacity: 1, y: 0 }"
       :transition="{ duration: 0.5, delay: 0.4 }"
     >
-      <UContentSurround
-        :surround="(surround as any)"
-        class="mt-20"
-      />
+      <UContentSurround :surround="surround as any" class="mt-20" />
     </SafeMotion>
   </UContainer>
 </template>

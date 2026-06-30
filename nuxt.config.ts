@@ -1,8 +1,10 @@
 import { resolve } from 'node:path'
 import process from 'node:process'
 
-const upstashUrl = process.env.NUXT_UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_REST_URL || ''
-const upstashToken = process.env.NUXT_UPSTASH_REDIS_REST_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || ''
+const upstashUrl =
+  process.env.NUXT_UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_REST_URL || ''
+const upstashToken =
+  process.env.NUXT_UPSTASH_REDIS_REST_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || ''
 const cacheBase = process.env.NUXT_CACHE_BASE || 'cache'
 
 function buildCacheStorage() {
@@ -44,9 +46,7 @@ export default defineNuxtConfig({
     externals: {
       inline: ['minimark', '@nuxtjs/mdc'],
     },
-    serverAssets: [
-      { baseName: 'content-src', dir: resolve(process.cwd(), 'content') },
-    ],
+    serverAssets: [{ baseName: 'content-src', dir: resolve(process.cwd(), 'content') }],
     storage: {
       cache: buildCacheStorage(),
     },

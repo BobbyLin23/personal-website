@@ -4,24 +4,20 @@ import * as locales from '@nuxt/ui/locale'
 const colorMode = useColorMode()
 const { locale } = useI18n()
 
-const themeColor = computed(() =>
-  colorMode.value === 'dark' ? '#1c1917' : '#fafaf9',
-)
+const themeColor = computed(() => (colorMode.value === 'dark' ? '#1c1917' : '#fafaf9'))
 
 const uiLocale = computed(() => {
   const code = locale.value === 'zh' ? 'zh-CN' : 'en'
   return (locales as Record<string, any>)[code] || locales.en
 })
 
-const htmlLang = computed(() => locale.value === 'zh' ? 'zh-CN' : 'en')
+const htmlLang = computed(() => (locale.value === 'zh' ? 'zh-CN' : 'en'))
 
 useHead({
   htmlAttrs: {
     lang: htmlLang,
   },
-  meta: computed(() => [
-    { name: 'theme-color', content: themeColor.value },
-  ]),
+  meta: computed(() => [{ name: 'theme-color', content: themeColor.value }]),
   link: [
     { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

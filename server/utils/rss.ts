@@ -4,8 +4,7 @@ import { stringify } from 'minimark/stringify'
 export function getSiteUrl(event: H3Event): string {
   const config = useRuntimeConfig(event)
   const siteUrl = config.public.siteUrl as string | undefined
-  if (siteUrl)
-    return siteUrl.replace(/\/$/, '')
+  if (siteUrl) return siteUrl.replace(/\/$/, '')
   const url = getRequestURL(event)
   return `${url.protocol}//${url.host}`
 }
@@ -24,12 +23,10 @@ export function formatRssDate(date: Date): string {
 }
 
 export function bodyToHtml(body: { value?: unknown[] } | null | undefined): string {
-  if (!body?.value?.length)
-    return ''
+  if (!body?.value?.length) return ''
   try {
     return stringify({ type: 'minimark', value: body.value as never[] }, { format: 'text/html' })
-  }
-  catch {
+  } catch {
     return ''
   }
 }

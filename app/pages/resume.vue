@@ -18,7 +18,7 @@ useSeoMeta({
 })
 
 const languageOptions = computed(() =>
-  (locales.value as Array<{ code: string, name?: string }>).map(l => ({
+  (locales.value as Array<{ code: string; name?: string }>).map((l) => ({
     code: l.code as 'en' | 'zh',
     label: l.name || l.code,
     active: l.code === locale.value,
@@ -27,8 +27,7 @@ const languageOptions = computed(() =>
 )
 
 function printResume() {
-  if (import.meta.client)
-    window.print()
+  if (import.meta.client) window.print()
 }
 </script>
 
@@ -36,10 +35,7 @@ function printResume() {
   <div class="resume-page">
     <div class="resume-toolbar no-print">
       <div class="resume-toolbar-inner">
-        <NuxtLink
-          :to="localePath('/')"
-          class="resume-toolbar-link"
-        >
+        <NuxtLink :to="localePath('/')" class="resume-toolbar-link">
           <UIcon name="i-lucide-arrow-left" class="size-4" aria-hidden="true" />
           {{ t('site.name') }}
         </NuxtLink>
@@ -58,20 +54,12 @@ function printResume() {
             </NuxtLink>
           </div>
 
-          <a
-            href="/resume-zh.pdf"
-            class="resume-print-btn"
-            download
-          >
+          <a href="/resume-zh.pdf" class="resume-print-btn" download>
             <UIcon name="i-lucide-download" class="size-4" aria-hidden="true" />
             PDF
           </a>
 
-          <button
-            type="button"
-            class="resume-print-btn"
-            @click="printResume"
-          >
+          <button type="button" class="resume-print-btn" @click="printResume">
             <UIcon name="i-lucide-printer" class="size-4" aria-hidden="true" />
             {{ locale === 'zh' ? '打印' : 'Print' }}
           </button>
@@ -84,10 +72,7 @@ function printResume() {
     </main>
 
     <footer v-if="config.public.siteUrl" class="resume-footer no-print">
-      <a
-        :href="`${config.public.siteUrl}${localePath('/resume')}`"
-        class="resume-footer-link"
-      >
+      <a :href="`${config.public.siteUrl}${localePath('/resume')}`" class="resume-footer-link">
         {{ config.public.siteUrl }}{{ localePath('/resume') }}
       </a>
     </footer>
@@ -152,7 +137,9 @@ function printResume() {
   font-size: 0.78rem;
   color: #57534e;
   text-decoration: none;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .resume-lang-btn:hover {

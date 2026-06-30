@@ -12,13 +12,13 @@ useSeoMeta({
 })
 
 const { data: weeklies } = await useAsyncData('all-weeklies', () =>
-  queryCollection('weekly')
-    .select('date', 'path')
-    .order('date', 'DESC')
-    .all())
+  queryCollection('weekly').select('date', 'path').order('date', 'DESC').all(),
+)
 
 const todayDate = today(getLocalTimeZone())
-const placeholder = ref(new CalendarDate(todayDate.year, todayDate.month, todayDate.day)) as Ref<DateValue>
+const placeholder = ref(
+  new CalendarDate(todayDate.year, todayDate.month, todayDate.day),
+) as Ref<DateValue>
 const selectedDate = ref<DateValue>()
 const pickerOpen = ref(false)
 
@@ -42,8 +42,7 @@ function hasWeekly(day: DateValue): boolean {
 }
 
 function onDaySelect(date: any) {
-  if (!date || !date.year)
-    return
+  if (!date || !date.year) return
   const path = weeklyDateMap.value.get(dateKey(date as DateValue))
   if (path) {
     navigateTo(path)
@@ -51,8 +50,7 @@ function onDaySelect(date: any) {
 }
 
 function onPickerSelect(date: any) {
-  if (!date || !date.year)
-    return
+  if (!date || !date.year) return
   placeholder.value = new CalendarDate(date.year, date.month, 1)
   pickerOpen.value = false
 }
@@ -100,7 +98,8 @@ function onPickerSelect(date: any) {
             gridBody: 'w-full',
             headCell: 'py-2 text-sm',
             cell: 'text-base',
-            cellTrigger: '!size-12 sm:!size-14 text-sm sm:text-base data-today:not-data-[selected]:ring-2 data-today:not-data-[selected]:ring-primary cursor-default data-[highlighted]:cursor-pointer',
+            cellTrigger:
+              '!size-12 sm:!size-14 text-sm sm:text-base data-today:not-data-[selected]:ring-2 data-today:not-data-[selected]:ring-primary cursor-default data-[highlighted]:cursor-pointer',
           }"
           @update:model-value="onDaySelect"
         >
@@ -117,7 +116,7 @@ function onPickerSelect(date: any) {
               <template #content>
                 <div class="p-2">
                   <UCalendar
-                    :model-value="(placeholder as CalendarDate)"
+                    :model-value="placeholder as CalendarDate"
                     :month-controls="true"
                     :year-controls="true"
                     color="primary"
@@ -154,10 +153,7 @@ function onPickerSelect(date: any) {
           </div>
         </div>
 
-        <p
-          v-if="weeklies && weeklies.length === 0"
-          class="mt-4 text-center text-sm text-muted"
-        >
+        <p v-if="weeklies && weeklies.length === 0" class="mt-4 text-center text-sm text-muted">
           {{ t('weekly.empty') }}
         </p>
       </div>

@@ -37,7 +37,10 @@ function getDeepSeekConfig(): DeepSeekConfig {
   const config = useRuntimeConfig()
   const apiKey = config.deepseekApiKey as string
   const model = (config.deepseekModel as string) || 'deepseek-chat'
-  const baseUrl = ((config.deepseekBaseUrl as string) || 'https://api.deepseek.com').replace(/\/$/, '')
+  const baseUrl = ((config.deepseekBaseUrl as string) || 'https://api.deepseek.com').replace(
+    /\/$/,
+    '',
+  )
   if (!apiKey) {
     throw createError({
       statusCode: 500,
@@ -75,15 +78,14 @@ export async function translateMarkdown(
   text: string,
   options: TranslateOptions = { targetLocale: 'zh' },
 ): Promise<string> {
-  if (!text.trim())
-    return text
+  if (!text.trim()) return text
 
   const { apiKey, model, baseUrl } = getDeepSeekConfig()
 
   const res = await $fetch<DeepSeekChatResponse>(`${baseUrl}/chat/completions`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: {
@@ -129,7 +131,7 @@ export async function generatePostInsights(
   const res = await $fetch<DeepSeekChatResponse>(`${baseUrl}/chat/completions`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: {
@@ -169,15 +171,14 @@ export async function streamTranslateMarkdown(
   options: StreamTranslateOptions,
   onDelta: (delta: string, accumulated: string) => void | Promise<void>,
 ): Promise<string> {
-  if (!text.trim())
-    return text
+  if (!text.trim()) return text
 
   const { apiKey, model, baseUrl } = getDeepSeekConfig()
 
   const response = await fetch(`${baseUrl}/chat/completions`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -208,8 +209,7 @@ export async function streamTranslateMarkdown(
   try {
     while (true) {
       const { done, value } = await reader.read()
-      if (done)
-        break
+      if (done) break
       buffer += decoder.decode(value, { stream: true })
 
       let newlineIdx = buffer.indexOf('\n')
@@ -218,14 +218,11 @@ export async function streamTranslateMarkdown(
         buffer = buffer.slice(newlineIdx + 1)
         newlineIdx = buffer.indexOf('\n')
 
-        if (!line)
-          continue
+        if (!line) continue
         const m = line.match(SSE_LINE_RE)
-        if (!m)
-          continue
+        if (!m) continue
         const data = m[1]!.trim()
-        if (data === '[DONE]')
-          continue
+        if (data === '[DONE]') continue
 
         try {
           const json = JSON.parse(data) as { choices?: Array<{ delta?: { content?: string } }> }
@@ -234,18 +231,15 @@ export async function streamTranslateMarkdown(
             accumulated += delta
             await onDelta(delta, accumulated)
           }
-        }
-        catch {
+        } catch {
           // ignore malformed line
         }
       }
     }
-  }
-  finally {
+  } finally {
     try {
       await reader.cancel()
-    }
-    catch {}
+    } catch {}
   }
 
   return stripCodeFenceWrapper(accumulated.trim())
@@ -268,11 +262,10 @@ function normalizeInsights(value: unknown): PostInsightPayload {
 }
 
 function normalizeStringList(value: unknown, limit: number): string[] {
-  if (!Array.isArray(value))
-    return []
+  if (!Array.isArray(value)) return []
   return value
     .filter((item): item is string => typeof item === 'string')
-    .map(item => item.trim())
+    .map((item) => item.trim())
     .filter(Boolean)
     .slice(0, limit)
 }

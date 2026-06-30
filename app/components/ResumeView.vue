@@ -12,15 +12,9 @@ defineProps<{
       <h1 class="resume-name">
         {{ content.name }}
       </h1>
-      <p class="resume-title">
-        {{ content.title }} · {{ content.location }}
-      </p>
+      <p class="resume-title">{{ content.title }} · {{ content.location }}</p>
       <ul class="resume-contact">
-        <li
-          v-for="item in content.contact"
-          :key="item.label"
-          class="resume-contact-item"
-        >
+        <li v-for="item in content.contact" :key="item.label" class="resume-contact-item">
           <span class="resume-contact-label">{{ item.label }}</span>
           <a
             v-if="item.href"
@@ -28,7 +22,8 @@ defineProps<{
             class="resume-contact-value resume-link"
             target="_blank"
             rel="noopener noreferrer"
-          >{{ item.value }}</a>
+            >{{ item.value }}</a
+          >
           <span v-else class="resume-contact-value">{{ item.value }}</span>
         </li>
       </ul>
@@ -48,17 +43,12 @@ defineProps<{
             <h3 class="resume-entry-title">
               {{ job.role }}
             </h3>
-            <p class="resume-entry-subtitle">
-              {{ job.company }} · {{ job.location }}
-            </p>
+            <p class="resume-entry-subtitle">{{ job.company }} · {{ job.location }}</p>
           </div>
           <time class="resume-entry-period">{{ job.period }}</time>
         </div>
         <ul class="resume-list">
-          <li
-            v-for="(highlight, index) in job.highlights"
-            :key="index"
-          >
+          <li v-for="(highlight, index) in job.highlights" :key="index">
             {{ highlight }}
           </li>
         </ul>
@@ -69,19 +59,12 @@ defineProps<{
       <h2 class="resume-section-title">
         {{ content.sections.skills }}
       </h2>
-      <div
-        v-for="group in content.skills"
-        :key="group.title"
-        class="resume-skill-group"
-      >
+      <div v-for="group in content.skills" :key="group.title" class="resume-skill-group">
         <h3 class="resume-skill-title">
           {{ group.title }}
         </h3>
         <ul class="resume-list">
-          <li
-            v-for="(item, index) in group.items"
-            :key="index"
-          >
+          <li v-for="(item, index) in group.items" :key="index">
             {{ item }}
           </li>
         </ul>
@@ -92,16 +75,10 @@ defineProps<{
       <h2 class="resume-section-title">
         {{ content.sections.education }}
       </h2>
-      <div
-        v-for="edu in content.education"
-        :key="edu.school"
-        class="resume-entry"
-      >
+      <div v-for="edu in content.education" :key="edu.school" class="resume-entry">
         <div class="resume-entry-head">
           <div>
-            <h3 class="resume-entry-title">
-              {{ edu.degree }} · {{ edu.major }}
-            </h3>
+            <h3 class="resume-entry-title">{{ edu.degree }} · {{ edu.major }}</h3>
             <p class="resume-entry-subtitle">
               {{ edu.school }}
             </p>
@@ -115,11 +92,7 @@ defineProps<{
       <h2 class="resume-section-title">
         {{ content.sections.projects }}
       </h2>
-      <div
-        v-for="project in content.projects"
-        :key="project.name"
-        class="resume-entry"
-      >
+      <div v-for="project in content.projects" :key="project.name" class="resume-entry">
         <div class="resume-entry-head">
           <div>
             <h3 class="resume-entry-title">
@@ -129,7 +102,8 @@ defineProps<{
                 class="resume-link"
                 target="_blank"
                 rel="noopener noreferrer"
-              >{{ project.name }}</a>
+                >{{ project.name }}</a
+              >
               <span v-else>{{ project.name }}</span>
             </h3>
           </div>
@@ -142,10 +116,7 @@ defineProps<{
           {{ project.tech }}
         </p>
         <ul class="resume-list">
-          <li
-            v-for="(highlight, index) in project.highlights"
-            :key="index"
-          >
+          <li v-for="(highlight, index) in project.highlights" :key="index">
             {{ highlight }}
           </li>
         </ul>
@@ -157,10 +128,7 @@ defineProps<{
         {{ content.sections.languages }}
       </h2>
       <ul class="resume-inline-list">
-        <li
-          v-for="lang in content.languages"
-          :key="lang"
-        >
+        <li v-for="lang in content.languages" :key="lang">
           {{ lang }}
         </li>
       </ul>

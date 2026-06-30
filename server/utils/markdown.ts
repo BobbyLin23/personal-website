@@ -19,8 +19,7 @@ export function splitFrontmatter(raw: string): SplitMarkdown {
 export function getFrontmatterField(frontmatter: string, field: string): string | undefined {
   const re = new RegExp(`^${field}\\s*:\\s*(.*)$`, 'm')
   const m = frontmatter.match(re)
-  if (!m)
-    return undefined
+  if (!m) return undefined
   return m[1]!.trim().replace(/^['"]|['"]$/g, '')
 }
 

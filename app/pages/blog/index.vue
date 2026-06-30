@@ -10,15 +10,12 @@ useSeoMeta({
 })
 
 const { data: posts } = await useAsyncData('blog-posts', async () => {
-  const items = await queryCollection('blog')
-    .select('title', 'date', 'path', 'stem')
-    .all()
+  const items = await queryCollection('blog').select('title', 'date', 'path', 'stem').all()
   return [...items].sort((a, b) => +new Date(b.date) - +new Date(a.date))
 })
 
 const postsByYear = computed(() => {
-  if (!posts.value)
-    return []
+  if (!posts.value) return []
 
   const grouped = new Map<string, typeof posts.value>()
   for (const post of posts.value) {
@@ -35,10 +32,13 @@ const postsByYear = computed(() => {
   }))
 })
 
-const listDateFormatter = computed(() => new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
-  month: '2-digit',
-  day: '2-digit',
-}))
+const listDateFormatter = computed(
+  () =>
+    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+      month: '2-digit',
+      day: '2-digit',
+    }),
+)
 
 function formatDate(dateStr: string) {
   return listDateFormatter.value.format(new Date(dateStr))
@@ -82,13 +82,12 @@ function formatDate(dateStr: string) {
               :to="localePath(post.path)"
               class="group flex items-baseline justify-between gap-4 py-4 first:pt-0 last:pb-0"
             >
-              <span class="text-base font-medium group-hover:text-primary transition-colors truncate">
+              <span
+                class="text-base font-medium group-hover:text-primary transition-colors truncate"
+              >
                 {{ post.title }}
               </span>
-              <time
-                class="text-sm text-muted shrink-0 tabular-nums"
-                :datetime="post.date"
-              >
+              <time class="text-sm text-muted shrink-0 tabular-nums" :datetime="post.date">
                 {{ formatDate(post.date) }}
               </time>
             </NuxtLink>

@@ -23,8 +23,7 @@ async function copyLink() {
     setTimeout(() => {
       copied.value = false
     }, 2000)
-  }
-  catch {
+  } catch {
     toast.add({
       title: t('post.share.copyFailed'),
       color: 'error',
@@ -51,17 +50,14 @@ function shareOnLinkedIn() {
 }
 
 async function shareNative() {
-  if (!navigator.share)
-    return
+  if (!navigator.share) return
   try {
     await navigator.share({
       title: props.title,
       url: props.url,
     })
-  }
-  catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError')
-      return
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') return
     await copyLink()
   }
 }
