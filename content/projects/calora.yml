@@ -1,0 +1,12 @@
+name: Calora
+description: A calorie tracking app powered by AI agents.
+icon: i-lucide-calculator
+iconBg: bg-blue-50 dark:bg-blue-900/20
+iconColor: text-blue-500
+language: TypeScript, React Native, Expo
+languageColor: bg-blue-400
+stars: 0
+forks: 0
+url: https://calora.bobbylin.top
+github: https://github.com/chestnut-studio/calora
+featured: true

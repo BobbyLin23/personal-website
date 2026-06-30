@@ -1,0 +1,12 @@
+name: Matchify
+description: A personalized resume assistant powered by AI agents.
+icon: i-lucide-user
+iconBg: bg-green-50 dark:bg-green-900/20
+iconColor: text-green-500
+language: TypeScript, React, Next.js
+languageColor: bg-blue-400
+stars: 0
+forks: 0
+url: https://matchify.bobbylin.top
+github: https://github.com/chestnut-studio/matchify
+featured: true

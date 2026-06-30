@@ -1,0 +1,12 @@
+name: Chestnut Chat
+description: A chatbot powered by AI agents.
+icon: i-lucide-message-circle
+iconBg: bg-green-50 dark:bg-green-900/20
+iconColor: text-green-500
+language: TypeScript, Nuxt.js, Tailwind CSS
+languageColor: bg-blue-400
+stars: 0
+forks: 0
+url: https://chestnut-chat.bobbylin.top
+github: https://github.com/chestnut-studio/chestnut-chat
+featured: true
