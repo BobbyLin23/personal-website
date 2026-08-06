@@ -1,3 +1,5 @@
+import { env } from '~~/env/server'
+
 const TRANSLATION_SYSTEM_PROMPT = `You are a professional translator specializing in technical Markdown content. Translate the user-provided text from English into Simplified Chinese (zh-CN).
 
 Rules:
@@ -34,20 +36,18 @@ interface DeepSeekConfig {
 }
 
 function getDeepSeekConfig(): DeepSeekConfig {
-  const config = useRuntimeConfig()
-  const apiKey = config.deepseekApiKey as string
-  const model = (config.deepseekModel as string) || 'deepseek-chat'
-  const baseUrl = ((config.deepseekBaseUrl as string) || 'https://api.deepseek.com').replace(
-    /\/$/,
-    '',
-  )
+  const apiKey = env.NUXT_DEEPSEEK_API_KEY
   if (!apiKey) {
     throw createError({
       statusCode: 500,
       statusMessage: 'DeepSeek API key is not configured (NUXT_DEEPSEEK_API_KEY).',
     })
   }
-  return { apiKey, model, baseUrl }
+  return {
+    apiKey,
+    model: env.NUXT_DEEPSEEK_MODEL,
+    baseUrl: env.NUXT_DEEPSEEK_BASE_URL.replace(/\/$/, ''),
+  }
 }
 
 const LOCALE_LANGUAGE_NAMES: Record<string, string> = {

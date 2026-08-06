@@ -28,6 +28,7 @@
     "@nuxt/ui": "4.8.2",
     "@nuxtjs/i18n": "^10.4.0",
     "@nuxtjs/mdc": "^0.22.0",
+    "@t3-oss/env-nuxt": "^0.13.11",
     "@upstash/redis": "^1.38.0",
     "better-sqlite3": "^12.10.0",
     "minimark": "^1.0.0",

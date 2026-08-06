@@ -1,9 +1,9 @@
 import type { H3Event } from 'h3'
 import { stringify } from 'minimark/stringify'
+import { env } from '~~/env/client'
 
 export function getSiteUrl(event: H3Event): string {
-  const config = useRuntimeConfig(event)
-  const siteUrl = config.public.siteUrl as string | undefined
+  const siteUrl = env.NUXT_PUBLIC_SITE_URL
   if (siteUrl) return siteUrl.replace(/\/$/, '')
   const url = getRequestURL(event)
   return `${url.protocol}//${url.host}`

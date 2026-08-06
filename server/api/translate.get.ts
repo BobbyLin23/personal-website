@@ -11,13 +11,13 @@ interface TranslatedPayload {
   sourceLocale: string
 }
 
-const VALID_COLLECTIONS = new Set(['blog', 'weekly'])
+const VALID_COLLECTIONS = new Set(['blog', 'weekly', 'about'])
 
 export default defineEventHandler(async (event): Promise<TranslatedPayload> => {
   const query = getQuery(event)
-  const path = String(query.path || '').trim()
-  const locale = String(query.locale || '').trim()
-  const collection = String(query.collection || 'blog').trim()
+  const path = getQueryString(query.path).trim()
+  const locale = getQueryString(query.locale).trim()
+  const collection = (getQueryString(query.collection) || 'blog').trim()
 
   if (!path || !path.startsWith('/')) {
     throw createError({ statusCode: 400, statusMessage: 'Invalid path' })

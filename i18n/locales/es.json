@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Inicio",
+    "about": "Sobre mí",
     "blog": "Blog",
     "projects": "Proyectos",
     "weekly": "Semanal"
@@ -37,6 +38,9 @@
     "title": "Blog",
     "description": "Reflexiones sobre desarrollo web, diseño y tecnología.",
     "empty": "Aún no hay publicaciones."
+  },
+  "about": {
+    "notFound": "Página de información no encontrada"
   },
   "post": {
     "back": "Volver al Blog",

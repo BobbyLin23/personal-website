@@ -10,6 +10,8 @@ const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const config = useRuntimeConfig()
 
+type LocaleCode = Parameters<typeof setLocale>[0]
+
 const content = computed(() => resumeData[locale.value as keyof typeof resumeData] ?? resumeData.en)
 
 useSeoMeta({
@@ -18,7 +20,7 @@ useSeoMeta({
 })
 
 const languageOptions = computed(() =>
-  (locales.value as Array<{ code: string; name?: string }>).map((l) => ({
+  (locales.value as Array<{ code: LocaleCode; name?: string }>).map((l) => ({
     code: l.code,
     label: l.name || l.code,
     active: l.code === locale.value,

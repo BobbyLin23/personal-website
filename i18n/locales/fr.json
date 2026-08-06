@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Accueil",
+    "about": "À propos",
     "blog": "Blog",
     "projects": "Projets",
     "weekly": "Hebdo"
@@ -37,6 +38,9 @@
     "title": "Blog",
     "description": "Réflexions sur le développement web, le design et la technologie.",
     "empty": "Pas encore d'articles de blog."
+  },
+  "about": {
+    "notFound": "Page à propos introuvable"
   },
   "post": {
     "back": "Retour au Blog",

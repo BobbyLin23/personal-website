@@ -109,6 +109,7 @@ const smokeRoutes = [
   { path: '/es', heading: 'Bobby Lin' },
   { path: '/ja', heading: 'Bobby Lin' },
   { path: '/fr', heading: 'Bobby Lin' },
+  { path: '/en/about', heading: 'About Me' },
   { path: '/en/blog', heading: 'Blog' },
   { path: '/es/blog', heading: 'Blog' },
   { path: '/fr/blog', heading: 'Blog' },

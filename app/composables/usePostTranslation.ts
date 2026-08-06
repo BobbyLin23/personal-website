@@ -12,7 +12,7 @@ interface TranslatedPayload {
 export type TranslationState = 'idle' | 'connecting' | 'streaming' | 'done' | 'cached' | 'error'
 
 export interface UsePostTranslationOptions {
-  collection: 'blog' | 'weekly'
+  collection: 'blog' | 'weekly' | 'about'
   /** Reactive base path, e.g. /blog/foo (no locale prefix) */
   path: () => string
   /** Reactive target locale; pass '' to disable */

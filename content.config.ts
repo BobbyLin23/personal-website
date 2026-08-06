@@ -3,6 +3,16 @@ import { z } from 'zod'
 
 export default defineContentConfig({
   collections: {
+    about: defineCollection({
+      type: 'page',
+      source: 'about.md',
+      schema: z.object({
+        title: z.string(),
+        description: z.string(),
+        language: z.string().optional(),
+        draft: z.boolean().default(false),
+      }),
+    }),
     blog: defineCollection({
       type: 'page',
       source: 'blog/*.md',

@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "首頁",
+    "about": "關於",
     "blog": "部落格",
     "projects": "專案",
     "weekly": "週報"
@@ -37,6 +38,9 @@
     "title": "部落格",
     "description": "關於 Web 開發、設計與技術的思考。",
     "empty": "暫時沒有部落格文章。"
+  },
+  "about": {
+    "notFound": "關於頁面不存在"
   },
   "post": {
     "back": "返回部落格",

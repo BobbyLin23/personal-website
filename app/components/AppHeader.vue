@@ -7,6 +7,8 @@ const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const colorMode = useColorMode()
 
+type LocaleCode = Parameters<typeof setLocale>[0]
+
 const colorModeIcon = computed(() =>
   colorMode.value === 'dark' ? 'i-lucide-moon' : 'i-lucide-sun',
 )
@@ -36,6 +38,11 @@ const navItems = computed<NavigationMenuItem[]>(() => [
     to: localePath('/weekly'),
     active: route.path.startsWith(localePath('/weekly')),
   },
+  {
+    label: t('nav.about'),
+    to: localePath('/about'),
+    active: route.path.startsWith(localePath('/about')),
+  },
 ])
 
 const config = useRuntimeConfig()
@@ -59,7 +66,7 @@ const rssItems = computed<DropdownMenuItem[][]>(() => [
 ])
 
 const languageItems = computed<DropdownMenuItem[][]>(() => [
-  (locales.value as Array<{ code: string; name?: string }>).map((l) => ({
+  (locales.value as Array<{ code: LocaleCode; name?: string }>).map((l) => ({
     label: l.name || l.code,
     icon: l.code === locale.value ? 'i-lucide-check' : undefined,
     to: switchLocalePath(l.code) || undefined,

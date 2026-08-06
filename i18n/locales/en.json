@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Home",
+    "about": "About",
     "blog": "Blog",
     "projects": "Projects",
     "weekly": "Weekly"
@@ -37,6 +38,9 @@
     "title": "Blog",
     "description": "Thoughts on web development, design, and technology.",
     "empty": "No blog posts yet."
+  },
+  "about": {
+    "notFound": "About page not found"
   },
   "post": {
     "back": "Back to Blog",

@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "首页",
+    "about": "关于",
     "blog": "博客",
     "projects": "项目",
     "weekly": "周报"
@@ -37,6 +38,9 @@
     "title": "博客",
     "description": "关于 Web 开发、设计与技术的思考。",
     "empty": "暂时没有文章。"
+  },
+  "about": {
+    "notFound": "关于页面不存在"
   },
   "post": {
     "back": "返回博客",

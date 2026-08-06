@@ -12,14 +12,14 @@ interface TranslatedPayload {
   sourceLocale: string
 }
 
-const VALID_COLLECTIONS = new Set(['blog', 'weekly'])
+const VALID_COLLECTIONS = new Set(['blog', 'weekly', 'about'])
 const PARSE_DEBOUNCE_MS = 500
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  const path = String(query.path || '').trim()
-  const locale = String(query.locale || '').trim()
-  const collection = String(query.collection || 'blog').trim()
+  const path = getQueryString(query.path).trim()
+  const locale = getQueryString(query.locale).trim()
+  const collection = (getQueryString(query.collection) || 'blog').trim()
 
   if (!path || !path.startsWith('/'))
     throw createError({ statusCode: 400, statusMessage: 'Invalid path' })
@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
     } catch {}
   })
 
-  ;(async () => {
+  void (async () => {
     try {
       const cached = await cache.getItem<TranslatedPayload>(cacheKey)
       if (cached) {
@@ -134,7 +134,7 @@ export default defineEventHandler(async (event) => {
       )
 
       // Wait for any in-flight parse to settle before emitting final.
-      if (parseInFlight) await parseInFlight
+      if (parseInFlight) await (parseInFlight as Promise<void>)
 
       const finalParsed = await parseMdToAst(finalText)
       const payload: TranslatedPayload = {
