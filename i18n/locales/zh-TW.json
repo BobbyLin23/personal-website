@@ -1,0 +1,94 @@
+{
+  "site": {
+    "name": "Bobby Lin"
+  },
+  "nav": {
+    "home": "首頁",
+    "blog": "部落格",
+    "projects": "專案",
+    "weekly": "週報"
+  },
+  "rss": {
+    "all": "全部",
+    "blog": "部落格",
+    "weekly": "週報",
+    "ariaLabel": "RSS 訂閱",
+    "rss": "RSS"
+  },
+  "theme": {
+    "toggle": "切換主題"
+  },
+  "language": {
+    "switch": "語言",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "role": "AI Builder",
+    "bio": "專注於打造美觀、高效能的 Web 應用程式。熱愛開源、寫作、AI 與分享知識。",
+    "writing": "寫作",
+    "projects": "專案",
+    "viewAll": "查看全部",
+    "noPosts": "暫時沒有文章，敬請期待。",
+    "noProjects": "暫時沒有精選專案。",
+    "resume": "履歷"
+  },
+  "blog": {
+    "title": "部落格",
+    "description": "關於 Web 開發、設計與技術的思考。",
+    "empty": "暫時沒有部落格文章。"
+  },
+  "post": {
+    "back": "返回部落格",
+    "toc": "目錄",
+    "readingTime": "閱讀約 {minutes} 分鐘",
+    "translating": "AI 翻譯中...",
+    "translatingProgress": "AI 翻譯中（已 {chars} 字元）",
+    "translatedByAi": "本文由 AI 翻譯自英文原文",
+    "translationFailed": "翻譯失敗，已顯示原文。",
+    "showOriginal": "查看原文",
+    "showTranslation": "查看譯文",
+    "notFound": "文章不存在",
+    "aiInsights": {
+      "title": "AI 洞察",
+      "keyPoints": "重點",
+      "takeaways": "收穫",
+      "unavailable": "AI 洞察暫不可用"
+    },
+    "share": {
+      "button": "分享",
+      "copyLink": "複製連結",
+      "copied": "連結已複製",
+      "copyFailed": "複製失敗",
+      "x": "分享到 X",
+      "linkedin": "分享到 LinkedIn",
+      "native": "分享..."
+    }
+  },
+  "weekly": {
+    "title": "週報",
+    "description": "每週的學習與進展記錄。",
+    "empty": "暫時沒有週報。",
+    "back": "返回週報",
+    "commits": "提交",
+    "prs": "PR",
+    "blogs": "部落格",
+    "books": "書籍",
+    "hasReport": "有週報",
+    "today": "今天"
+  },
+  "projects": {
+    "title": "專案",
+    "description": "我正在打造的一些精選專案。",
+    "empty": "暫時沒有專案。"
+  },
+  "footer": {
+    "rights": "保留所有權利。"
+  },
+  "resume": {
+    "print": "列印"
+  },
+  "common": {
+    "loading": "載入中..."
+  }
+}

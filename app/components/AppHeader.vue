@@ -62,8 +62,8 @@ const languageItems = computed<DropdownMenuItem[][]>(() => [
   (locales.value as Array<{ code: string; name?: string }>).map((l) => ({
     label: l.name || l.code,
     icon: l.code === locale.value ? 'i-lucide-check' : undefined,
-    to: switchLocalePath(l.code as 'en' | 'zh') || undefined,
-    onSelect: () => setLocale(l.code as 'en' | 'zh'),
+    to: switchLocalePath(l.code) || undefined,
+    onSelect: () => setLocale(l.code),
   })),
 ])
 </script>

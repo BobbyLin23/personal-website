@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
-const { t, locale } = useI18n()
+const { t, localeProperties } = useI18n()
 const localePath = useLocalePath()
 
 useSeoMeta({
@@ -28,7 +28,7 @@ const socialLinks = [
 
 const postDateFormatter = computed(
   () =>
-    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+    new Intl.DateTimeFormat(localeProperties.value.language || 'en', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

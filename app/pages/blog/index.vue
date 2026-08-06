@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
-const { t, locale } = useI18n()
+const { t, localeProperties } = useI18n()
 const localePath = useLocalePath()
 
 useSeoMeta({
@@ -34,7 +34,7 @@ const postsByYear = computed(() => {
 
 const listDateFormatter = computed(
   () =>
-    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+    new Intl.DateTimeFormat(localeProperties.value.language || 'en', {
       month: '2-digit',
       day: '2-digit',
     }),

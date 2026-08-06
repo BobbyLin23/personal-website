@@ -53,23 +53,15 @@ export default defineEventHandler(async (event): Promise<TranslatedPayload> => {
   const originalDescription = getFrontmatterField(frontmatter, 'description') || ''
   const originalDate = getFrontmatterField(frontmatter, 'date') || ''
 
-  const metaSource = [
-    originalTitle && `Title: ${originalTitle}`,
-    originalDescription && `Description: ${originalDescription}`,
-  ]
-    .filter(Boolean)
-    .join('\n')
-
-  const [translatedMeta, translatedBody] = await Promise.all([
-    metaSource ? translateMarkdown(metaSource, { targetLocale: locale }) : Promise.resolve(''),
+  const [translatedTitle, translatedDescription, translatedBody] = await Promise.all([
+    originalTitle
+      ? translateMarkdown(originalTitle, { targetLocale: locale })
+      : Promise.resolve(''),
+    originalDescription
+      ? translateMarkdown(originalDescription, { targetLocale: locale })
+      : Promise.resolve(''),
     translateMarkdown(body, { targetLocale: locale }),
   ])
-
-  const translatedTitle =
-    extractField(translatedMeta, /^(?:Title|标题)[ \t]*[:：](.+)$/m) || originalTitle
-  const translatedDescription =
-    extractField(translatedMeta, /^(?:Description|描述|简介)[ \t]*[:：](.+)$/m) ||
-    originalDescription
 
   const parsed = await parseMdToAst(translatedBody)
 
@@ -88,9 +80,3 @@ export default defineEventHandler(async (event): Promise<TranslatedPayload> => {
 
   return payload
 })
-
-function extractField(text: string, re: RegExp): string | undefined {
-  if (!text) return undefined
-  const m = text.match(re)
-  return m?.[1]?.trim()
-}

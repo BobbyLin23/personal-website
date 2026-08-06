@@ -1,13 +1,14 @@
 <script setup lang="ts">
 const WHITESPACE_SPLIT = /\s+/
-const LOCALE_PREFIX_RE = /^\/(en|zh)(?=\/|$)/
 
 const route = useRoute()
-const { t, locale } = useI18n()
+const { t, locale, localeProperties, localeCodes } = useI18n()
 const localePath = useLocalePath()
 
+const localePrefixRe = computed(() => new RegExp(`^/(${localeCodes.value.join('|')})(?=/|$)`))
+
 const basePath = computed(() => {
-  const p = route.path.replace(LOCALE_PREFIX_RE, '')
+  const p = route.path.replace(localePrefixRe.value, '')
   return p || '/'
 })
 
@@ -32,7 +33,7 @@ const sourceLocale = computed(() => normalizeLocaleCode(originalPage.value?.lang
 const currentLocale = computed(() => normalizeLocaleCode(locale.value))
 const shouldTranslate = computed(() => {
   if (sourceLocale.value) return sourceLocale.value !== currentLocale.value
-  return currentLocale.value === 'zh'
+  return currentLocale.value !== 'en'
 })
 
 // Stream the translated version on the client when the source language differs.
@@ -81,7 +82,7 @@ const { pageUrl } = usePostSeo({
 
 const fullDateFormatter = computed(
   () =>
-    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+    new Intl.DateTimeFormat(localeProperties.value.language || 'en', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',

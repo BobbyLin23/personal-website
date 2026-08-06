@@ -50,14 +50,26 @@ function getDeepSeekConfig(): DeepSeekConfig {
   return { apiKey, model, baseUrl }
 }
 
+const LOCALE_LANGUAGE_NAMES: Record<string, string> = {
+  en: 'English',
+  zh: 'Simplified Chinese (zh-CN)',
+  'zh-TW': 'Traditional Chinese (zh-TW)',
+  es: 'Spanish',
+  ja: 'Japanese',
+  fr: 'French',
+}
+
+function localeLanguageName(locale: string): string | undefined {
+  return LOCALE_LANGUAGE_NAMES[locale]
+}
+
 function buildSystemPrompt(targetLocale: string): string {
-  return targetLocale === 'zh'
-    ? TRANSLATION_SYSTEM_PROMPT
-    : TRANSLATION_SYSTEM_PROMPT.replace('Simplified Chinese (zh-CN)', `locale "${targetLocale}"`)
+  const targetLanguage = localeLanguageName(targetLocale) || `locale "${targetLocale}"`
+  return TRANSLATION_SYSTEM_PROMPT.replace('Simplified Chinese (zh-CN)', targetLanguage)
 }
 
 function buildInsightSystemPrompt(targetLocale: string): string {
-  const outputLanguage = targetLocale === 'zh' ? 'Simplified Chinese' : 'English'
+  const outputLanguage = localeLanguageName(targetLocale)?.split(' ')[0] || 'English'
   return `You analyze technical blog posts and produce concise reader-facing insights.
 
 Rules:

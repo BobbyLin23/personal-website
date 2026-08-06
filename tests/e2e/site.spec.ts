@@ -49,29 +49,47 @@ async function mockAppApis(page: Page) {
 }
 
 function parseMonthYear(label: string) {
-  const match = label.trim().match(/^([A-Z][a-z]+) (\d{4})$/)
-  if (!match) throw new Error(`Unexpected calendar heading: ${label}`)
-
-  const month = monthIndexes.get(match[1])
-  if (month === undefined) throw new Error(`Unexpected calendar month: ${match[1]}`)
-
-  return {
-    label: `${match[1]} ${match[2]}`,
-    value: Number(match[2]) * 12 + month,
+  // English: "February 2026" — Chinese: "2026年2月"
+  const english = label.trim().match(/^([A-Z][a-z]+) (\d{4})$/)
+  if (english) {
+    const month = monthIndexes.get(english[1])
+    if (month === undefined) throw new Error(`Unexpected calendar month: ${english[1]}`)
+    return {
+      locale: 'en' as const,
+      label: `${english[1]} ${english[2]}`,
+      value: Number(english[2]) * 12 + month,
+    }
   }
+
+  const chinese = label.trim().match(/^(\d{4})年(\d{1,2})月$/)
+  if (chinese) {
+    const year = Number(chinese[1])
+    const month = Number(chinese[2]) - 1
+    return {
+      locale: 'zh' as const,
+      label: `${year}年${month + 1}月`,
+      value: year * 12 + month,
+    }
+  }
+
+  throw new Error(`Unexpected calendar heading: ${label}`)
 }
 
 async function showCalendarMonth(page: Page, targetLabel: string) {
   const target = parseMonthYear(targetLabel)
-  const heading = page.getByRole('button', { name: /^[A-Z][a-z]+ \d{4}$/ }).first()
+  const heading = page
+    .getByRole('button', { name: /(?:[A-Z][a-z]+ \d{4}|\d{4}年\d{1,2}月)/ })
+    .first()
 
   for (let attempts = 0; attempts < 120; attempts++) {
     const current = parseMonthYear((await heading.textContent()) || '')
-    if (current.label === target.label) return
+    if (current.value === target.value) return
 
+    const prevName = current.locale === 'zh' ? '上个月' : 'Previous month'
+    const nextName = current.locale === 'zh' ? '下个月' : 'Next month'
     await page
       .getByRole('button', {
-        name: current.value > target.value ? 'Previous month' : 'Next month',
+        name: current.value > target.value ? prevName : nextName,
       })
       .click()
   }
@@ -87,8 +105,18 @@ test.beforeEach(async ({ context, page }) => {
 const smokeRoutes = [
   { path: '/en', heading: 'Bobby Lin' },
   { path: '/zh', heading: 'Bobby Lin' },
+  { path: '/zh-TW', heading: 'Bobby Lin' },
+  { path: '/es', heading: 'Bobby Lin' },
+  { path: '/ja', heading: 'Bobby Lin' },
+  { path: '/fr', heading: 'Bobby Lin' },
   { path: '/en/blog', heading: 'Blog' },
+  { path: '/es/blog', heading: 'Blog' },
+  { path: '/fr/blog', heading: 'Blog' },
+  { path: '/ja/blog', heading: 'ブログ' },
+  { path: '/zh-TW/blog', heading: '部落格' },
+  { path: '/zh/blog', heading: '博客' },
   { path: '/en/projects', heading: 'Projects' },
+  { path: '/es/projects', heading: 'Proyectos' },
   { path: '/en/weekly', heading: 'Weekly' },
   { path: '/en/resume', heading: 'Lin Zhangsheng' },
 ]
@@ -115,7 +143,7 @@ test('header controls switch locale, expose RSS links, and persist color mode', 
   await goto('/en', { waitUntil: 'hydration' })
 
   await page.getByRole('button', { name: 'Language' }).click()
-  await page.getByRole('menuitem', { name: '中文' }).click()
+  await page.getByRole('menuitem', { name: '简体中文' }).click()
   await expect(page).toHaveURL(/\/zh\/?$/)
   await expect(page.getByText('专注于构建美观、高性能的 Web 应用')).toBeVisible()
 
@@ -164,7 +192,7 @@ test('weekly calendar opens the highlighted weekly report for the active locale'
   await goto('/zh/weekly', { waitUntil: 'hydration' })
 
   await showCalendarMonth(page, 'February 2026')
-  await page.getByRole('button', { name: 'Sunday, February 8, 2026' }).click()
+  await page.getByRole('button', { name: '2026年2月8日星期日' }).click()
 
   await expect(page).toHaveURL(/\/zh\/weekly\/2026-w06$/)
   await expect(page.getByRole('heading', { name: 'Week 6 Report' })).toBeVisible()
@@ -196,7 +224,7 @@ test('projects and resume expose expected links and resume actions', async ({ go
     .poll(() => page.evaluate(() => (window as Window & { __printCalled?: boolean }).__printCalled))
     .toBe(true)
 
-  await page.getByRole('link', { name: '中文' }).click()
+  await page.getByRole('link', { name: '简体中文' }).click()
   await expect(page).toHaveURL(/\/zh\/resume$/)
   await expect(page.getByRole('heading', { level: 1, name: '林张生' })).toBeVisible()
 })

@@ -73,7 +73,9 @@
     "commits": "Commits",
     "prs": "PRs",
     "blogs": "Blogs",
-    "books": "Books"
+    "books": "Books",
+    "hasReport": "Has weekly report",
+    "today": "Today"
   },
   "projects": {
     "title": "Projects",
@@ -82,6 +84,9 @@
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "resume": {
+    "print": "Print"
   },
   "common": {
     "loading": "Loading..."

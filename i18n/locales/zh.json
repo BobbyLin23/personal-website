@@ -73,7 +73,9 @@
     "commits": "提交",
     "prs": "PR",
     "blogs": "博客",
-    "books": "书籍"
+    "books": "书籍",
+    "hasReport": "有周报",
+    "today": "今天"
   },
   "projects": {
     "title": "项目",
@@ -82,6 +84,9 @@
   },
   "footer": {
     "rights": "保留所有权利。"
+  },
+  "resume": {
+    "print": "打印"
   },
   "common": {
     "loading": "加载中..."

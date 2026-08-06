@@ -1,0 +1,94 @@
+{
+  "site": {
+    "name": "Bobby Lin"
+  },
+  "nav": {
+    "home": "Accueil",
+    "blog": "Blog",
+    "projects": "Projets",
+    "weekly": "Hebdo"
+  },
+  "rss": {
+    "all": "Tout",
+    "blog": "Blog",
+    "weekly": "Hebdo",
+    "ariaLabel": "Flux RSS",
+    "rss": "RSS"
+  },
+  "theme": {
+    "toggle": "Changer de thème"
+  },
+  "language": {
+    "switch": "Langue",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "role": "AI Builder",
+    "bio": "Je crée des applications web belles et performantes. Passionné par l'open source, l'écriture, l'IA et le partage de connaissances.",
+    "writing": "Écriture",
+    "projects": "Projets",
+    "viewAll": "Tout voir",
+    "noPosts": "Pas encore d'articles. Revenez bientôt.",
+    "noProjects": "Pas encore de projets mis en avant.",
+    "resume": "CV"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Réflexions sur le développement web, le design et la technologie.",
+    "empty": "Pas encore d'articles de blog."
+  },
+  "post": {
+    "back": "Retour au Blog",
+    "toc": "Sur cette page",
+    "readingTime": "{minutes} min de lecture",
+    "translating": "Traduction par IA...",
+    "translatingProgress": "L'IA traduit ({chars} caractères)",
+    "translatedByAi": "Traduit par IA depuis l'anglais",
+    "translationFailed": "Traduction indisponible. Affichage de l'original.",
+    "showOriginal": "Afficher l'original",
+    "showTranslation": "Afficher la traduction",
+    "notFound": "Article introuvable",
+    "aiInsights": {
+      "title": "Aperçus IA",
+      "keyPoints": "Points clés",
+      "takeaways": "À retenir",
+      "unavailable": "Aperçus IA indisponibles"
+    },
+    "share": {
+      "button": "Partager",
+      "copyLink": "Copier le lien",
+      "copied": "Lien copié",
+      "copyFailed": "Impossible de copier le lien",
+      "x": "Partager sur X",
+      "linkedin": "Partager sur LinkedIn",
+      "native": "Partager..."
+    }
+  },
+  "weekly": {
+    "title": "Hebdo",
+    "description": "Rapports hebdomadaires sur les apprentissages et les progrès.",
+    "empty": "Pas encore de rapports hebdomadaires.",
+    "back": "Retour aux Hebdo",
+    "commits": "Commits",
+    "prs": "PR",
+    "blogs": "Blogs",
+    "books": "Livres",
+    "hasReport": "Rapport hebdo disponible",
+    "today": "Aujourd'hui"
+  },
+  "projects": {
+    "title": "Projets",
+    "description": "Projets sélectionnés que je construis.",
+    "empty": "Pas encore de projets."
+  },
+  "footer": {
+    "rights": "Tous droits réservés."
+  },
+  "resume": {
+    "print": "Imprimer"
+  },
+  "common": {
+    "loading": "Chargement..."
+  }
+}
