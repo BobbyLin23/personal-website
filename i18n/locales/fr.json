@@ -55,8 +55,6 @@
     "notFound": "Article introuvable",
     "aiInsights": {
       "title": "Aperçus IA",
-      "keyPoints": "Points clés",
-      "takeaways": "À retenir",
       "unavailable": "Aperçus IA indisponibles"
     },
     "share": {

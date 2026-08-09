@@ -55,8 +55,6 @@
     "notFound": "文章不存在",
     "aiInsights": {
       "title": "AI 洞察",
-      "keyPoints": "重點",
-      "takeaways": "收穫",
       "unavailable": "AI 洞察暫不可用"
     },
     "share": {

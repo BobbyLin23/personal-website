@@ -55,8 +55,6 @@
     "notFound": "Post not found",
     "aiInsights": {
       "title": "AI insights",
-      "keyPoints": "Key points",
-      "takeaways": "Takeaways",
       "unavailable": "AI insights unavailable"
     },
     "share": {

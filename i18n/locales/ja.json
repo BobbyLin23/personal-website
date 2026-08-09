@@ -55,8 +55,6 @@
     "notFound": "記事が見つかりません",
     "aiInsights": {
       "title": "AI インサイト",
-      "keyPoints": "要点",
-      "takeaways": "学び",
       "unavailable": "AI インサイトは利用できません"
     },
     "share": {

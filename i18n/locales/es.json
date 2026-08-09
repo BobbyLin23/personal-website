@@ -55,8 +55,6 @@
     "notFound": "Publicación no encontrada",
     "aiInsights": {
       "title": "Insights de IA",
-      "keyPoints": "Puntos clave",
-      "takeaways": "Conclusiones",
       "unavailable": "Insights de IA no disponibles"
     },
     "share": {

@@ -3,9 +3,6 @@ import { expect, test } from '@nuxt/test-utils/playwright'
 
 const aiInsightsResponse = {
   summary: '测试环境中的文章摘要。',
-  keyPoints: ['页面可以加载文章内容', 'AI 洞察区域使用确定性响应'],
-  takeaways: ['E2E 测试不依赖外部模型服务'],
-  audience: 'For readers checking the blog UI.',
   path: '/blog/copilotkit-sourcecode-note',
   locale: 'zh',
   cached: false,
