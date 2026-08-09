@@ -49,18 +49,26 @@ const config = useRuntimeConfig()
 const base = (config.app.baseURL || '/').replace(/\/$/, '') || ''
 const rssItems = computed<DropdownMenuItem[][]>(() => [
   [
-    { label: t('rss.all'), icon: 'i-lucide-rss', to: `${base}/rss.xml`, target: '_blank' },
+    {
+      label: t('rss.all'),
+      icon: 'i-lucide-rss',
+      to: `${base}/rss.xml`,
+      target: '_blank',
+      external: true,
+    },
     {
       label: t('rss.blog'),
       icon: 'i-lucide-book-open',
       to: `${base}/rss/blog.xml`,
       target: '_blank',
+      external: true,
     },
     {
       label: t('rss.weekly'),
       icon: 'i-lucide-calendar',
       to: `${base}/rss/weekly.xml`,
       target: '_blank',
+      external: true,
     },
   ],
 ])

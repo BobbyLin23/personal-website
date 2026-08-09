@@ -28,6 +28,11 @@ export default defineNuxtConfig({
   ui: {
     fonts: false,
   },
+  icon: {
+    clientBundle: {
+      scan: true,
+    },
+  },
   runtimeConfig: {
     deepseekApiKey: serverEnv.NUXT_DEEPSEEK_API_KEY ?? '',
     deepseekModel: serverEnv.NUXT_DEEPSEEK_MODEL,

@@ -27,7 +27,7 @@
     "@nuxt/image": "2.1.0",
     "@nuxt/ui": "4.10.0",
     "@nuxtjs/i18n": "^10.6.0",
-    "@nuxtjs/mdc": "^0.23.0",
+    "@nuxtjs/mdc": "0.22.2",
     "@t3-oss/env-nuxt": "^0.13.11",
     "@upstash/redis": "^1.38.2",
     "better-sqlite3": "^13.0.3",
