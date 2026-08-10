@@ -1,3 +1,5 @@
+import { env } from '~~/env/server'
+
 const TRANSLATION_SYSTEM_PROMPT = `You are a professional translator specializing in technical Markdown content. Translate the user-provided text from English into Simplified Chinese (zh-CN).
 
 Rules:
@@ -18,9 +20,6 @@ interface DeepSeekChatResponse {
 
 export interface PostInsightPayload {
   summary: string
-  keyPoints: string[]
-  takeaways: string[]
-  audience: string
 }
 
 export interface TranslateOptions {
@@ -34,40 +33,49 @@ interface DeepSeekConfig {
 }
 
 function getDeepSeekConfig(): DeepSeekConfig {
-  const config = useRuntimeConfig()
-  const apiKey = config.deepseekApiKey as string
-  const model = (config.deepseekModel as string) || 'deepseek-chat'
-  const baseUrl = ((config.deepseekBaseUrl as string) || 'https://api.deepseek.com').replace(
-    /\/$/,
-    '',
-  )
+  const apiKey = env.NUXT_DEEPSEEK_API_KEY
   if (!apiKey) {
     throw createError({
       statusCode: 500,
       statusMessage: 'DeepSeek API key is not configured (NUXT_DEEPSEEK_API_KEY).',
     })
   }
-  return { apiKey, model, baseUrl }
+  return {
+    apiKey,
+    model: env.NUXT_DEEPSEEK_MODEL,
+    baseUrl: env.NUXT_DEEPSEEK_BASE_URL.replace(/\/$/, ''),
+  }
+}
+
+const LOCALE_LANGUAGE_NAMES: Record<string, string> = {
+  en: 'English',
+  zh: 'Simplified Chinese (zh-CN)',
+  'zh-TW': 'Traditional Chinese (zh-TW)',
+  es: 'Spanish',
+  ja: 'Japanese',
+  fr: 'French',
+}
+
+function localeLanguageName(locale: string): string | undefined {
+  return LOCALE_LANGUAGE_NAMES[locale]
 }
 
 function buildSystemPrompt(targetLocale: string): string {
-  return targetLocale === 'zh'
-    ? TRANSLATION_SYSTEM_PROMPT
-    : TRANSLATION_SYSTEM_PROMPT.replace('Simplified Chinese (zh-CN)', `locale "${targetLocale}"`)
+  const targetLanguage = localeLanguageName(targetLocale) || `locale "${targetLocale}"`
+  return TRANSLATION_SYSTEM_PROMPT.replace('Simplified Chinese (zh-CN)', targetLanguage)
 }
 
 function buildInsightSystemPrompt(targetLocale: string): string {
-  const outputLanguage = targetLocale === 'zh' ? 'Simplified Chinese' : 'English'
-  return `You analyze technical blog posts and produce concise reader-facing insights.
+  const outputLanguage = localeLanguageName(targetLocale) || 'English'
+  return `You summarize technical blog posts for readers.
 
 Rules:
+- Write ONE short paragraph of 2-3 sentences (no more than 50 words) that captures what the article is about and its main takeaway.
+- Use plain, simple language.
 - Output language: ${outputLanguage}.
 - Return ONLY valid JSON with this exact shape:
   {
-    "summary": "One concise paragraph, 45-80 words.",
-    "keyPoints": ["3-5 concrete points from the post."],
-    "takeaways": ["2-4 practical takeaways for a software engineer."],
-    "audience": "One short sentence describing who should read this."
+    "summary": "A short summary of the post."
   }
 - Do not wrap the JSON in Markdown or code fences.
 - Do not invent facts that are not supported by the source post.
@@ -120,9 +128,6 @@ export async function generatePostInsights(
   if (!text.trim()) {
     return {
       summary: '',
-      keyPoints: [],
-      takeaways: [],
-      audience: '',
     }
   }
 
@@ -255,17 +260,5 @@ function normalizeInsights(value: unknown): PostInsightPayload {
   const input = value as Partial<PostInsightPayload>
   return {
     summary: typeof input.summary === 'string' ? input.summary.trim() : '',
-    keyPoints: normalizeStringList(input.keyPoints, 5),
-    takeaways: normalizeStringList(input.takeaways, 4),
-    audience: typeof input.audience === 'string' ? input.audience.trim() : '',
   }
-}
-
-function normalizeStringList(value: unknown, limit: number): string[] {
-  if (!Array.isArray(value)) return []
-  return value
-    .filter((item): item is string => typeof item === 'string')
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .slice(0, limit)
 }

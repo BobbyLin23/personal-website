@@ -84,6 +84,7 @@ When adding/modifying content, keep frontmatter compliant with these Zod schemas
 - Prerendered routes: `/rss.xml`, `/rss/blog.xml`, `/rss/weekly.xml`. If you add new static endpoints, update `nitro.prerender.routes` in `nuxt.config.ts`.
 - `minimark` is force-inlined via `nitro.externals.inline`.
 - `nuxt-studio` is wired to the `BobbyLin23/personal-website` GitHub repo, `master` branch.
+- Env vars are validated at build time by `@t3-oss/env-nuxt` via `env/server.ts` and `env/client.ts` (imported in `nuxt.config.ts`). Validated values feed `runtimeConfig`; server code reads `env` directly, client code must keep using `useRuntimeConfig()` (Nuxt replaces `process.env` with `{}` in client bundles).
 - Runtime config exposes `public.siteUrl` from `NUXT_PUBLIC_SITE_URL`.
 
 ## Branching & Commits

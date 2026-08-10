@@ -7,6 +7,8 @@ const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const colorMode = useColorMode()
 
+type LocaleCode = Parameters<typeof setLocale>[0]
+
 const colorModeIcon = computed(() =>
   colorMode.value === 'dark' ? 'i-lucide-moon' : 'i-lucide-sun',
 )
@@ -36,34 +38,47 @@ const navItems = computed<NavigationMenuItem[]>(() => [
     to: localePath('/weekly'),
     active: route.path.startsWith(localePath('/weekly')),
   },
+  {
+    label: t('nav.about'),
+    to: localePath('/about'),
+    active: route.path.startsWith(localePath('/about')),
+  },
 ])
 
 const config = useRuntimeConfig()
 const base = (config.app.baseURL || '/').replace(/\/$/, '') || ''
 const rssItems = computed<DropdownMenuItem[][]>(() => [
   [
-    { label: t('rss.all'), icon: 'i-lucide-rss', to: `${base}/rss.xml`, target: '_blank' },
+    {
+      label: t('rss.all'),
+      icon: 'i-lucide-rss',
+      to: `${base}/rss.xml`,
+      target: '_blank',
+      external: true,
+    },
     {
       label: t('rss.blog'),
       icon: 'i-lucide-book-open',
       to: `${base}/rss/blog.xml`,
       target: '_blank',
+      external: true,
     },
     {
       label: t('rss.weekly'),
       icon: 'i-lucide-calendar',
       to: `${base}/rss/weekly.xml`,
       target: '_blank',
+      external: true,
     },
   ],
 ])
 
 const languageItems = computed<DropdownMenuItem[][]>(() => [
-  (locales.value as Array<{ code: string; name?: string }>).map((l) => ({
+  (locales.value as Array<{ code: LocaleCode; name?: string }>).map((l) => ({
     label: l.name || l.code,
     icon: l.code === locale.value ? 'i-lucide-check' : undefined,
-    to: switchLocalePath(l.code as 'en' | 'zh') || undefined,
-    onSelect: () => setLocale(l.code as 'en' | 'zh'),
+    to: switchLocalePath(l.code) || undefined,
+    onSelect: () => setLocale(l.code),
   })),
 ])
 </script>

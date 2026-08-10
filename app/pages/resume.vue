@@ -10,7 +10,9 @@ const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const config = useRuntimeConfig()
 
-const content = computed(() => resumeData[locale.value as 'zh' | 'en'] ?? resumeData.en)
+type LocaleCode = Parameters<typeof setLocale>[0]
+
+const content = computed(() => resumeData[locale.value as keyof typeof resumeData] ?? resumeData.en)
 
 useSeoMeta({
   title: () => `${content.value.name} — ${content.value.title}`,
@@ -18,11 +20,11 @@ useSeoMeta({
 })
 
 const languageOptions = computed(() =>
-  (locales.value as Array<{ code: string; name?: string }>).map((l) => ({
-    code: l.code as 'en' | 'zh',
+  (locales.value as Array<{ code: LocaleCode; name?: string }>).map((l) => ({
+    code: l.code,
     label: l.name || l.code,
     active: l.code === locale.value,
-    to: switchLocalePath(l.code as 'en' | 'zh'),
+    to: switchLocalePath(l.code),
   })),
 )
 
@@ -61,7 +63,7 @@ function printResume() {
 
           <button type="button" class="resume-print-btn" @click="printResume">
             <UIcon name="i-lucide-printer" class="size-4" aria-hidden="true" />
-            {{ locale === 'zh' ? '打印' : 'Print' }}
+            {{ t('resume.print') }}
           </button>
         </div>
       </div>

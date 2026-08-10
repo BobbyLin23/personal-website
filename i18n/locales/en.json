@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Home",
+    "about": "About",
     "blog": "Blog",
     "projects": "Projects",
     "weekly": "Weekly"
@@ -38,6 +39,9 @@
     "description": "Thoughts on web development, design, and technology.",
     "empty": "No blog posts yet."
   },
+  "about": {
+    "notFound": "About page not found"
+  },
   "post": {
     "back": "Back to Blog",
     "toc": "On this page",
@@ -51,8 +55,6 @@
     "notFound": "Post not found",
     "aiInsights": {
       "title": "AI insights",
-      "keyPoints": "Key points",
-      "takeaways": "Takeaways",
       "unavailable": "AI insights unavailable"
     },
     "share": {
@@ -73,7 +75,9 @@
     "commits": "Commits",
     "prs": "PRs",
     "blogs": "Blogs",
-    "books": "Books"
+    "books": "Books",
+    "hasReport": "Has weekly report",
+    "today": "Today"
   },
   "projects": {
     "title": "Projects",
@@ -82,6 +86,9 @@
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "resume": {
+    "print": "Print"
   },
   "common": {
     "loading": "Loading..."

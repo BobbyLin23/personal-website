@@ -2,16 +2,26 @@
 import * as locales from '@nuxt/ui/locale'
 
 const colorMode = useColorMode()
-const { locale } = useI18n()
+const { locale, localeProperties } = useI18n()
 
 const themeColor = computed(() => (colorMode.value === 'dark' ? '#1c1917' : '#fafaf9'))
 
+// Map our locale codes to @nuxt/ui locale keys and BCP-47 language tags.
+const uiLocaleMap: Record<string, string> = {
+  en: 'en',
+  zh: 'zh_cn',
+  'zh-TW': 'zh_tw',
+  es: 'es',
+  ja: 'ja',
+  fr: 'fr',
+}
+
 const uiLocale = computed(() => {
-  const code = locale.value === 'zh' ? 'zh-CN' : 'en'
+  const code = uiLocaleMap[locale.value] || 'en'
   return (locales as Record<string, any>)[code] || locales.en
 })
 
-const htmlLang = computed(() => (locale.value === 'zh' ? 'zh-CN' : 'en'))
+const htmlLang = computed(() => localeProperties.value.language || 'en')
 
 useHead({
   htmlAttrs: {

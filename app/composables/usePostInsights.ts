@@ -1,8 +1,5 @@
 export interface PostInsightData {
   summary: string
-  keyPoints: string[]
-  takeaways: string[]
-  audience: string
   path: string
   locale: string
   cached: boolean

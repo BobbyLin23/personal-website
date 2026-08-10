@@ -2,9 +2,6 @@ import { createHash } from 'node:crypto'
 
 interface AiInsightResponse {
   summary: string
-  keyPoints: string[]
-  takeaways: string[]
-  audience: string
   path: string
   locale: string
   cached: boolean
@@ -15,9 +12,9 @@ const MAX_SOURCE_CHARS = 24_000
 
 export default defineEventHandler(async (event): Promise<AiInsightResponse> => {
   const query = getQuery(event)
-  const path = String(query.path || '').trim()
-  const locale = String(query.locale || 'en').trim()
-  const collection = String(query.collection || 'blog').trim()
+  const path = getQueryString(query.path).trim()
+  const locale = (getQueryString(query.locale) || 'en').trim()
+  const collection = (getQueryString(query.collection) || 'blog').trim()
 
   if (!path || !path.startsWith('/'))
     throw createError({ statusCode: 400, statusMessage: 'Invalid path' })
@@ -34,7 +31,7 @@ export default defineEventHandler(async (event): Promise<AiInsightResponse> => {
 
   const rawText = typeof raw === 'string' ? raw : String(raw)
   const hash = createHash('sha1').update(rawText).digest('hex').slice(0, 12)
-  const cacheKey = `ai-insights:${locale}:${collection}:${stem}:${hash}`
+  const cacheKey = `ai-insights:v2:${locale}:${collection}:${stem}:${hash}`
   const cache = useStorage('cache')
 
   const cached = await cache.getItem<AiInsightResponse>(cacheKey)

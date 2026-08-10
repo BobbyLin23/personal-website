@@ -1,11 +1,12 @@
-import { resolve } from 'node:path'
 import process from 'node:process'
+import { resolve } from 'node:path'
+import { env as serverEnv } from './env/server'
+import { env as clientEnv } from './env/client'
 
-const upstashUrl =
-  process.env.NUXT_UPSTASH_REDIS_REST_URL || process.env.UPSTASH_REDIS_REST_URL || ''
+const upstashUrl = serverEnv.NUXT_UPSTASH_REDIS_REST_URL || serverEnv.UPSTASH_REDIS_REST_URL || ''
 const upstashToken =
-  process.env.NUXT_UPSTASH_REDIS_REST_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || ''
-const cacheBase = process.env.NUXT_CACHE_BASE || 'cache'
+  serverEnv.NUXT_UPSTASH_REDIS_REST_TOKEN || serverEnv.UPSTASH_REDIS_REST_TOKEN || ''
+const cacheBase = serverEnv.NUXT_CACHE_BASE
 
 function buildCacheStorage() {
   if (upstashUrl && upstashToken) {
@@ -27,16 +28,21 @@ export default defineNuxtConfig({
   ui: {
     fonts: false,
   },
+  icon: {
+    clientBundle: {
+      scan: true,
+    },
+  },
   runtimeConfig: {
-    deepseekApiKey: process.env.NUXT_DEEPSEEK_API_KEY || '',
-    deepseekModel: process.env.NUXT_DEEPSEEK_MODEL || 'deepseek-chat',
-    deepseekBaseUrl: process.env.NUXT_DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
+    deepseekApiKey: serverEnv.NUXT_DEEPSEEK_API_KEY ?? '',
+    deepseekModel: serverEnv.NUXT_DEEPSEEK_MODEL,
+    deepseekBaseUrl: serverEnv.NUXT_DEEPSEEK_BASE_URL,
     upstash: {
       url: upstashUrl,
       token: upstashToken,
     },
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || '',
+      siteUrl: clientEnv.NUXT_PUBLIC_SITE_URL,
     },
   },
   nitro: {
@@ -64,7 +70,11 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     locales: [
       { code: 'en', name: 'English', language: 'en-US', file: 'en.json' },
-      { code: 'zh', name: '中文', language: 'zh-CN', file: 'zh.json' },
+      { code: 'zh', name: '简体中文', language: 'zh-CN', file: 'zh.json' },
+      { code: 'zh-TW', name: '繁體中文', language: 'zh-TW', file: 'zh-TW.json' },
+      { code: 'es', name: 'Español', language: 'es', file: 'es.json' },
+      { code: 'ja', name: '日本語', language: 'ja', file: 'ja.json' },
+      { code: 'fr', name: 'Français', language: 'fr', file: 'fr.json' },
     ],
     langDir: 'locales/',
     detectBrowserLanguage: {

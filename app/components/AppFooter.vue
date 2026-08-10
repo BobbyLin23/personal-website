@@ -31,6 +31,7 @@ const currentYear = new Date().getFullYear()
         color="neutral"
         variant="ghost"
         to="/rss.xml"
+        external
         :aria-label="t('rss.rss')"
       />
     </template>

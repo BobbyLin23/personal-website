@@ -1,0 +1,96 @@
+{
+  "site": {
+    "name": "Bobby Lin"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "blog": "Blog",
+    "projects": "Proyectos",
+    "weekly": "Semanal"
+  },
+  "rss": {
+    "all": "Todo",
+    "blog": "Blog",
+    "weekly": "Semanal",
+    "ariaLabel": "Canales RSS",
+    "rss": "RSS"
+  },
+  "theme": {
+    "toggle": "Cambiar tema"
+  },
+  "language": {
+    "switch": "Idioma",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "role": "AI Builder",
+    "bio": "Creando aplicaciones web hermosas y de alto rendimiento. Apasionado por el código abierto, la escritura, la IA y compartir conocimiento.",
+    "writing": "Escritura",
+    "projects": "Proyectos",
+    "viewAll": "Ver todo",
+    "noPosts": "Aún no hay publicaciones. Vuelve pronto.",
+    "noProjects": "Aún no hay proyectos destacados.",
+    "resume": "Currículum"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Reflexiones sobre desarrollo web, diseño y tecnología.",
+    "empty": "Aún no hay publicaciones."
+  },
+  "about": {
+    "notFound": "Página de información no encontrada"
+  },
+  "post": {
+    "back": "Volver al Blog",
+    "toc": "En esta página",
+    "readingTime": "{minutes} min de lectura",
+    "translating": "Traduciendo con IA...",
+    "translatingProgress": "La IA está traduciendo ({chars} caracteres)",
+    "translatedByAi": "Traducido por IA desde el inglés",
+    "translationFailed": "Traducción no disponible. Mostrando el original.",
+    "showOriginal": "Mostrar original",
+    "showTranslation": "Mostrar traducción",
+    "notFound": "Publicación no encontrada",
+    "aiInsights": {
+      "title": "Insights de IA",
+      "unavailable": "Insights de IA no disponibles"
+    },
+    "share": {
+      "button": "Compartir",
+      "copyLink": "Copiar enlace",
+      "copied": "Enlace copiado",
+      "copyFailed": "No se pudo copiar el enlace",
+      "x": "Compartir en X",
+      "linkedin": "Compartir en LinkedIn",
+      "native": "Compartir..."
+    }
+  },
+  "weekly": {
+    "title": "Semanal",
+    "description": "Informes semanales sobre aprendizajes y progreso.",
+    "empty": "Aún no hay informes semanales.",
+    "back": "Volver al Semanal",
+    "commits": "Commits",
+    "prs": "PRs",
+    "blogs": "Blogs",
+    "books": "Libros",
+    "hasReport": "Tiene informe semanal",
+    "today": "Hoy"
+  },
+  "projects": {
+    "title": "Proyectos",
+    "description": "Proyectos seleccionados que he estado construyendo.",
+    "empty": "Aún no hay proyectos."
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados."
+  },
+  "resume": {
+    "print": "Imprimir"
+  },
+  "common": {
+    "loading": "Cargando..."
+  }
+}

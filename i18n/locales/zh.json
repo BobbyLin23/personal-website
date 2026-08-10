@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "首页",
+    "about": "关于",
     "blog": "博客",
     "projects": "项目",
     "weekly": "周报"
@@ -38,6 +39,9 @@
     "description": "关于 Web 开发、设计与技术的思考。",
     "empty": "暂时没有文章。"
   },
+  "about": {
+    "notFound": "关于页面不存在"
+  },
   "post": {
     "back": "返回博客",
     "toc": "目录",
@@ -51,8 +55,6 @@
     "notFound": "文章不存在",
     "aiInsights": {
       "title": "AI 洞察",
-      "keyPoints": "要点",
-      "takeaways": "收获",
       "unavailable": "AI 洞察暂不可用"
     },
     "share": {
@@ -73,7 +75,9 @@
     "commits": "提交",
     "prs": "PR",
     "blogs": "博客",
-    "books": "书籍"
+    "books": "书籍",
+    "hasReport": "有周报",
+    "today": "今天"
   },
   "projects": {
     "title": "项目",
@@ -82,6 +86,9 @@
   },
   "footer": {
     "rights": "保留所有权利。"
+  },
+  "resume": {
+    "print": "打印"
   },
   "common": {
     "loading": "加载中..."

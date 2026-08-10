@@ -1,13 +1,14 @@
 <script setup lang="ts">
 const WHITESPACE_SPLIT = /\s+/
-const LOCALE_PREFIX_RE = /^\/(en|zh)(?=\/|$)/
 
 const route = useRoute()
-const { t, locale } = useI18n()
+const { t, locale, localeProperties, localeCodes } = useI18n()
 const localePath = useLocalePath()
 
+const localePrefixRe = computed(() => new RegExp(`^/(${localeCodes.value.join('|')})(?=/|$)`))
+
 const basePath = computed(() => {
-  const p = route.path.replace(LOCALE_PREFIX_RE, '')
+  const p = route.path.replace(localePrefixRe.value, '')
   return p || '/'
 })
 
@@ -32,7 +33,7 @@ const sourceLocale = computed(() => normalizeLocaleCode(originalPage.value?.lang
 const currentLocale = computed(() => normalizeLocaleCode(locale.value))
 const shouldTranslate = computed(() => {
   if (sourceLocale.value) return sourceLocale.value !== currentLocale.value
-  return currentLocale.value === 'zh'
+  return currentLocale.value !== 'en'
 })
 
 // Stream the translated version on the client when the source language differs.
@@ -45,7 +46,7 @@ const translation = usePostTranslation({
 
 const insights = usePostInsights({
   path: () => basePath.value,
-  locale: () => currentLocale.value || 'en',
+  locale: () => locale.value || 'en',
   enabled: () => !!originalPage.value,
 })
 
@@ -81,7 +82,7 @@ const { pageUrl } = usePostSeo({
 
 const fullDateFormatter = computed(
   () =>
-    new Intl.DateTimeFormat(locale.value === 'zh' ? 'zh-CN' : 'en', {
+    new Intl.DateTimeFormat(localeProperties.value.language || 'en', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -110,10 +111,7 @@ function toggleOriginal() {
   showOriginal.value = !showOriginal.value
 }
 
-const hasInsights = computed(() => {
-  const value = insights.data.value
-  return !!(value?.summary || value?.keyPoints.length || value?.takeaways.length || value?.audience)
-})
+const hasInsights = computed(() => !!insights.data.value?.summary)
 </script>
 
 <template>
@@ -242,56 +240,8 @@ const hasInsights = computed(() => {
             />
 
             <div v-else-if="hasInsights" class="space-y-5">
-              <p v-if="insights.data.value?.summary" class="text-sm leading-6 text-toned">
-                {{ insights.data.value.summary }}
-              </p>
-
-              <div v-if="insights.data.value?.keyPoints.length" class="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <h3
-                    class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted"
-                  >
-                    <UIcon name="i-lucide-list-checks" class="size-3.5" />
-                    {{ t('post.aiInsights.keyPoints') }}
-                  </h3>
-                  <ul class="space-y-2 text-sm text-toned">
-                    <li
-                      v-for="point in insights.data.value.keyPoints"
-                      :key="point"
-                      class="flex gap-2"
-                    >
-                      <span class="mt-2 size-1 rounded-full bg-primary" aria-hidden="true" />
-                      <span>{{ point }}</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div v-if="insights.data.value?.takeaways.length">
-                  <h3
-                    class="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase text-muted"
-                  >
-                    <UIcon name="i-lucide-lightbulb" class="size-3.5" />
-                    {{ t('post.aiInsights.takeaways') }}
-                  </h3>
-                  <ul class="space-y-2 text-sm text-toned">
-                    <li
-                      v-for="takeaway in insights.data.value.takeaways"
-                      :key="takeaway"
-                      class="flex gap-2"
-                    >
-                      <span class="mt-2 size-1 rounded-full bg-success" aria-hidden="true" />
-                      <span>{{ takeaway }}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <p
-                v-if="insights.data.value?.audience"
-                class="flex items-start gap-2 border-t border-default pt-4 text-xs text-muted"
-              >
-                <UIcon name="i-lucide-user-round-check" class="mt-0.5 size-3.5 shrink-0" />
-                <span>{{ insights.data.value.audience }}</span>
+              <p class="text-sm leading-6 text-toned">
+                {{ insights.data.value?.summary }}
               </p>
             </div>
           </section>

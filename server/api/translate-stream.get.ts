@@ -12,14 +12,14 @@ interface TranslatedPayload {
   sourceLocale: string
 }
 
-const VALID_COLLECTIONS = new Set(['blog', 'weekly'])
+const VALID_COLLECTIONS = new Set(['blog', 'weekly', 'about'])
 const PARSE_DEBOUNCE_MS = 500
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  const path = String(query.path || '').trim()
-  const locale = String(query.locale || '').trim()
-  const collection = String(query.collection || 'blog').trim()
+  const path = getQueryString(query.path).trim()
+  const locale = getQueryString(query.locale).trim()
+  const collection = (getQueryString(query.collection) || 'blog').trim()
 
   if (!path || !path.startsWith('/'))
     throw createError({ statusCode: 400, statusMessage: 'Invalid path' })
@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
     } catch {}
   })
 
-  ;(async () => {
+  void (async () => {
     try {
       const cached = await cache.getItem<TranslatedPayload>(cacheKey)
       if (cached) {
@@ -75,24 +75,21 @@ export default defineEventHandler(async (event) => {
       const originalDescription = getFrontmatterField(frontmatter, 'description') || ''
       const originalDate = getFrontmatterField(frontmatter, 'date') || ''
 
-      const metaSource = [
-        originalTitle && `Title: ${originalTitle}`,
-        originalDescription && `Description: ${originalDescription}`,
-      ]
-        .filter(Boolean)
-        .join('\n')
-
       let translatedTitle = originalTitle
       let translatedDescription = originalDescription
 
-      if (metaSource) {
+      if (originalTitle || originalDescription) {
         try {
-          const translatedMeta = await translateMarkdown(metaSource, { targetLocale: locale })
-          translatedTitle =
-            extractField(translatedMeta, /^(?:Title|标题)[ \t]*[:：](.+)$/m) || originalTitle
-          translatedDescription =
-            extractField(translatedMeta, /^(?:Description|描述|简介)[ \t]*[:：](.+)$/m) ||
+          const [tTitle, tDescription] = await Promise.all([
+            originalTitle
+              ? translateMarkdown(originalTitle, { targetLocale: locale })
+              : Promise.resolve(originalTitle),
             originalDescription
+              ? translateMarkdown(originalDescription, { targetLocale: locale })
+              : Promise.resolve(originalDescription),
+          ])
+          translatedTitle = tTitle
+          translatedDescription = tDescription
         } catch {
           // keep originals on meta failure
         }
@@ -137,7 +134,7 @@ export default defineEventHandler(async (event) => {
       )
 
       // Wait for any in-flight parse to settle before emitting final.
-      if (parseInFlight) await parseInFlight
+      if (parseInFlight) await (parseInFlight as Promise<void>)
 
       const finalParsed = await parseMdToAst(finalText)
       const payload: TranslatedPayload = {
@@ -166,9 +163,3 @@ export default defineEventHandler(async (event) => {
 
   return stream.send()
 })
-
-function extractField(text: string, re: RegExp): string | undefined {
-  if (!text) return undefined
-  const m = text.match(re)
-  return m?.[1]?.trim()
-}

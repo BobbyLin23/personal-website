@@ -141,7 +141,7 @@ function onPickerSelect(date: any) {
         <div class="flex flex-wrap items-center gap-6 mt-4 pt-4 border-t border-default">
           <div class="flex items-center gap-2 text-xs text-muted">
             <span class="w-2 h-2 rounded-full bg-primary" aria-hidden="true" />
-            Has weekly report
+            {{ t('weekly.hasReport') }}
           </div>
           <div class="flex items-center gap-2 text-xs text-muted">
             <span
@@ -150,7 +150,7 @@ function onPickerSelect(date: any) {
             >
               {{ todayDate.day }}
             </span>
-            Today
+            {{ t('weekly.today') }}
           </div>
         </div>
 

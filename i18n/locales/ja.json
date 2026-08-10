@@ -1,0 +1,96 @@
+{
+  "site": {
+    "name": "Bobby Lin"
+  },
+  "nav": {
+    "home": "ホーム",
+    "about": "私について",
+    "blog": "ブログ",
+    "projects": "プロジェクト",
+    "weekly": "週報"
+  },
+  "rss": {
+    "all": "すべて",
+    "blog": "ブログ",
+    "weekly": "週報",
+    "ariaLabel": "RSS フィード",
+    "rss": "RSS"
+  },
+  "theme": {
+    "toggle": "テーマ切り替え"
+  },
+  "language": {
+    "switch": "言語",
+    "english": "English",
+    "chinese": "中文"
+  },
+  "home": {
+    "role": "AI Builder",
+    "bio": "美しく高性能な Web アプリケーションを開発しています。オープンソース、執筆、AI、知識共有に情熱を持っています。",
+    "writing": "執筆",
+    "projects": "プロジェクト",
+    "viewAll": "すべて見る",
+    "noPosts": "まだ記事がありません。またお越しください。",
+    "noProjects": "特集プロジェクトはまだありません。",
+    "resume": "履歴書"
+  },
+  "blog": {
+    "title": "ブログ",
+    "description": "Web 開発、デザイン、テクノロジーについての考察。",
+    "empty": "まだブログ記事がありません。"
+  },
+  "about": {
+    "notFound": "プロフィールページが見つかりません"
+  },
+  "post": {
+    "back": "ブログに戻る",
+    "toc": "このページ",
+    "readingTime": "{minutes} 分で読めます",
+    "translating": "AI 翻訳中...",
+    "translatingProgress": "AI が翻訳中（{chars} 文字）",
+    "translatedByAi": "英語から AI 翻訳済み",
+    "translationFailed": "翻訳を利用できません。原文を表示しています。",
+    "showOriginal": "原文を表示",
+    "showTranslation": "翻訳を表示",
+    "notFound": "記事が見つかりません",
+    "aiInsights": {
+      "title": "AI インサイト",
+      "unavailable": "AI インサイトは利用できません"
+    },
+    "share": {
+      "button": "共有",
+      "copyLink": "リンクをコピー",
+      "copied": "リンクをコピーしました",
+      "copyFailed": "リンクをコピーできませんでした",
+      "x": "X で共有",
+      "linkedin": "LinkedIn で共有",
+      "native": "共有..."
+    }
+  },
+  "weekly": {
+    "title": "週報",
+    "description": "学習と進捗の週次レポート。",
+    "empty": "まだ週報がありません。",
+    "back": "週報に戻る",
+    "commits": "コミット",
+    "prs": "PR",
+    "blogs": "ブログ",
+    "books": "書籍",
+    "hasReport": "週報あり",
+    "today": "今日"
+  },
+  "projects": {
+    "title": "プロジェクト",
+    "description": "開発している厳選プロジェクト。",
+    "empty": "まだプロジェクトがありません。"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "resume": {
+    "print": "印刷"
+  },
+  "common": {
+    "loading": "読み込み中..."
+  }
+}
