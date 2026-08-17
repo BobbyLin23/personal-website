@@ -1,6 +1,9 @@
 import { defineConfig, devices } from '@playwright/test'
 import type { ConfigOptions } from '@nuxt/test-utils/playwright'
 import { fileURLToPath } from 'node:url'
+import process from 'node:process'
+
+process.env.NUXT_PUBLISH_SECRET ||= 'e2e-publish-secret'
 
 export default defineConfig<ConfigOptions>({
   testDir: './tests/e2e',

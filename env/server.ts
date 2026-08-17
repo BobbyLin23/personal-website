@@ -14,5 +14,12 @@ export const env = createEnv({
     NUXT_CACHE_BASE: z.string().default('cache'),
     STUDIO_GITHUB_CLIENT_ID: z.string().optional(),
     STUDIO_GITHUB_CLIENT_SECRET: z.string().optional(),
+    NUXT_NOTION_TOKEN: z.string().optional(),
+    NUXT_NOTION_DATABASE_IDS: z.string().optional(),
+    NUXT_PUBLISH_SECRET: z.string().optional(),
+    NUXT_GITHUB_TOKEN: z.string().optional(),
+    NUXT_GITHUB_OWNER: z.string().default('BobbyLin23'),
+    NUXT_GITHUB_REPO: z.string().default('personal-website'),
+    NUXT_GITHUB_BRANCH: z.string().default('master'),
   },
 })

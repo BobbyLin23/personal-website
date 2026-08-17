@@ -41,6 +41,15 @@ export default defineNuxtConfig({
       url: upstashUrl,
       token: upstashToken,
     },
+    publishSecret: serverEnv.NUXT_PUBLISH_SECRET ?? '',
+    notionToken: serverEnv.NUXT_NOTION_TOKEN ?? '',
+    notionDatabaseIds: serverEnv.NUXT_NOTION_DATABASE_IDS ?? '',
+    githubToken: serverEnv.NUXT_GITHUB_TOKEN ?? '',
+    github: {
+      owner: serverEnv.NUXT_GITHUB_OWNER,
+      repo: serverEnv.NUXT_GITHUB_REPO,
+      branch: serverEnv.NUXT_GITHUB_BRANCH,
+    },
     public: {
       siteUrl: clientEnv.NUXT_PUBLIC_SITE_URL,
     },
