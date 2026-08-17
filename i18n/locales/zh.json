@@ -7,7 +7,8 @@
     "about": "关于",
     "blog": "博客",
     "projects": "项目",
-    "weekly": "周报"
+    "weekly": "周报",
+    "thoughts": "随想"
   },
   "rss": {
     "all": "全部",
@@ -78,6 +79,11 @@
     "books": "书籍",
     "hasReport": "有周报",
     "today": "今天"
+  },
+  "thoughts": {
+    "title": "随想",
+    "description": "一些短小的想法与瞬间记录。",
+    "empty": "暂时没有想法。"
   },
   "projects": {
     "title": "项目",

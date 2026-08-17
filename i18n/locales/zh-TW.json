@@ -7,7 +7,8 @@
     "about": "關於",
     "blog": "部落格",
     "projects": "專案",
-    "weekly": "週報"
+    "weekly": "週報",
+    "thoughts": "隨想"
   },
   "rss": {
     "all": "全部",
@@ -78,6 +79,11 @@
     "books": "書籍",
     "hasReport": "有週報",
     "today": "今天"
+  },
+  "thoughts": {
+    "title": "隨想",
+    "description": "一些簡短的想法與瞬間紀錄。",
+    "empty": "暫時沒有想法。"
   },
   "projects": {
     "title": "專案",

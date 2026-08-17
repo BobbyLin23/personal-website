@@ -61,5 +61,15 @@ export default defineContentConfig({
         language: z.string().optional(),
       }),
     }),
+    thoughts: defineCollection({
+      type: 'page',
+      source: 'thoughts/*.md',
+      schema: z.object({
+        date: z.string(),
+        title: z.string(),
+        tags: z.array(z.string()).optional(),
+        draft: z.boolean().default(false),
+      }),
+    }),
   },
 })

@@ -156,6 +156,8 @@ const smokeRoutes = [
   { path: '/es/projects', heading: 'Proyectos' },
   { path: '/en/weekly', heading: 'Weekly' },
   { path: '/en/resume', heading: 'Lin Zhangsheng' },
+  { path: '/en/thoughts', heading: 'Thoughts' },
+  { path: '/zh/thoughts', heading: '随想' },
 ]
 
 for (const route of smokeRoutes) {

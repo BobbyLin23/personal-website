@@ -7,7 +7,8 @@
     "about": "À propos",
     "blog": "Blog",
     "projects": "Projets",
-    "weekly": "Hebdo"
+    "weekly": "Hebdo",
+    "thoughts": "Pensées"
   },
   "rss": {
     "all": "Tout",
@@ -78,6 +79,11 @@
     "books": "Livres",
     "hasReport": "Rapport hebdo disponible",
     "today": "Aujourd'hui"
+  },
+  "thoughts": {
+    "title": "Pensées",
+    "description": "Notes et moments brefs, au fil de l'eau.",
+    "empty": "Aucune pensée pour le moment."
   },
   "projects": {
     "title": "Projets",
