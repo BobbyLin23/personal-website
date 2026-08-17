@@ -50,6 +50,14 @@ export default defineNuxtConfig({
       repo: serverEnv.NUXT_GITHUB_REPO,
       branch: serverEnv.NUXT_GITHUB_BRANCH,
     },
+    authGithub: {
+      clientId: serverEnv.NUXT_AUTH_GITHUB_CLIENT_ID ?? '',
+      clientSecret: serverEnv.NUXT_AUTH_GITHUB_CLIENT_SECRET ?? '',
+    },
+    authGoogle: {
+      clientId: serverEnv.NUXT_AUTH_GOOGLE_CLIENT_ID ?? '',
+      clientSecret: serverEnv.NUXT_AUTH_GOOGLE_CLIENT_SECRET ?? '',
+    },
     public: {
       siteUrl: clientEnv.NUXT_PUBLIC_SITE_URL,
     },
@@ -67,6 +75,8 @@ export default defineNuxtConfig({
     },
   },
   modules: [
+    '@nuxthub/core',
+    '@onmax/nuxt-better-auth',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/image',
@@ -74,6 +84,15 @@ export default defineNuxtConfig({
     'nuxt-studio',
     '@nuxtjs/i18n',
   ],
+  hub: {
+    db: 'sqlite',
+  },
+  auth: {
+    redirects: {
+      login: '/',
+      guest: '/',
+    },
+  },
   i18n: {
     strategy: 'prefix',
     defaultLocale: 'en',

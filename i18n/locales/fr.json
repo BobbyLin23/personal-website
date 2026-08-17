@@ -92,5 +92,36 @@
   },
   "common": {
     "loading": "Chargement..."
+  },
+  "auth": {
+    "login": "Connexion",
+    "loginTitle": "Connexion",
+    "loginDescription": "Connectez-vous avec GitHub ou Google pour commenter.",
+    "github": "Continuer avec GitHub",
+    "google": "Continuer avec Google",
+    "logout": "Déconnexion",
+    "account": "Compte",
+    "loginError": "Impossible de démarrer la connexion."
+  },
+  "comments": {
+    "title": "Commentaires",
+    "empty": "Pas encore de commentaires.",
+    "placeholder": "Écrire un commentaire...",
+    "submit": "Publier le commentaire",
+    "loginToComment": "Connectez-vous pour commenter",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirmDeleteTitle": "Supprimer le commentaire ?",
+    "confirmDelete": "Cette action est irréversible.",
+    "confirmDeleteAction": "Supprimer",
+    "edited": "modifié",
+    "loadError": "Impossible de charger les commentaires.",
+    "postError": "Impossible de publier le commentaire.",
+    "updateError": "Impossible de mettre à jour le commentaire.",
+    "deleteError": "Impossible de supprimer le commentaire.",
+    "tooLong": "Les commentaires peuvent contenir au plus 2000 caractères.",
+    "remaining": "{count} restants"
   }
 }

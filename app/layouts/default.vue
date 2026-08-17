@@ -4,4 +4,5 @@
     <slot />
   </UMain>
   <AppFooter />
+  <LoginModal />
 </template>

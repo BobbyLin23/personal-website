@@ -20,3 +20,6 @@ allowBuilds:
   esbuild: true
   sharp: true
   vue-demi: true
+
+patchedDependencies:
+  '@nuxthub/core@0.10.8': patches/@nuxthub__core@0.10.8.patch

@@ -25,6 +25,22 @@ const monthIndexes = new Map(
   ].map((month, index) => [month, index]),
 )
 
+const xssComment = '<img src=x onerror=alert(1)>'
+const mockedComments = {
+  comments: [
+    {
+      id: 'comment-xss',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: xssComment,
+      createdAt: Date.now() - 60_000,
+      updatedAt: Date.now() - 60_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+  ],
+}
+
 async function mockAppApis(page: Page) {
   await page.route('**/api/ai-insights**', async (route) => {
     await route.fulfill({
@@ -41,6 +57,29 @@ async function mockAppApis(page: Page) {
         'content-type': 'text/event-stream; charset=utf-8',
       },
       body: 'event: error\ndata: {"message":"Translation disabled in E2E"}\n\n',
+    })
+  })
+
+  await page.route('**/api/auth/get-session**', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: 'null',
+    })
+  })
+
+  await page.route('**/api/comments**', async (route) => {
+    if (route.request().method() === 'GET') {
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify(mockedComments),
+      })
+      return
+    }
+
+    await route.fulfill({
+      status: 401,
+      contentType: 'application/json',
+      body: JSON.stringify({ statusMessage: 'Unauthorized' }),
     })
   })
 }
@@ -180,7 +219,7 @@ test('blog detail renders content, mocked AI insights, and share copy feedback',
 
   await page.getByRole('button', { name: '分享' }).click()
   await page.getByRole('menuitem', { name: '复制链接' }).click()
-  await expect(page.getByText('链接已复制')).toBeVisible()
+  await expect(page.getByText('链接已复制', { exact: true })).toBeVisible()
 })
 
 test('weekly calendar opens the highlighted weekly report for the active locale', async ({
@@ -225,4 +264,25 @@ test('projects and resume expose expected links and resume actions', async ({ go
   await page.getByRole('link', { name: '简体中文' }).click()
   await expect(page).toHaveURL(/\/zh\/resume$/)
   await expect(page.getByRole('heading', { level: 1, name: '林张生' })).toBeVisible()
+})
+
+test('header login opens a GitHub and Google modal', async ({ goto, page }) => {
+  await goto('/en', { waitUntil: 'hydration' })
+
+  await page.getByRole('button', { name: 'Log in' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Continue with GitHub' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible()
+})
+
+test('post comments escape XSS and open login when signed out', async ({ goto, page }) => {
+  await goto('/zh/blog/copilotkit-sourcecode-note', { waitUntil: 'hydration' })
+
+  await expect(page.getByRole('heading', { name: '评论' })).toBeVisible()
+  await expect(page.getByText(xssComment)).toBeVisible()
+  await expect(page.locator('img[src="x"]')).toHaveCount(0)
+
+  await page.getByRole('button', { name: '登录后发表评论' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('button', { name: '使用 GitHub 继续' })).toBeVisible()
 })

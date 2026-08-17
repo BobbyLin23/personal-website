@@ -272,6 +272,8 @@ const hasInsights = computed(() => !!insights.data.value?.summary)
       </aside>
     </div>
 
+    <PostComments :post-path="basePath" />
+
     <SafeMotion
       :initial="{ opacity: 0, y: 16 }"
       :animate="{ opacity: 1, y: 0 }"
