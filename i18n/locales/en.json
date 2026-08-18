@@ -7,7 +7,8 @@
     "about": "About",
     "blog": "Blog",
     "projects": "Projects",
-    "weekly": "Weekly"
+    "weekly": "Weekly",
+    "thoughts": "Thoughts"
   },
   "rss": {
     "all": "All",
@@ -78,6 +79,11 @@
     "books": "Books",
     "hasReport": "Has weekly report",
     "today": "Today"
+  },
+  "thoughts": {
+    "title": "Thoughts",
+    "description": "Short notes and moments, as they happen.",
+    "empty": "No thoughts yet."
   },
   "projects": {
     "title": "Projects",

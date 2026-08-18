@@ -7,7 +7,8 @@
     "about": "私について",
     "blog": "ブログ",
     "projects": "プロジェクト",
-    "weekly": "週報"
+    "weekly": "週報",
+    "thoughts": "つぶやき"
   },
   "rss": {
     "all": "すべて",
@@ -78,6 +79,11 @@
     "books": "書籍",
     "hasReport": "週報あり",
     "today": "今日"
+  },
+  "thoughts": {
+    "title": "つぶやき",
+    "description": "短いノートや瞬間の記録。",
+    "empty": "まだつぶやきはありません。"
   },
   "projects": {
     "title": "プロジェクト",

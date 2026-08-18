@@ -7,7 +7,8 @@
     "about": "Sobre mí",
     "blog": "Blog",
     "projects": "Proyectos",
-    "weekly": "Semanal"
+    "weekly": "Semanal",
+    "thoughts": "Pensamientos"
   },
   "rss": {
     "all": "Todo",
@@ -78,6 +79,11 @@
     "books": "Libros",
     "hasReport": "Tiene informe semanal",
     "today": "Hoy"
+  },
+  "thoughts": {
+    "title": "Pensamientos",
+    "description": "Notas y momentos breves, tal como suceden.",
+    "empty": "Aún no hay pensamientos."
   },
   "projects": {
     "title": "Proyectos",
