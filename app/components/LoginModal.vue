@@ -2,23 +2,30 @@
 const { t } = useI18n()
 const route = useRoute()
 const toast = useToast()
-const { open, closeLoginModal } = useLoginModal()
+const { open } = useLoginModal()
 const signInSocial = useSignIn('social')
 
-const pending = computed(() => signInSocial.status.value === 'pending')
+const pendingProvider = ref<'github' | 'google' | null>(null)
+
+const pending = computed(() => pendingProvider.value !== null)
 
 async function login(provider: 'github' | 'google') {
-  await signInSocial.execute({
-    provider,
-    callbackURL: route.fullPath,
-  })
-
-  if (signInSocial.error.value) {
-    toast.add({
-      title: t('auth.loginError'),
-      color: 'error',
-      icon: 'i-lucide-circle-alert',
+  pendingProvider.value = provider
+  try {
+    await signInSocial.execute({
+      provider,
+      callbackURL: route.fullPath,
     })
+
+    if (signInSocial.error.value) {
+      toast.add({
+        title: t('auth.loginError'),
+        color: 'error',
+        icon: 'i-lucide-circle-alert',
+      })
+    }
+  } finally {
+    pendingProvider.value = null
   }
 }
 </script>
@@ -37,7 +44,7 @@ async function login(provider: 'github' | 'google') {
           block
           icon="i-simple-icons-github"
           :label="t('auth.github')"
-          :loading="pending"
+          :loading="pendingProvider === 'github'"
           :disabled="pending"
           @click="login('github')"
         />
@@ -47,7 +54,7 @@ async function login(provider: 'github' | 'google') {
           block
           icon="i-simple-icons-google"
           :label="t('auth.google')"
-          :loading="pending"
+          :loading="pendingProvider === 'google'"
           :disabled="pending"
           @click="login('google')"
         />
