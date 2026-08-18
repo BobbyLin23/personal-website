@@ -4,6 +4,10 @@ import { fileURLToPath } from 'node:url'
 import process from 'node:process'
 
 process.env.NUXT_PUBLISH_SECRET ||= 'e2e-publish-secret'
+// Publish API checks these before validating the pageId; the validation tests
+// fail before any real API call, so fake tokens are enough for e2e.
+process.env.NUXT_GITHUB_TOKEN ||= 'e2e-github-token'
+process.env.NUXT_NOTION_TOKEN ||= 'e2e-notion-token'
 process.env.NUXT_BETTER_AUTH_SECRET ||= 'e2e-better-auth-secret-32chars-ok'
 process.env.NUXT_AUTH_GITHUB_CLIENT_ID ||= 'e2e-github-id'
 process.env.NUXT_AUTH_GITHUB_CLIENT_SECRET ||= 'e2e-github-secret'
