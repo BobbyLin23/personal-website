@@ -10,16 +10,29 @@ process.env.NUXT_AUTH_GITHUB_CLIENT_SECRET ||= 'e2e-github-secret'
 process.env.NUXT_AUTH_GOOGLE_CLIENT_ID ||= 'e2e-google-id'
 process.env.NUXT_AUTH_GOOGLE_CLIENT_SECRET ||= 'e2e-google-secret'
 
+const isCI = process.env.CI === 'true'
+const baseURL = process.env.E2E_BASE_URL ?? 'http://127.0.0.1:4173'
+
 export default defineConfig<ConfigOptions>({
   testDir: './tests/e2e',
   outputDir: 'test-results',
-  fullyParallel: false,
-  retries: process.env.CI ? 2 : 0,
-  workers: 1,
-  reporter: process.env.CI ? [['html', { open: 'never' }], ['github']] : [['list'], ['html']],
+  fullyParallel: true,
+  retries: isCI ? 2 : 0,
+  // The Nuxt app is built once by webServer below and shared by all workers,
+  // so workers only run tests and can safely parallelize.
+  workers: isCI ? 4 : undefined,
+  reporter: isCI ? [['html', { open: 'never' }], ['github']] : [['list'], ['html']],
+  webServer: {
+    command:
+      'pnpm exec nuxt build && HOST=127.0.0.1 PORT=4173 NODE_ENV=test pnpm exec node .output/server/index.mjs',
+    url: baseURL,
+    reuseExistingServer: !isCI,
+    timeout: 180_000,
+  },
   use: {
     nuxt: {
       rootDir: fileURLToPath(new URL('.', import.meta.url)),
+      host: baseURL,
     },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
