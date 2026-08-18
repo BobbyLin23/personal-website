@@ -66,10 +66,10 @@ function formatDate(dateStr: string) {
           :key="moment.path"
           class="relative ps-9 sm:ps-12 pb-8 sm:pb-10 last:pb-0"
         >
-          <span aria-hidden="true" class="absolute start-0 top-0 bottom-0 w-px bg-muted" />
+          <span aria-hidden="true" class="absolute inset-s-0 top-0 bottom-0 w-px bg-muted" />
           <span
             aria-hidden="true"
-            class="absolute -start-[5px] top-7 size-2.5 rounded-full bg-primary ring-4 ring-default"
+            class="absolute -inset-s-1.25 top-7 size-2.5 rounded-full bg-primary ring-4 ring-default"
           />
 
           <SafeMotion
