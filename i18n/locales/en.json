@@ -7,7 +7,8 @@
     "about": "About",
     "blog": "Blog",
     "projects": "Projects",
-    "weekly": "Weekly"
+    "weekly": "Weekly",
+    "thoughts": "Thoughts"
   },
   "rss": {
     "all": "All",
@@ -79,6 +80,11 @@
     "hasReport": "Has weekly report",
     "today": "Today"
   },
+  "thoughts": {
+    "title": "Thoughts",
+    "description": "Short notes and moments, as they happen.",
+    "empty": "No thoughts yet."
+  },
   "projects": {
     "title": "Projects",
     "description": "Selected projects I have been building.",
@@ -92,5 +98,48 @@
   },
   "common": {
     "loading": "Loading..."
+  },
+  "auth": {
+    "login": "Log in",
+    "loginTitle": "Log in",
+    "loginDescription": "Sign in with GitHub or Google to comment.",
+    "github": "Continue with GitHub",
+    "google": "Continue with Google",
+    "logout": "Log out",
+    "account": "Account",
+    "loginError": "Could not start login."
+  },
+  "comments": {
+    "title": "Comments",
+    "empty": "No comments yet.",
+    "placeholder": "Write a comment... Markdown supported",
+    "submit": "Post comment",
+    "loginToComment": "Log in to comment",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirmDeleteTitle": "Delete comment?",
+    "confirmDelete": "This cannot be undone.",
+    "confirmDeleteAction": "Delete",
+    "edited": "edited",
+    "loadError": "Could not load comments.",
+    "postError": "Could not post comment.",
+    "updateError": "Could not update comment.",
+    "deleteError": "Could not delete comment.",
+    "tooLong": "Comments can be at most {max} characters.",
+    "remaining": "{count} left",
+    "emoji": "Emoji",
+    "write": "Write",
+    "preview": "Preview",
+    "markdownSupported": "Markdown is supported",
+    "toolbar": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "quote": "Quote",
+      "code": "Code",
+      "link": "Link"
+    },
+    "rateLimited": "You're posting comments too quickly. Please try again in a moment."
   }
 }

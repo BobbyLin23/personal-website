@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test'
 import { expect, test } from '@nuxt/test-utils/playwright'
+import { signInAsTestUser } from './utils/auth'
 
 const aiInsightsResponse = {
   summary: '测试环境中的文章摘要。',
@@ -25,7 +26,63 @@ const monthIndexes = new Map(
   ].map((month, index) => [month, index]),
 )
 
-async function mockAppApis(page: Page) {
+const xssComment = '<img src=x onerror=alert(1)>'
+const mockedComments = {
+  comments: [
+    {
+      id: 'comment-xss',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: xssComment,
+      createdAt: Date.now() - 60_000,
+      updatedAt: Date.now() - 60_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+    {
+      id: 'comment-script',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '<script>alert(1)</script>',
+      createdAt: Date.now() - 120_000,
+      updatedAt: Date.now() - 120_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+    {
+      id: 'comment-js-url',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '[click me](javascript:alert(1))',
+      createdAt: Date.now() - 180_000,
+      updatedAt: Date.now() - 180_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+    {
+      id: 'comment-event-handler',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '<div onclick="alert(1)">bad</div>',
+      createdAt: Date.now() - 240_000,
+      updatedAt: Date.now() - 240_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+    {
+      id: 'comment-text',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '这是一个普通的评论',
+      createdAt: Date.now() - 300_000,
+      updatedAt: Date.now() - 300_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+  ],
+}
+
+async function mockPassiveApis(page: Page) {
   await page.route('**/api/ai-insights**', async (route) => {
     await route.fulfill({
       contentType: 'application/json',
@@ -41,6 +98,33 @@ async function mockAppApis(page: Page) {
         'content-type': 'text/event-stream; charset=utf-8',
       },
       body: 'event: error\ndata: {"message":"Translation disabled in E2E"}\n\n',
+    })
+  })
+}
+
+async function mockAppApis(page: Page) {
+  await mockPassiveApis(page)
+
+  await page.route('**/api/auth/get-session**', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: 'null',
+    })
+  })
+
+  await page.route('**/api/comments**', async (route) => {
+    if (route.request().method() === 'GET') {
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify(mockedComments),
+      })
+      return
+    }
+
+    await route.fulfill({
+      status: 401,
+      contentType: 'application/json',
+      body: JSON.stringify({ statusMessage: 'Unauthorized' }),
     })
   })
 }
@@ -117,6 +201,8 @@ const smokeRoutes = [
   { path: '/es/projects', heading: 'Proyectos' },
   { path: '/en/weekly', heading: 'Weekly' },
   { path: '/en/resume', heading: 'Lin Zhangsheng' },
+  { path: '/en/thoughts', heading: 'Thoughts' },
+  { path: '/zh/thoughts', heading: '随想' },
 ]
 
 for (const route of smokeRoutes) {
@@ -180,7 +266,7 @@ test('blog detail renders content, mocked AI insights, and share copy feedback',
 
   await page.getByRole('button', { name: '分享' }).click()
   await page.getByRole('menuitem', { name: '复制链接' }).click()
-  await expect(page.getByText('链接已复制')).toBeVisible()
+  await expect(page.getByText('链接已复制', { exact: true })).toBeVisible()
 })
 
 test('weekly calendar opens the highlighted weekly report for the active locale', async ({
@@ -225,4 +311,114 @@ test('projects and resume expose expected links and resume actions', async ({ go
   await page.getByRole('link', { name: '简体中文' }).click()
   await expect(page).toHaveURL(/\/zh\/resume$/)
   await expect(page.getByRole('heading', { level: 1, name: '林张生' })).toBeVisible()
+})
+
+test('header login opens a GitHub and Google modal', async ({ goto, page }) => {
+  await goto('/en', { waitUntil: 'hydration' })
+
+  await page.getByRole('button', { name: 'Log in' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Continue with GitHub' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible()
+})
+
+test('rendered comments sanitize raw HTML and open login when signed out', async ({
+  goto,
+  page,
+}) => {
+  await goto('/zh/blog/copilotkit-sourcecode-note', { waitUntil: 'hydration' })
+
+  await expect(page.getByRole('heading', { name: '评论' })).toBeVisible()
+
+  // 评论区内的 HTML 必须经过 DOMPurify 消毒：img 保留、onerror 事件被移除
+  const commentSection = page.locator('[aria-labelledby="comments-title"]')
+  await expect(commentSection.locator('img[src="x"]')).toHaveCount(1)
+  await expect(commentSection.locator('[onerror]')).toHaveCount(0)
+
+  // <script> 标签不应出现在最终 DOM 中
+  await expect(commentSection.locator('script')).toHaveCount(0)
+
+  // javascript: URL 必须被去除
+  await expect(commentSection.locator('a[href^="javascript:"]')).toHaveCount(0)
+
+  // 非 img 元素上的事件处理器（如 onclick）也必须被移除
+  await expect(commentSection.locator('[onclick]')).toHaveCount(0)
+
+  // 普通文本评论在消毒后仍然可见，避免过度过滤
+  await expect(commentSection.getByText('这是一个普通的评论')).toBeVisible()
+
+  await page.getByRole('button', { name: '登录后发表评论' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('button', { name: '使用 GitHub 继续' })).toBeVisible()
+})
+
+test.describe('authenticated comments', () => {
+  test.beforeEach(async ({ page }) => {
+    // 已认证测试需要真实会话和真实评论 API：撤销文件级 beforeEach 注册的 mock
+    await page.unroute('**/api/comments**')
+    await page.unroute('**/api/auth/get-session**')
+    await signInAsTestUser(page)
+  })
+
+  test('authenticated user can create, edit and delete a comment', async ({ goto, page }) => {
+    await goto('/en/blog/copilotkit-sourcecode-note', { waitUntil: 'hydration' })
+
+    const initialBody = `Playwright comment ${Date.now()}`
+    const updatedBody = `${initialBody} (edited)`
+
+    const editor = page.locator('.cm-content')
+    await expect(editor).toBeVisible()
+    await editor.fill(initialBody)
+    await page.getByRole('button', { name: 'Post comment' }).click()
+
+    const comment = page.locator('li', { hasText: initialBody })
+    await expect(comment).toBeVisible()
+    await expect(comment).toContainText(initialBody)
+
+    await comment.getByRole('button', { name: 'Edit' }).click()
+    await comment.locator('.cm-content').fill(updatedBody)
+    await comment.getByRole('button', { name: 'Save' }).click()
+
+    await expect(comment).toContainText(updatedBody)
+
+    await comment.getByRole('button', { name: 'Delete' }).click()
+    await page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click()
+
+    await expect(comment).toBeHidden()
+  })
+
+  test('comment rate limiting returns 429 and surfaces an error to the user', async ({
+    goto,
+    page,
+  }) => {
+    await goto('/en/blog/copilotkit-sourcecode-note', { waitUntil: 'hydration' })
+
+    const editor = page.locator('.cm-content')
+    await expect(editor).toBeVisible()
+
+    // 连续发布 5 条评论，不应触发限流
+    for (let i = 0; i < 5; i++) {
+      const body = `Rate limit test comment ${Date.now()}-${i}`
+      await editor.fill(body)
+      await page.getByRole('button', { name: 'Post comment' }).click()
+      await expect(page.locator('li', { hasText: body })).toBeVisible()
+    }
+
+    // 第 6 条应被限流（429），并且 UI 需要给出提示
+    await editor.fill('This comment should be rate limited')
+
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (resp) => resp.url().includes('/api/comments') && resp.request().method() === 'POST',
+      ),
+      page.getByRole('button', { name: 'Post comment' }).click(),
+    ])
+
+    expect(response.status()).toBe(429)
+    await expect(
+      page.getByText("You're posting comments too quickly. Please try again in a moment.", {
+        exact: true,
+      }),
+    ).toBeVisible()
+  })
 })

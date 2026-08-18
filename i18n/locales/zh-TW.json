@@ -7,7 +7,8 @@
     "about": "關於",
     "blog": "部落格",
     "projects": "專案",
-    "weekly": "週報"
+    "weekly": "週報",
+    "thoughts": "隨想"
   },
   "rss": {
     "all": "全部",
@@ -79,6 +80,11 @@
     "hasReport": "有週報",
     "today": "今天"
   },
+  "thoughts": {
+    "title": "隨想",
+    "description": "一些簡短的想法與瞬間紀錄。",
+    "empty": "暫時沒有想法。"
+  },
   "projects": {
     "title": "專案",
     "description": "我正在打造的一些精選專案。",
@@ -92,5 +98,48 @@
   },
   "common": {
     "loading": "載入中..."
+  },
+  "auth": {
+    "login": "登入",
+    "loginTitle": "登入",
+    "loginDescription": "使用 GitHub 或 Google 登入後即可留言。",
+    "github": "使用 GitHub 繼續",
+    "google": "使用 Google 繼續",
+    "logout": "登出",
+    "account": "帳戶",
+    "loginError": "無法開始登入。"
+  },
+  "comments": {
+    "title": "留言",
+    "empty": "還沒有留言。",
+    "placeholder": "寫下你的留言... 支援 Markdown",
+    "submit": "發表留言",
+    "loginToComment": "登入後發表留言",
+    "edit": "編輯",
+    "delete": "刪除",
+    "save": "儲存",
+    "cancel": "取消",
+    "confirmDeleteTitle": "刪除這則留言？",
+    "confirmDelete": "刪除後無法復原。",
+    "confirmDeleteAction": "刪除",
+    "edited": "已編輯",
+    "loadError": "留言載入失敗。",
+    "postError": "留言發表失敗。",
+    "updateError": "留言更新失敗。",
+    "deleteError": "留言刪除失敗。",
+    "tooLong": "留言最多 {max} 個字元。",
+    "remaining": "還可輸入 {count} 字",
+    "emoji": "表情",
+    "write": "編寫",
+    "preview": "預覽",
+    "markdownSupported": "支援 Markdown",
+    "toolbar": {
+      "bold": "粗體",
+      "italic": "斜體",
+      "quote": "引用",
+      "code": "程式碼",
+      "link": "連結"
+    },
+    "rateLimited": "留言發布太快了，請稍後再試。"
   }
 }

@@ -39,6 +39,11 @@ const navItems = computed<NavigationMenuItem[]>(() => [
     active: route.path.startsWith(localePath('/weekly')),
   },
   {
+    label: t('nav.thoughts'),
+    to: localePath('/thoughts'),
+    active: route.path.startsWith(localePath('/thoughts')),
+  },
+  {
     label: t('nav.about'),
     to: localePath('/about'),
     active: route.path.startsWith(localePath('/about')),
@@ -81,6 +86,21 @@ const languageItems = computed<DropdownMenuItem[][]>(() => [
     onSelect: () => setLocale(l.code),
   })),
 ])
+
+const { user, loggedIn, signOut } = useUserSession()
+const { openLoginModal } = useLoginModal()
+
+const accountItems = computed<DropdownMenuItem[][]>(() => [
+  [
+    {
+      label: t('auth.logout'),
+      icon: 'i-lucide-log-out',
+      onSelect: () => {
+        void signOut()
+      },
+    },
+  ],
+])
 </script>
 
 <template>
@@ -119,6 +139,27 @@ const languageItems = computed<DropdownMenuItem[][]>(() => [
         :aria-label="t('theme.toggle')"
         @click="toggleColorMode"
       />
+
+      <UDropdownMenu v-if="loggedIn" :items="accountItems">
+        <UButton color="neutral" variant="ghost" :aria-label="t('auth.account')">
+          <UAvatar
+            :src="user?.image ?? undefined"
+            :alt="user?.name || t('auth.account')"
+            size="2xs"
+          />
+          <span class="hidden sm:inline max-w-24 truncate">{{ user?.name }}</span>
+        </UButton>
+      </UDropdownMenu>
+      <UButton
+        v-else
+        icon="i-lucide-log-in"
+        color="neutral"
+        variant="ghost"
+        :aria-label="t('auth.login')"
+        @click="openLoginModal"
+      >
+        <span class="hidden sm:inline">{{ t('auth.login') }}</span>
+      </UButton>
     </template>
 
     <template #body>

@@ -7,7 +7,8 @@
     "about": "关于",
     "blog": "博客",
     "projects": "项目",
-    "weekly": "周报"
+    "weekly": "周报",
+    "thoughts": "随想"
   },
   "rss": {
     "all": "全部",
@@ -79,6 +80,11 @@
     "hasReport": "有周报",
     "today": "今天"
   },
+  "thoughts": {
+    "title": "随想",
+    "description": "一些短小的想法与瞬间记录。",
+    "empty": "暂时没有想法。"
+  },
   "projects": {
     "title": "项目",
     "description": "我正在构建的一些项目。",
@@ -92,5 +98,48 @@
   },
   "common": {
     "loading": "加载中..."
+  },
+  "auth": {
+    "login": "登录",
+    "loginTitle": "登录",
+    "loginDescription": "使用 GitHub 或 Google 登录后即可评论。",
+    "github": "使用 GitHub 继续",
+    "google": "使用 Google 继续",
+    "logout": "退出登录",
+    "account": "账户",
+    "loginError": "无法开始登录。"
+  },
+  "comments": {
+    "title": "评论",
+    "empty": "还没有评论。",
+    "placeholder": "写下你的评论... 支持 Markdown",
+    "submit": "发表评论",
+    "loginToComment": "登录后发表评论",
+    "edit": "编辑",
+    "delete": "删除",
+    "save": "保存",
+    "cancel": "取消",
+    "confirmDeleteTitle": "删除这条评论？",
+    "confirmDelete": "删除后无法恢复。",
+    "confirmDeleteAction": "删除",
+    "edited": "已编辑",
+    "loadError": "评论加载失败。",
+    "postError": "评论发表失败。",
+    "updateError": "评论更新失败。",
+    "deleteError": "评论删除失败。",
+    "tooLong": "评论最多 {max} 个字符。",
+    "remaining": "还可输入 {count} 字",
+    "emoji": "表情",
+    "write": "编写",
+    "preview": "预览",
+    "markdownSupported": "支持 Markdown",
+    "toolbar": {
+      "bold": "加粗",
+      "italic": "斜体",
+      "quote": "引用",
+      "code": "代码",
+      "link": "链接"
+    },
+    "rateLimited": "评论发布太快了，请稍后再试。"
   }
 }

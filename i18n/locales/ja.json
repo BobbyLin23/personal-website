@@ -7,7 +7,8 @@
     "about": "私について",
     "blog": "ブログ",
     "projects": "プロジェクト",
-    "weekly": "週報"
+    "weekly": "週報",
+    "thoughts": "つぶやき"
   },
   "rss": {
     "all": "すべて",
@@ -79,6 +80,11 @@
     "hasReport": "週報あり",
     "today": "今日"
   },
+  "thoughts": {
+    "title": "つぶやき",
+    "description": "短いノートや瞬間の記録。",
+    "empty": "まだつぶやきはありません。"
+  },
   "projects": {
     "title": "プロジェクト",
     "description": "開発している厳選プロジェクト。",
@@ -92,5 +98,48 @@
   },
   "common": {
     "loading": "読み込み中..."
+  },
+  "auth": {
+    "login": "ログイン",
+    "loginTitle": "ログイン",
+    "loginDescription": "コメントするには GitHub または Google でログインしてください。",
+    "github": "GitHub で続ける",
+    "google": "Google で続ける",
+    "logout": "ログアウト",
+    "account": "アカウント",
+    "loginError": "ログインを開始できませんでした。"
+  },
+  "comments": {
+    "title": "コメント",
+    "empty": "まだコメントはありません。",
+    "placeholder": "コメントを書く... Markdown 対応",
+    "submit": "コメントを投稿",
+    "loginToComment": "ログインしてコメントする",
+    "edit": "編集",
+    "delete": "削除",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "confirmDeleteTitle": "コメントを削除しますか？",
+    "confirmDelete": "この操作は取り消せません。",
+    "confirmDeleteAction": "削除",
+    "edited": "編集済み",
+    "loadError": "コメントを読み込めませんでした。",
+    "postError": "コメントを投稿できませんでした。",
+    "updateError": "コメントを更新できませんでした。",
+    "deleteError": "コメントを削除できませんでした。",
+    "tooLong": "コメントは {max} 文字までです。",
+    "remaining": "残り {count} 文字",
+    "emoji": "絵文字",
+    "write": "作成",
+    "preview": "プレビュー",
+    "markdownSupported": "Markdown 対応",
+    "toolbar": {
+      "bold": "太字",
+      "italic": "斜体",
+      "quote": "引用",
+      "code": "コード",
+      "link": "リンク"
+    },
+    "rateLimited": "コメントの投稿が速すぎます。しばらくしてからもう一度お試しください。"
   }
 }
