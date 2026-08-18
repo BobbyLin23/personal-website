@@ -1,11 +1,12 @@
 <script setup lang="ts">
+const route = useRoute()
 const config = useRuntimeConfig()
 const { t, localeProperties } = useI18n()
 
 useSeoMeta({
   title: () => t('thoughts.title'),
   description: () => t('thoughts.description'),
-  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}/thoughts` : undefined,
+  ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
 const { data: moments } = await useAsyncData('thoughts', async () =>
@@ -34,6 +35,7 @@ const datetimeFormatter = computed(
 
 function formatDate(dateStr: string) {
   const date = new Date(dateStr)
+  if (Number.isNaN(date.getTime())) return dateStr
   return dateStr.includes('T')
     ? datetimeFormatter.value.format(date)
     : dateFormatter.value.format(date)

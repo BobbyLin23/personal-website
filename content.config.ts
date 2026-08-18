@@ -65,7 +65,7 @@ export default defineContentConfig({
       type: 'page',
       source: 'thoughts/*.md',
       schema: z.object({
-        date: z.string(),
+        date: z.union([z.iso.date(), z.iso.datetime({ offset: true, local: true })]),
         title: z.string(),
         tags: z.array(z.string()).optional(),
         draft: z.boolean().default(false),
