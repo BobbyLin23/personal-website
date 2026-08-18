@@ -127,7 +127,7 @@
     "postError": "Could not post comment.",
     "updateError": "Could not update comment.",
     "deleteError": "Could not delete comment.",
-    "tooLong": "Comments can be at most 500 characters.",
+    "tooLong": "Comments can be at most {max} characters.",
     "remaining": "{count} left",
     "emoji": "Emoji",
     "write": "Write",
@@ -139,6 +139,7 @@
       "quote": "Quote",
       "code": "Code",
       "link": "Link"
-    }
+    },
+    "rateLimited": "You're posting comments too quickly. Please try again in a moment."
   }
 }

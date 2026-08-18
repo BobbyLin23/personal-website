@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { MdPreview } from 'md-editor-v3'
 import DOMPurify from 'dompurify'
+import { COMMENT_MAX_LENGTH } from '#shared/comments'
 import 'md-editor-v3/lib/style.css'
 import 'md-editor-v3/lib/preview.css'
 
@@ -15,8 +16,6 @@ interface CommentItem {
   authorName: string
   authorImage: string | null
 }
-
-const COMMENT_MAX_LENGTH = 500
 
 const props = defineProps<{
   postPath: string
@@ -78,12 +77,21 @@ function formatRelativeTime(timestamp: number) {
   return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(timestamp))
 }
 
-function showError(key: string) {
+function showError(key: string, params?: Record<string, unknown>) {
   toast.add({
-    title: t(key),
+    title: t(key, params),
     color: 'error',
     icon: 'i-lucide-circle-alert',
   })
+}
+
+function isRateLimited(error: unknown) {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    (error as { status: unknown }).status === 429
+  )
 }
 
 async function submitComment() {
@@ -95,7 +103,7 @@ async function submitComment() {
   const body = draft.value.trim()
   if (!body) return
   if (body.length > COMMENT_MAX_LENGTH) {
-    showError('comments.tooLong')
+    showError('comments.tooLong', { max: COMMENT_MAX_LENGTH })
     return
   }
 
@@ -107,8 +115,8 @@ async function submitComment() {
     })
     draft.value = ''
     await refresh()
-  } catch {
-    showError('comments.postError')
+  } catch (error) {
+    showError(isRateLimited(error) ? 'comments.rateLimited' : 'comments.postError')
   } finally {
     submitting.value = false
   }
@@ -128,7 +136,7 @@ async function saveEdit(comment: CommentItem) {
   const body = editDraft.value.trim()
   if (!body) return
   if (body.length > COMMENT_MAX_LENGTH) {
-    showError('comments.tooLong')
+    showError('comments.tooLong', { max: COMMENT_MAX_LENGTH })
     return
   }
 

@@ -13,6 +13,10 @@ process.env.NUXT_AUTH_GOOGLE_CLIENT_SECRET ||= 'e2e-google-secret'
 const isCI = process.env.CI === 'true'
 const baseURL = process.env.E2E_BASE_URL ?? 'http://127.0.0.1:4173'
 
+// The auth client resolves its API base URL from NUXT_PUBLIC_SITE_URL; point it
+// at the e2e server so session cookies issued against baseURL are honored.
+process.env.NUXT_PUBLIC_SITE_URL ||= baseURL
+
 export default defineConfig<ConfigOptions>({
   testDir: './tests/e2e',
   outputDir: 'test-results',

@@ -127,7 +127,7 @@
     "postError": "评论发表失败。",
     "updateError": "评论更新失败。",
     "deleteError": "评论删除失败。",
-    "tooLong": "评论最多 500 个字符。",
+    "tooLong": "评论最多 {max} 个字符。",
     "remaining": "还可输入 {count} 字",
     "emoji": "表情",
     "write": "编写",
@@ -139,6 +139,7 @@
       "quote": "引用",
       "code": "代码",
       "link": "链接"
-    }
+    },
+    "rateLimited": "评论发布太快了，请稍后再试。"
   }
 }

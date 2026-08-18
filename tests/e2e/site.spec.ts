@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test'
 import { expect, test } from '@nuxt/test-utils/playwright'
+import { signInAsTestUser } from './utils/auth'
 
 const aiInsightsResponse = {
   summary: '测试环境中的文章摘要。',
@@ -38,10 +39,50 @@ const mockedComments = {
       authorName: 'Test User',
       authorImage: null,
     },
+    {
+      id: 'comment-script',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '<script>alert(1)</script>',
+      createdAt: Date.now() - 120_000,
+      updatedAt: Date.now() - 120_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+    {
+      id: 'comment-js-url',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '[click me](javascript:alert(1))',
+      createdAt: Date.now() - 180_000,
+      updatedAt: Date.now() - 180_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+    {
+      id: 'comment-event-handler',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '<div onclick="alert(1)">bad</div>',
+      createdAt: Date.now() - 240_000,
+      updatedAt: Date.now() - 240_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
+    {
+      id: 'comment-text',
+      postPath: '/blog/copilotkit-sourcecode-note',
+      body: '这是一个普通的评论',
+      createdAt: Date.now() - 300_000,
+      updatedAt: Date.now() - 300_000,
+      userId: 'user-1',
+      authorName: 'Test User',
+      authorImage: null,
+    },
   ],
 }
 
-async function mockAppApis(page: Page) {
+async function mockPassiveApis(page: Page) {
   await page.route('**/api/ai-insights**', async (route) => {
     await route.fulfill({
       contentType: 'application/json',
@@ -59,6 +100,10 @@ async function mockAppApis(page: Page) {
       body: 'event: error\ndata: {"message":"Translation disabled in E2E"}\n\n',
     })
   })
+}
+
+async function mockAppApis(page: Page) {
+  await mockPassiveApis(page)
 
   await page.route('**/api/auth/get-session**', async (route) => {
     await route.fulfill({
@@ -290,7 +335,90 @@ test('rendered comments sanitize raw HTML and open login when signed out', async
   await expect(commentSection.locator('img[src="x"]')).toHaveCount(1)
   await expect(commentSection.locator('[onerror]')).toHaveCount(0)
 
+  // <script> 标签不应出现在最终 DOM 中
+  await expect(commentSection.locator('script')).toHaveCount(0)
+
+  // javascript: URL 必须被去除
+  await expect(commentSection.locator('a[href^="javascript:"]')).toHaveCount(0)
+
+  // 非 img 元素上的事件处理器（如 onclick）也必须被移除
+  await expect(commentSection.locator('[onclick]')).toHaveCount(0)
+
+  // 普通文本评论在消毒后仍然可见，避免过度过滤
+  await expect(commentSection.getByText('这是一个普通的评论')).toBeVisible()
+
   await page.getByRole('button', { name: '登录后发表评论' }).click()
   await expect(page.getByRole('dialog')).toBeVisible()
   await expect(page.getByRole('button', { name: '使用 GitHub 继续' })).toBeVisible()
+})
+
+test.describe('authenticated comments', () => {
+  test.beforeEach(async ({ page }) => {
+    // 已认证测试需要真实会话和真实评论 API：撤销文件级 beforeEach 注册的 mock
+    await page.unroute('**/api/comments**')
+    await page.unroute('**/api/auth/get-session**')
+    await signInAsTestUser(page)
+  })
+
+  test('authenticated user can create, edit and delete a comment', async ({ goto, page }) => {
+    await goto('/en/blog/copilotkit-sourcecode-note', { waitUntil: 'hydration' })
+
+    const initialBody = `Playwright comment ${Date.now()}`
+    const updatedBody = `${initialBody} (edited)`
+
+    const editor = page.locator('.cm-content')
+    await expect(editor).toBeVisible()
+    await editor.fill(initialBody)
+    await page.getByRole('button', { name: 'Post comment' }).click()
+
+    const comment = page.locator('li', { hasText: initialBody })
+    await expect(comment).toBeVisible()
+    await expect(comment).toContainText(initialBody)
+
+    await comment.getByRole('button', { name: 'Edit' }).click()
+    await comment.locator('.cm-content').fill(updatedBody)
+    await comment.getByRole('button', { name: 'Save' }).click()
+
+    await expect(comment).toContainText(updatedBody)
+
+    await comment.getByRole('button', { name: 'Delete' }).click()
+    await page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click()
+
+    await expect(comment).toBeHidden()
+  })
+
+  test('comment rate limiting returns 429 and surfaces an error to the user', async ({
+    goto,
+    page,
+  }) => {
+    await goto('/en/blog/copilotkit-sourcecode-note', { waitUntil: 'hydration' })
+
+    const editor = page.locator('.cm-content')
+    await expect(editor).toBeVisible()
+
+    // 连续发布 5 条评论，不应触发限流
+    for (let i = 0; i < 5; i++) {
+      const body = `Rate limit test comment ${Date.now()}-${i}`
+      await editor.fill(body)
+      await page.getByRole('button', { name: 'Post comment' }).click()
+      await expect(page.locator('li', { hasText: body })).toBeVisible()
+    }
+
+    // 第 6 条应被限流（429），并且 UI 需要给出提示
+    await editor.fill('This comment should be rate limited')
+
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (resp) => resp.url().includes('/api/comments') && resp.request().method() === 'POST',
+      ),
+      page.getByRole('button', { name: 'Post comment' }).click(),
+    ])
+
+    expect(response.status()).toBe(429)
+    await expect(
+      page.getByText("You're posting comments too quickly. Please try again in a moment.", {
+        exact: true,
+      }),
+    ).toBeVisible()
+  })
 })

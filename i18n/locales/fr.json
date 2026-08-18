@@ -127,7 +127,7 @@
     "postError": "Impossible de publier le commentaire.",
     "updateError": "Impossible de mettre à jour le commentaire.",
     "deleteError": "Impossible de supprimer le commentaire.",
-    "tooLong": "Les commentaires peuvent contenir au plus 500 caractères.",
+    "tooLong": "Les commentaires peuvent contenir au plus {max} caractères.",
     "remaining": "{count} restants",
     "emoji": "Émoji",
     "write": "Écrire",
@@ -139,6 +139,7 @@
       "quote": "Citation",
       "code": "Code",
       "link": "Lien"
-    }
+    },
+    "rateLimited": "Vous publiez des commentaires trop rapidement. Réessayez dans un instant."
   }
 }

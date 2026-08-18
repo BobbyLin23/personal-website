@@ -127,7 +127,7 @@
     "postError": "留言發表失敗。",
     "updateError": "留言更新失敗。",
     "deleteError": "留言刪除失敗。",
-    "tooLong": "留言最多 500 個字元。",
+    "tooLong": "留言最多 {max} 個字元。",
     "remaining": "還可輸入 {count} 字",
     "emoji": "表情",
     "write": "編寫",
@@ -139,6 +139,7 @@
       "quote": "引用",
       "code": "程式碼",
       "link": "連結"
-    }
+    },
+    "rateLimited": "留言發布太快了，請稍後再試。"
   }
 }

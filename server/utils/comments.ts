@@ -1,8 +1,7 @@
 import { z } from 'zod'
+import { COMMENT_MAX_LENGTH, COMMENT_RATE_LIMIT, COMMENT_RATE_WINDOW_MS } from '#shared/comments'
 
-export const COMMENT_MAX_LENGTH = 2000
-export const COMMENT_RATE_LIMIT = 5
-export const COMMENT_RATE_WINDOW_MS = 60_000
+export { COMMENT_MAX_LENGTH, COMMENT_RATE_LIMIT, COMMENT_RATE_WINDOW_MS }
 
 export const postPathSchema = z
   .string()

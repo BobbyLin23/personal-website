@@ -67,6 +67,7 @@ export default defineContentConfig({
       schema: z.object({
         date: z.union([z.iso.date(), z.iso.datetime({ offset: true, local: true })]),
         title: z.string(),
+        description: z.string().optional(),
         tags: z.array(z.string()).optional(),
         draft: z.boolean().default(false),
       }),
