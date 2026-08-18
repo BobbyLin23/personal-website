@@ -112,7 +112,7 @@
   "comments": {
     "title": "Commentaires",
     "empty": "Pas encore de commentaires.",
-    "placeholder": "Écrire un commentaire...",
+    "placeholder": "Écrire un commentaire... Markdown supporté",
     "submit": "Publier le commentaire",
     "loginToComment": "Connectez-vous pour commenter",
     "edit": "Modifier",
@@ -127,7 +127,18 @@
     "postError": "Impossible de publier le commentaire.",
     "updateError": "Impossible de mettre à jour le commentaire.",
     "deleteError": "Impossible de supprimer le commentaire.",
-    "tooLong": "Les commentaires peuvent contenir au plus 2000 caractères.",
-    "remaining": "{count} restants"
+    "tooLong": "Les commentaires peuvent contenir au plus 500 caractères.",
+    "remaining": "{count} restants",
+    "emoji": "Émoji",
+    "write": "Écrire",
+    "preview": "Aperçu",
+    "markdownSupported": "Markdown pris en charge",
+    "toolbar": {
+      "bold": "Gras",
+      "italic": "Italique",
+      "quote": "Citation",
+      "code": "Code",
+      "link": "Lien"
+    }
   }
 }

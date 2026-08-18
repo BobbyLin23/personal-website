@@ -277,12 +277,18 @@ test('header login opens a GitHub and Google modal', async ({ goto, page }) => {
   await expect(page.getByRole('button', { name: 'Continue with Google' })).toBeVisible()
 })
 
-test('post comments escape XSS and open login when signed out', async ({ goto, page }) => {
+test('rendered comments sanitize raw HTML and open login when signed out', async ({
+  goto,
+  page,
+}) => {
   await goto('/zh/blog/copilotkit-sourcecode-note', { waitUntil: 'hydration' })
 
   await expect(page.getByRole('heading', { name: '评论' })).toBeVisible()
-  await expect(page.getByText(xssComment)).toBeVisible()
-  await expect(page.locator('img[src="x"]')).toHaveCount(0)
+
+  // 评论区内的 HTML 必须经过 DOMPurify 消毒：img 保留、onerror 事件被移除
+  const commentSection = page.locator('[aria-labelledby="comments-title"]')
+  await expect(commentSection.locator('img[src="x"]')).toHaveCount(1)
+  await expect(commentSection.locator('[onerror]')).toHaveCount(0)
 
   await page.getByRole('button', { name: '登录后发表评论' }).click()
   await expect(page.getByRole('dialog')).toBeVisible()

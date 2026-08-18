@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { MdPreview } from 'md-editor-v3'
+import DOMPurify from 'dompurify'
+import 'md-editor-v3/lib/style.css'
+import 'md-editor-v3/lib/preview.css'
+
 interface CommentItem {
   id: string
   postPath: string
@@ -10,7 +16,7 @@ interface CommentItem {
   authorImage: string | null
 }
 
-const COMMENT_MAX_LENGTH = 2000
+const COMMENT_MAX_LENGTH = 500
 
 const props = defineProps<{
   postPath: string
@@ -20,6 +26,7 @@ const { t, localeProperties } = useI18n()
 const toast = useToast()
 const { user, loggedIn } = useUserSession()
 const { openLoginModal } = useLoginModal()
+const colorMode = useColorMode()
 
 const draft = ref('')
 const editingId = ref<string | null>(null)
@@ -41,7 +48,12 @@ const { data, refresh, status } = useFetch<{ comments: CommentItem[] }>('/api/co
 })
 
 const comments = computed(() => data.value?.comments ?? [])
-const remaining = computed(() => COMMENT_MAX_LENGTH - draft.value.length)
+
+const theme = computed(() => (colorMode.value === 'dark' ? 'dark' : 'light'))
+
+function sanitize(html: string) {
+  return DOMPurify.sanitize(html)
+}
 
 function isOwnComment(comment: CommentItem) {
   return loggedIn.value && user.value?.id === comment.userId
@@ -156,25 +168,28 @@ async function deleteComment(comment: CommentItem) {
     </h2>
 
     <div v-if="loggedIn" class="mb-8">
-      <UTextarea
-        v-model="draft"
-        :placeholder="t('comments.placeholder')"
-        :rows="3"
-        :maxlength="COMMENT_MAX_LENGTH"
-        autoresize
-      />
-      <div class="mt-3 flex items-center justify-between gap-3">
-        <p class="text-xs text-muted">
-          {{ t('comments.remaining', { count: remaining }) }}
-        </p>
-        <UButton
-          color="primary"
-          :label="t('comments.submit')"
-          :loading="submitting"
-          :disabled="submitting || !draft.trim()"
-          @click="submitComment"
-        />
-      </div>
+      <ClientOnly>
+        <CommentEditor
+          v-model="draft"
+          :max-length="COMMENT_MAX_LENGTH"
+          preview-id="comment-preview-draft"
+          :placeholder="t('comments.placeholder')"
+        >
+          <template #actions>
+            <UButton
+              size="sm"
+              color="primary"
+              :label="t('comments.submit')"
+              :loading="submitting"
+              :disabled="submitting || !draft.trim()"
+              @click="submitComment"
+            />
+          </template>
+        </CommentEditor>
+        <template #fallback>
+          <div class="h-36 rounded-lg border border-default bg-elevated/40" />
+        </template>
+      </ClientOnly>
     </div>
     <button
       v-else
@@ -211,56 +226,73 @@ async function deleteComment(comment: CommentItem) {
             </span>
           </div>
 
-          <UTextarea
-            v-if="editingId === comment.id"
-            v-model="editDraft"
-            class="mt-2"
-            :rows="3"
-            :maxlength="COMMENT_MAX_LENGTH"
-            autoresize
-          />
-          <p v-else class="mt-2 whitespace-pre-wrap break-words text-sm text-toned">
-            {{ comment.body }}
-          </p>
+          <ClientOnly v-if="editingId === comment.id">
+            <CommentEditor
+              v-model="editDraft"
+              :max-length="COMMENT_MAX_LENGTH"
+              :preview-id="`comment-preview-edit-${comment.id}`"
+              class="mt-2"
+            >
+              <template #actions>
+                <UButton
+                  size="xs"
+                  color="primary"
+                  :label="t('comments.save')"
+                  :loading="submitting"
+                  :disabled="submitting || !editDraft.trim()"
+                  @click="saveEdit(comment)"
+                />
+                <UButton
+                  size="xs"
+                  color="neutral"
+                  variant="ghost"
+                  :label="t('comments.cancel')"
+                  :disabled="submitting"
+                  @click="cancelEdit"
+                />
+              </template>
+            </CommentEditor>
+            <template #fallback>
+              <div class="mt-2 h-36 rounded-lg border border-default bg-elevated/40" />
+            </template>
+          </ClientOnly>
+          <ClientOnly v-else>
+            <MdPreview
+              v-model="comment.body"
+              :id="`comment-preview-${comment.id}`"
+              :theme="theme"
+              preview-theme="github"
+              :sanitize="sanitize"
+              :code-foldable="false"
+              class="comment-preview mt-2"
+            />
+            <template #fallback>
+              <p class="mt-2 whitespace-pre-wrap wrap-break-word text-sm text-toned">
+                {{ comment.body }}
+              </p>
+            </template>
+          </ClientOnly>
 
-          <div v-if="isOwnComment(comment)" class="mt-2 flex flex-wrap gap-2">
-            <template v-if="editingId === comment.id">
-              <UButton
-                size="xs"
-                color="primary"
-                variant="soft"
-                :label="t('comments.save')"
-                :loading="submitting"
-                :disabled="submitting || !editDraft.trim()"
-                @click="saveEdit(comment)"
-              />
-              <UButton
-                size="xs"
-                color="neutral"
-                variant="ghost"
-                :label="t('comments.cancel')"
-                :disabled="submitting"
-                @click="cancelEdit"
-              />
-            </template>
-            <template v-else>
-              <UButton
-                size="xs"
-                color="neutral"
-                variant="ghost"
-                :label="t('comments.edit')"
-                :disabled="submitting"
-                @click="startEdit(comment)"
-              />
-              <UButton
-                size="xs"
-                color="error"
-                variant="ghost"
-                :label="t('comments.delete')"
-                :disabled="submitting"
-                @click="deletingComment = comment"
-              />
-            </template>
+          <div
+            v-if="isOwnComment(comment) && editingId !== comment.id"
+            class="mt-2 flex flex-wrap gap-2"
+          >
+            <UButton
+              size="xs"
+              color="neutral"
+              variant="ghost"
+              :label="t('comments.edit')"
+              :disabled="submitting"
+              @click="startEdit(comment)"
+            />
+            <UButton
+              size="xs"
+              color="error"
+              variant="ghost"
+              :label="t('comments.delete')"
+              :disabled="submitting"
+              @click="deletingComment = comment"
+            />
           </div>
         </div>
       </li>
@@ -291,3 +323,17 @@ async function deleteComment(comment: CommentItem) {
     </UModal>
   </section>
 </template>
+
+<style scoped>
+.comment-preview :deep(.md-editor-preview-wrapper) {
+  padding: 0;
+}
+
+.comment-preview :deep(.md-editor-preview) {
+  font-size: 0.875rem;
+}
+
+.comment-preview :deep(.md-editor-preview :where(h1, h2, h3, h4, h5, h6)) {
+  font-size: 1rem;
+}
+</style>

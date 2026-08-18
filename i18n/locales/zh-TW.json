@@ -112,7 +112,7 @@
   "comments": {
     "title": "留言",
     "empty": "還沒有留言。",
-    "placeholder": "寫下你的留言...",
+    "placeholder": "寫下你的留言... 支援 Markdown",
     "submit": "發表留言",
     "loginToComment": "登入後發表留言",
     "edit": "編輯",
@@ -127,7 +127,18 @@
     "postError": "留言發表失敗。",
     "updateError": "留言更新失敗。",
     "deleteError": "留言刪除失敗。",
-    "tooLong": "留言最多 2000 個字元。",
-    "remaining": "還可輸入 {count} 字"
+    "tooLong": "留言最多 500 個字元。",
+    "remaining": "還可輸入 {count} 字",
+    "emoji": "表情",
+    "write": "編寫",
+    "preview": "預覽",
+    "markdownSupported": "支援 Markdown",
+    "toolbar": {
+      "bold": "粗體",
+      "italic": "斜體",
+      "quote": "引用",
+      "code": "程式碼",
+      "link": "連結"
+    }
   }
 }

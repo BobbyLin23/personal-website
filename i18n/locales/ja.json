@@ -112,7 +112,7 @@
   "comments": {
     "title": "コメント",
     "empty": "まだコメントはありません。",
-    "placeholder": "コメントを書く...",
+    "placeholder": "コメントを書く... Markdown 対応",
     "submit": "コメントを投稿",
     "loginToComment": "ログインしてコメントする",
     "edit": "編集",
@@ -127,7 +127,18 @@
     "postError": "コメントを投稿できませんでした。",
     "updateError": "コメントを更新できませんでした。",
     "deleteError": "コメントを削除できませんでした。",
-    "tooLong": "コメントは 2000 文字までです。",
-    "remaining": "残り {count} 文字"
+    "tooLong": "コメントは 500 文字までです。",
+    "remaining": "残り {count} 文字",
+    "emoji": "絵文字",
+    "write": "作成",
+    "preview": "プレビュー",
+    "markdownSupported": "Markdown 対応",
+    "toolbar": {
+      "bold": "太字",
+      "italic": "斜体",
+      "quote": "引用",
+      "code": "コード",
+      "link": "リンク"
+    }
   }
 }

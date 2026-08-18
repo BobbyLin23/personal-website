@@ -112,7 +112,7 @@
   "comments": {
     "title": "评论",
     "empty": "还没有评论。",
-    "placeholder": "写下你的评论...",
+    "placeholder": "写下你的评论... 支持 Markdown",
     "submit": "发表评论",
     "loginToComment": "登录后发表评论",
     "edit": "编辑",
@@ -127,7 +127,18 @@
     "postError": "评论发表失败。",
     "updateError": "评论更新失败。",
     "deleteError": "评论删除失败。",
-    "tooLong": "评论最多 2000 个字符。",
-    "remaining": "还可输入 {count} 字"
+    "tooLong": "评论最多 500 个字符。",
+    "remaining": "还可输入 {count} 字",
+    "emoji": "表情",
+    "write": "编写",
+    "preview": "预览",
+    "markdownSupported": "支持 Markdown",
+    "toolbar": {
+      "bold": "加粗",
+      "italic": "斜体",
+      "quote": "引用",
+      "code": "代码",
+      "link": "链接"
+    }
   }
 }

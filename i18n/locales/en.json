@@ -112,7 +112,7 @@
   "comments": {
     "title": "Comments",
     "empty": "No comments yet.",
-    "placeholder": "Write a comment...",
+    "placeholder": "Write a comment... Markdown supported",
     "submit": "Post comment",
     "loginToComment": "Log in to comment",
     "edit": "Edit",
@@ -127,7 +127,18 @@
     "postError": "Could not post comment.",
     "updateError": "Could not update comment.",
     "deleteError": "Could not delete comment.",
-    "tooLong": "Comments can be at most 2000 characters.",
-    "remaining": "{count} left"
+    "tooLong": "Comments can be at most 500 characters.",
+    "remaining": "{count} left",
+    "emoji": "Emoji",
+    "write": "Write",
+    "preview": "Preview",
+    "markdownSupported": "Markdown is supported",
+    "toolbar": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "quote": "Quote",
+      "code": "Code",
+      "link": "Link"
+    }
   }
 }
