@@ -77,7 +77,7 @@ function formatRelativeTime(timestamp: number) {
   return new Intl.DateTimeFormat(language, { dateStyle: 'medium' }).format(new Date(timestamp))
 }
 
-function showError(key: string, params?: Record<string, unknown>) {
+function showError(key: string, params: Record<string, unknown> = {}) {
   toast.add({
     title: t(key, params),
     color: 'error',
@@ -333,6 +333,10 @@ async function deleteComment(comment: CommentItem) {
 </template>
 
 <style scoped>
+.comment-preview.md-editor {
+  background: transparent;
+}
+
 .comment-preview :deep(.md-editor-preview-wrapper) {
   padding: 0;
 }
