@@ -21,6 +21,10 @@ const props = defineProps<{
   postPath: string
 }>()
 
+const emit = defineEmits<{
+  count: [count: number]
+}>()
+
 const { t, localeProperties } = useI18n()
 const toast = useToast()
 const { user, loggedIn } = useUserSession()
@@ -47,6 +51,8 @@ const { data, refresh, status } = useFetch<{ comments: CommentItem[] }>('/api/co
 })
 
 const comments = computed(() => data.value?.comments ?? [])
+
+watch(comments, (value) => emit('count', value.length), { immediate: true })
 
 const theme = computed(() => (colorMode.value === 'dark' ? 'dark' : 'light'))
 
