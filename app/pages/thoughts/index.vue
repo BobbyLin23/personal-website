@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import type { Moment } from '~/types/moments'
+
 const route = useRoute()
 const config = useRuntimeConfig()
-const { t, localeProperties } = useI18n()
+const { t } = useI18n()
+const toast = useToast()
+const { loggedIn } = useUserSession()
+const { openLoginModal } = useLoginModal()
 
 useSeoMeta({
   title: () => t('thoughts.title'),
@@ -9,48 +14,62 @@ useSeoMeta({
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
-const { data: moments } = await useAsyncData('thoughts', async () =>
-  queryCollection('thoughts').where('draft', '=', false).order('date', 'DESC').all(),
+const { data, refresh, status } = useFetch<{ moments: Moment[]; isOwner: boolean }>(
+  '/api/thoughts',
+  {
+    key: 'thoughts-feed',
+    default: () => ({ moments: [], isOwner: false }),
+  },
 )
 
-const dateFormatter = computed(
-  () =>
-    new Intl.DateTimeFormat(localeProperties.value.language || 'en', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    }),
+const moments = ref<Moment[]>([])
+const isOwner = computed(() => Boolean(data.value?.isOwner))
+
+watch(
+  data,
+  (value) => {
+    moments.value = value?.moments ?? []
+  },
+  { immediate: true },
 )
 
-const datetimeFormatter = computed(
-  () =>
-    new Intl.DateTimeFormat(localeProperties.value.language || 'en', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
-)
+function handleLiked(moment: Moment, liked: boolean, likeCount: number) {
+  const target = moments.value.find((m) => m.id === moment.id)
+  if (target) {
+    target.likedByMe = liked
+    target.likeCount = likeCount
+  }
+}
 
-function formatDate(dateStr: string) {
-  const date = new Date(dateStr)
-  if (Number.isNaN(date.getTime())) return dateStr
-  return dateStr.includes('T')
-    ? datetimeFormatter.value.format(date)
-    : dateFormatter.value.format(date)
+function handleCommentCount(moment: Moment, count: number) {
+  const target = moments.value.find((m) => m.id === moment.id)
+  if (target) target.commentCount = count
+}
+
+function handlePublished(moment: Moment) {
+  moments.value.unshift(moment)
+  toast.add({
+    title: t('thoughts.publishLabel'),
+    description: t('thoughts.publish'),
+    icon: 'i-lucide-circle-check',
+    color: 'success',
+  })
+}
+
+function handleDeleted(moment: Moment) {
+  moments.value = moments.value.filter((m) => m.id !== moment.id)
 }
 </script>
 
 <template>
   <UContainer class="py-16 sm:py-24">
-    <div class="mx-auto max-w-3xl">
+    <div class="mx-auto max-w-2xl">
       <SafeMotion
         :initial="{ opacity: 0, y: 16 }"
         :animate="{ opacity: 1, y: 0 }"
         :transition="{ duration: 0.5 }"
       >
-        <div class="mb-16">
+        <div class="mb-10">
           <h1 class="display-heading text-4xl sm:text-5xl mb-4">
             {{ t('thoughts.title') }}
           </h1>
@@ -60,39 +79,38 @@ function formatDate(dateStr: string) {
         </div>
       </SafeMotion>
 
-      <ol v-if="moments?.length" class="relative">
-        <li
-          v-for="(moment, index) in moments"
-          :key="moment.path"
-          class="relative ps-9 sm:ps-12 pb-8 sm:pb-10 last:pb-0"
-        >
-          <span aria-hidden="true" class="absolute inset-s-0 top-0 bottom-0 w-px bg-muted" />
-          <span
-            aria-hidden="true"
-            class="absolute -inset-s-1.25 top-7 size-2.5 rounded-full bg-primary ring-4 ring-default"
-          />
+      <MomentComposer v-if="isOwner" :is-owner="isOwner" @published="handlePublished" />
 
-          <SafeMotion
-            :initial="{ opacity: 0, y: 20 }"
-            :animate="{ opacity: 1, y: 0 }"
-            :transition="{ duration: 0.5, delay: Math.min(0.15 + index * 0.06, 0.45) }"
-          >
-            <article class="rounded-xl bg-elevated/50 ring ring-default p-5 sm:p-6">
-              <time class="block text-sm text-muted tabular-nums mb-3" :datetime="moment.date">
-                {{ formatDate(moment.date) }}
-              </time>
-              <h2 v-if="moment.title" class="font-semibold text-base sm:text-lg mb-2">
-                {{ moment.title }}
-              </h2>
-              <ContentRenderer :value="moment as any" />
-            </article>
-          </SafeMotion>
-        </li>
-      </ol>
-
-      <p v-else class="text-sm text-muted py-16 text-center">
-        {{ t('thoughts.empty') }}
+      <p v-if="status === 'pending'" class="text-sm text-muted py-16 text-center">
+        {{ t('common.loading') }}
       </p>
+      <UAlert
+        v-else-if="status === 'error'"
+        color="warning"
+        variant="subtle"
+        :title="t('thoughts.publishError')"
+      />
+      <p v-else-if="!moments.length" class="text-sm text-muted py-16 text-center">
+        {{ t('thoughts.emptyState') }}
+      </p>
+      <div v-else class="space-y-6">
+        <SafeMotion
+          v-for="(moment, index) in moments"
+          :key="moment.id"
+          :initial="{ opacity: 0, y: 20 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5, delay: Math.min(0.1 + index * 0.05, 0.4) }"
+        >
+          <MomentCard
+            :moment="moment"
+            :index="index"
+            :is-owner="isOwner"
+            @liked="handleLiked"
+            @comment-count="handleCommentCount"
+            @deleted="handleDeleted"
+          />
+        </SafeMotion>
+      </div>
     </div>
   </UContainer>
 </template>
