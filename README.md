@@ -25,7 +25,10 @@ Optional: `NUXT_NOTION_DATABASE_IDS` (comma-separated) to allow only those datab
 
 ### 3. GitHub
 
-Create a PAT (or GitHub App token) with `contents:write` on this repo. Do not reuse Studio OAuth client secrets.
+Create a PAT (or GitHub App token) with **Contents: Read and write** and
+**Pull requests: Read and write** on this repo. Publishing creates and merges a short-lived pull
+request so it also works when the target branch requires pull requests. Do not reuse Studio OAuth
+client secrets.
 
 ```
 NUXT_PUBLISH_SECRET=
