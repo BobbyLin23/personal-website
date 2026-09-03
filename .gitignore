@@ -19,6 +19,7 @@ logs
 .DS_Store
 .fleet
 .idea
+/.amp/portals/
 
 # Local env files
 .env
