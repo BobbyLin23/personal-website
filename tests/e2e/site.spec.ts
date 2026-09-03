@@ -213,6 +213,18 @@ for (const route of smokeRoutes) {
   })
 }
 
+test('sitemap exposes localized pages and content', async ({ request }) => {
+  const response = await request.get('/sitemap.xml')
+  const sitemap = await response.text()
+
+  expect(response.status()).toBe(200)
+  expect(response.headers()['content-type']).toContain('application/xml')
+  expect(sitemap).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+  expect(sitemap).toContain('<loc>http://127.0.0.1:4173/en</loc>')
+  expect(sitemap).toContain('<loc>http://127.0.0.1:4173/zh/blog/copilotkit-sourcecode-note</loc>')
+  expect(sitemap).toContain('<loc>http://127.0.0.1:4173/fr/weekly/2026-w06</loc>')
+})
+
 test('header controls switch locale, expose RSS links, and persist color mode', async ({
   goto,
   page,
