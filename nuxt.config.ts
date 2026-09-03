@@ -66,7 +66,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     prerender: {
-      routes: ['/rss.xml', '/rss/blog.xml', '/rss/weekly.xml'],
+      routes: ['/rss.xml', '/rss/blog.xml', '/rss/weekly.xml', '/sitemap.xml'],
     },
     externals: {
       inline: ['minimark', '@nuxtjs/mdc'],
