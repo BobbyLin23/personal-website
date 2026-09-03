@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Dependencies and browser binaries are persisted in the orb snapshot.
+# This repository has no services or authentication that need reconnecting.
+printf 'No orb resume steps required.\n'

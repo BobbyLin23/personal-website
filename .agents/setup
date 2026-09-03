@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+run_step() {
+  local label="$1"
+  shift
+
+  local started_at
+  started_at=$(date +%s)
+  printf '\n==> %s\n' "$label"
+  "$@"
+  printf '<== %s (%ss)\n' "$label" "$(($(date +%s) - started_at))"
+}
+
+expected_pnpm_version=$(node -p "require('./package.json').packageManager.split('@').at(-1)")
+actual_pnpm_version=$(pnpm --version)
+
+if [[ "$actual_pnpm_version" != "$expected_pnpm_version" ]]; then
+  run_step "Activate pnpm $expected_pnpm_version" corepack prepare "pnpm@$expected_pnpm_version" --activate
+fi
+
+if [[ "$(pnpm --version)" != "$expected_pnpm_version" ]]; then
+  printf 'Expected pnpm %s, found %s\n' "$expected_pnpm_version" "$(pnpm --version)" >&2
+  exit 1
+fi
+
+run_step 'Install project dependencies' pnpm install --frozen-lockfile
+
+if ! node -e "const { chromium } = require('@playwright/test'); process.exit(require('node:fs').existsSync(chromium.executablePath()) ? 0 : 1)"; then
+  run_step 'Install Playwright Chromium' pnpm exec playwright install chromium --with-deps
+else
+  printf '\n==> Playwright Chromium is already installed\n'
+fi
+
+printf '\nOrb setup complete.\n'
