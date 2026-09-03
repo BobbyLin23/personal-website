@@ -18,6 +18,15 @@ interface GitShaResponse {
   sha: string
 }
 
+interface GitPullResponse {
+  number: number
+}
+
+interface GitMergeResponse {
+  merged: boolean
+  sha: string | null
+}
+
 function githubHeaders(token: string) {
   return {
     Authorization: `Bearer ${token}`,
@@ -88,21 +97,60 @@ export async function commitGithubFiles(config: PublishConfig, files: GitFile[],
       },
     })
 
-    await $fetch(`${api}/git/refs/heads/${encodeURIComponent(branch)}`, {
-      method: 'PATCH',
+    const publishBranch = `publish/${Date.now()}-${nextCommit.sha.slice(0, 7)}`
+    await $fetch(`${api}/git/refs`, {
+      method: 'POST',
       headers,
-      body: { sha: nextCommit.sha },
+      body: {
+        ref: `refs/heads/${publishBranch}`,
+        sha: nextCommit.sha,
+      },
     })
 
-    return nextCommit.sha
+    const pull = await $fetch<GitPullResponse>(`${api}/pulls`, {
+      method: 'POST',
+      headers,
+      body: {
+        title: message,
+        head: publishBranch,
+        base: branch,
+        body: 'Published automatically from Notion.',
+      },
+    })
+
+    const merge = await $fetch<GitMergeResponse>(`${api}/pulls/${pull.number}/merge`, {
+      method: 'PUT',
+      headers,
+      body: { merge_method: 'squash' },
+    })
+    if (!merge.merged || !merge.sha) {
+      throw createError({
+        statusCode: 502,
+        statusMessage: 'GitHub pull request could not be merged',
+      })
+    }
+
+    await $fetch(`${api}/git/refs/heads/${encodeURIComponent(publishBranch)}`, {
+      method: 'DELETE',
+      headers,
+    }).catch(() => undefined)
+
+    return merge.sha
   } catch (error) {
     const status = getFetchStatus(error)
     throw createError({
-      statusCode: status === 401 || status === 403 ? 502 : status || 502,
-      statusMessage:
-        status === 404 ? 'GitHub repository or branch not found' : 'GitHub commit failed',
+      statusCode: 502,
+      statusMessage: githubErrorMessage(status),
     })
   }
+}
+
+function githubErrorMessage(status: number) {
+  if (status === 401 || status === 403) return 'GitHub token lacks required repository permissions'
+  if (status === 404) return 'GitHub repository or branch not found'
+  if (status === 409) return 'GitHub could not merge the publish request'
+  if (status === 422) return 'GitHub rejected the publish request'
+  return 'GitHub commit failed'
 }
 
 function getFetchStatus(error: unknown) {
