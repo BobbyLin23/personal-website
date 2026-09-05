@@ -19,6 +19,11 @@ export default defineServerAuth(({ runtimeConfig, requestOrigin }) => {
       enabled: false,
     },
     trustedOrigins,
+    advanced: {
+      ipAddress: {
+        ipAddressHeaders: ['x-real-ip'],
+      },
+    },
     socialProviders: {
       github: {
         clientId: authGithub.clientId,
