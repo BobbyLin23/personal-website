@@ -37,7 +37,7 @@
   },
   "blog": {
     "title": "Blog",
-    "description": "Réflexions sur le développement web, le design et la technologie.",
+    "description": "Réflexions sur le code, l’IA, la vie et tout le reste.",
     "empty": "Pas encore d'articles de blog."
   },
   "about": {
