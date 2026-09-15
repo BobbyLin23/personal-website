@@ -213,6 +213,21 @@ for (const route of smokeRoutes) {
   })
 }
 
+test('thoughts hydrates with persisted dark mode', async ({ goto, page }) => {
+  const hydrationWarnings: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'warning' && message.text().includes('Hydration')) {
+      hydrationWarnings.push(message.text())
+    }
+  })
+  await page.addInitScript(() => localStorage.setItem('nuxt-color-mode', 'dark'))
+
+  await goto('/en/thoughts', { waitUntil: 'hydration' })
+
+  await expect(page.locator('html')).toHaveClass(/dark/)
+  expect(hydrationWarnings).toEqual([])
+})
+
 test('sitemap exposes localized pages and content', async ({ request }) => {
   const response = await request.get('/sitemap.xml')
   const sitemap = await response.text()

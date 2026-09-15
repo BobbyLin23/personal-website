@@ -5,17 +5,8 @@ const route = useRoute()
 const { t, locale, locales, setLocale } = useI18n()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
-const colorMode = useColorMode()
 
 type LocaleCode = Parameters<typeof setLocale>[0]
-
-const colorModeIcon = computed(() =>
-  colorMode.value === 'dark' ? 'i-lucide-moon' : 'i-lucide-sun',
-)
-
-function toggleColorMode() {
-  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-}
 
 const navItems = computed<NavigationMenuItem[]>(() => [
   {
@@ -132,13 +123,7 @@ const accountItems = computed<DropdownMenuItem[][]>(() => [
         />
       </UDropdownMenu>
 
-      <UButton
-        :icon="colorModeIcon"
-        color="neutral"
-        variant="ghost"
-        :aria-label="t('theme.toggle')"
-        @click="toggleColorMode"
-      />
+      <UColorModeButton :aria-label="t('theme.toggle')" />
 
       <UDropdownMenu v-if="loggedIn" :items="accountItems">
         <UButton color="neutral" variant="ghost" :aria-label="t('auth.account')">
