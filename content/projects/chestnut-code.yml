@@ -1,0 +1,12 @@
+name: Chestnut Code
+description: A opinionated coding agent.
+icon: i-lucide-code
+iconBg: bg-yellow-50 dark:bg-yellow-900/20
+iconColor: text-yellow-500
+language: TypeScript, React Native, Expo
+languageColor: bg-yellow-400
+stars: 0
+forks: 0
+url: https://chestnut-code.bobbylin.top
+github: https://github.com/BobbyLin23/chestnut-code
+featured: true

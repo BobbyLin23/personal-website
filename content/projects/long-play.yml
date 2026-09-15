@@ -1,0 +1,12 @@
+name: Long Play
+description: A music streaming app for albums.
+icon: i-lucide-music
+iconBg: bg-rose-50 dark:bg-rose-900/20
+iconColor: text-rose-500
+language: SvelteKit, TypeScript, Electrobun
+languageColor: bg-rose-400
+stars: 0
+forks: 0
+url: https://long-play.bobbylin.top
+github: https://github.com/BobbyLin23/long-play
+featured: true
