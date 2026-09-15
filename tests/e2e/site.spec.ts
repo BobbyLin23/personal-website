@@ -213,10 +213,10 @@ for (const route of smokeRoutes) {
   })
 }
 
-test('thoughts hydrates with persisted dark mode', async ({ goto, page }) => {
+test('thoughts hydrates without warnings in persisted dark mode', async ({ goto, page }) => {
   const hydrationWarnings: string[] = []
   page.on('console', (message) => {
-    if (message.type() === 'warning' && message.text().includes('Hydration')) {
+    if (message.type() === 'warning' && /hydration/i.test(message.text())) {
       hydrationWarnings.push(message.text())
     }
   })

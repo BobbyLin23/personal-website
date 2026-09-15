@@ -14,24 +14,13 @@ useSeoMeta({
   ogUrl: config.public.siteUrl ? `${config.public.siteUrl}${route.path}` : undefined,
 })
 
-const { data, refresh, status } = useFetch<{ moments: Moment[]; isOwner: boolean }>(
-  '/api/thoughts',
-  {
-    key: 'thoughts-feed',
-    default: () => ({ moments: [], isOwner: false }),
-  },
-)
+const { data, status } = useFetch<{ moments: Moment[]; isOwner: boolean }>('/api/thoughts', {
+  key: 'thoughts-feed',
+  default: () => ({ moments: [], isOwner: false }),
+})
 
-const moments = ref<Moment[]>([])
+const moments = computed(() => data.value?.moments ?? [])
 const isOwner = computed(() => Boolean(data.value?.isOwner))
-
-watch(
-  data,
-  (value) => {
-    moments.value = value?.moments ?? []
-  },
-  { immediate: true },
-)
 
 function handleLiked(moment: Moment, liked: boolean, likeCount: number) {
   const target = moments.value.find((m) => m.id === moment.id)
@@ -57,7 +46,8 @@ function handlePublished(moment: Moment) {
 }
 
 function handleDeleted(moment: Moment) {
-  moments.value = moments.value.filter((m) => m.id !== moment.id)
+  const index = moments.value.findIndex((m) => m.id === moment.id)
+  if (index !== -1) moments.value.splice(index, 1)
 }
 </script>
 
