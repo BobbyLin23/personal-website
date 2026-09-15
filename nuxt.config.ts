@@ -78,7 +78,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxthub/core',
-    '@onmax/nuxt-better-auth',
+    '@nuxtjs/better-auth',
     '@nuxt/content',
     '@nuxt/ui',
     '@nuxt/image',
