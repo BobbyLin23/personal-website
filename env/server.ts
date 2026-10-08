@@ -21,8 +21,6 @@ export const env = createEnv({
     NUXT_GITHUB_OWNER: z.string().default('BobbyLin23'),
     NUXT_GITHUB_REPO: z.string().default('personal-website'),
     NUXT_GITHUB_BRANCH: z.string().default('master'),
-    NUXT_SITE_OWNER_EMAILS: z.string().optional(),
-    NUXT_TMDB_API_KEY: z.string().optional(),
     NUXT_BETTER_AUTH_SECRET: z.string().min(32).optional(),
     NUXT_AUTH_GITHUB_CLIENT_ID: z.string().optional(),
     NUXT_AUTH_GITHUB_CLIENT_SECRET: z.string().optional(),

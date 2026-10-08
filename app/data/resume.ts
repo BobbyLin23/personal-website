@@ -54,17 +54,10 @@ export interface ResumeContent {
 
 export const resumeData: Record<'zh' | 'en', ResumeContent> = {
   zh: {
-    name: '林张生',
+    name: 'Bobby Lin',
     title: '前端开发工程师',
     location: '上海',
     contact: [
-      {
-        label: '邮箱',
-        value: 'linzhangsheng23@gmail.com',
-        href: 'mailto:linzhangsheng23@gmail.com',
-      },
-      { label: '电话', value: '13671893391', href: 'tel:+8613671893391' },
-      { label: '微信', value: 'lzs751525853' },
       { label: '个人网站', value: 'bobbylin.top', href: 'https://www.bobbylin.top/' },
       { label: 'GitHub', value: 'BobbyLin23', href: 'https://github.com/BobbyLin23' },
     ],
@@ -79,17 +72,17 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: '2025/05 – 至今',
         role: '前端开发工程师',
-        company: '解螺旋（上海）医学科技有限公司',
+        company: '某医学科技公司',
         location: '上海',
         highlights: [
-          '负责 Helix AI 科研协作平台（NewIdea 科研写作工作站）Web 端从 0 到 1 的核心模块交付：任务创建与管理、任务详情步骤流转、SSE 实时日志/阶段推送、Token 用量仪表盘、富文本编辑与审阅导出等，支撑 SaaS 与一体机（AIO）多站点形态的稳定上线与持续迭代。',
+          '负责 AI 科研协作平台（科研写作工作站）Web 端从 0 到 1 的核心模块交付：任务创建与管理、任务详情步骤流转、SSE 实时日志/阶段推送、Token 用量仪表盘、富文本编辑与审阅导出等，支撑 SaaS 与一体机（AIO）多站点形态的稳定上线与持续迭代。',
           '主导前端架构与工程化建设：统一 API 层与鉴权刷新机制、运行时环境注入与 Docker 编排落地，推进 Plate/Slate 编辑器插件化能力（Diff、Mermaid、表格、序列化等）及性能优化；负责关键代码评审与疑难问题攻关，组织内部分享沉淀最佳实践，提升交付效率与代码可维护性。',
         ],
       },
       {
         period: '2024/03 – 2025/05',
         role: '全栈工程师',
-        company: '弗若斯特沙利文（北京）咨询有限公司上海分公司',
+        company: '某咨询公司',
         location: '上海',
         highlights: [
           '深入参与公司产品的需求分析与架构设计，将复杂业务需求转化为高效可行的技术方案，成功推动多个项目在 3 个月内从概念阶段快速落地实施。',
@@ -101,7 +94,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: '2023/07 – 2024/01',
         role: '软件开发工程师',
-        company: '上海怀信智能科技有限公司',
+        company: '某智能制造软件公司',
         location: '上海',
         highlights: [
           '负责 MES 系统基于 Web 的前端页面开发。',
@@ -112,7 +105,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: '2022/12 – 2023/05',
         role: '前端开发工程师',
-        company: '上海聆云信息技术有限公司',
+        company: '某软件科技公司',
         location: '上海',
         highlights: [
           '负责 To B 端管理系统的开发工作，使用 Vue 3、TypeScript、Element Plus 与 ECharts 完成复杂数据展示与权限配置。',
@@ -153,15 +146,14 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: '2014/09 – 2018/06',
         degree: '学士',
-        school: '上海电力大学',
+        school: 'xx大学',
         major: '电子信息工程',
       },
     ],
     projects: [
       {
         period: '2025/10 – 2026/03',
-        name: 'Helix AI 科研工作站',
-        url: 'https://workstation.newidea.pro',
+        name: 'AI 科研写作工作站',
         intro:
           '面向科研/写作场景的 AI 自动化工作站：用户创建与管理 AI 写作任务、查看实时执行日志与仪表盘，并在富文本环境中编辑、审阅与导出内容；支持 SaaS 与一体机等多站点形态。',
         tech: 'Next.js 14（App Router）+ React 18 + TypeScript + Tailwind CSS；Zustand / Immer；umi-request；SSE；Plate（Slate）富文本编辑器；Chart.js；Zod / TanStack Form；pnpm + biome/Husky。',
@@ -175,8 +167,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       },
       {
         period: '2025/05 – 至今',
-        name: 'NewIdea AI 医学科研工作台',
-        url: 'https://newidea.pro',
+        name: 'AI 医学科研工作台',
         intro:
           '面向医学及科研场景的垂直领域 AI 智能协作平台。深度集成 Dify 编排能力，并基于 CopilotKit 构建前端工具调用层，将页面核心能力开放给 AI 助手，打造涵盖文献深度解析、学术论著辅助、基金标书撰写等全链路的 AI 助手矩阵。',
         tech: 'Next.js、React、Tailwind CSS、Dify、Docker、CopilotKit',
@@ -188,8 +179,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       },
       {
         period: '2024/05 – 2024/12',
-        name: '脑力擎编辑器',
-        url: 'https://www.knowlengine.com',
+        name: '企业级智能写作编辑器',
         intro:
           '参与开发企业级智能写作编辑器系统，基于 React 和 SlateJS 的专业文档编辑平台。项目采用 monorepo 架构，使用 pnpm workspace 进行包管理，实现高度模块化和可扩展的系统设计。',
         tech: 'React、TypeScript、SlateJS、Vite、pnpm',
@@ -204,17 +194,10 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
     languages: ['普通话：母语', '英语：熟练'],
   },
   en: {
-    name: 'Lin Zhangsheng',
+    name: 'Bobby Lin',
     title: 'Frontend Engineer',
     location: 'Shanghai, China',
     contact: [
-      {
-        label: 'Email',
-        value: 'linzhangsheng23@gmail.com',
-        href: 'mailto:linzhangsheng23@gmail.com',
-      },
-      { label: 'Phone', value: '+86 136 7189 3391', href: 'tel:+8613671893391' },
-      { label: 'WeChat', value: 'lzs751525853' },
       { label: 'Website', value: 'bobbylin.top', href: 'https://www.bobbylin.top/' },
       { label: 'GitHub', value: 'BobbyLin23', href: 'https://github.com/BobbyLin23' },
     ],
@@ -229,17 +212,17 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: 'May 2025 – Present',
         role: 'Frontend Engineer',
-        company: 'HelixLife (Shanghai) Medical Technology Co., Ltd.',
+        company: 'A medical technology company',
         location: 'Shanghai',
         highlights: [
-          'Led core Web delivery for the Helix AI research collaboration platform (NewIdea writing workstation) from 0 to 1: task creation and management, step-based task flows, SSE real-time logs/stage updates, token usage dashboards, rich-text editing, review, and export — supporting both SaaS and AIO multi-site deployments.',
+          'Led core Web delivery for an AI research collaboration platform (research writing workstation) from 0 to 1: task creation and management, step-based task flows, SSE real-time logs/stage updates, token usage dashboards, rich-text editing, review, and export — supporting both SaaS and AIO multi-site deployments.',
           'Drove frontend architecture and engineering: unified API layer with auth refresh, runtime environment injection, Docker orchestration, Plate/Slate editor pluginization (Diff, Mermaid, tables, serialization), and performance optimization; led code reviews, troubleshooting, and internal knowledge sharing.',
         ],
       },
       {
         period: 'Mar 2024 – May 2025',
         role: 'Full-Stack Engineer',
-        company: 'Frost & Sullivan (Beijing) Consulting Co., Ltd. — Shanghai Branch',
+        company: 'A consulting firm',
         location: 'Shanghai',
         highlights: [
           'Participated in product requirements analysis and architecture design, translating complex business needs into scalable technical solutions and shipping multiple projects from concept to production within 3 months.',
@@ -251,7 +234,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: 'Jul 2023 – Jan 2024',
         role: 'Software Development Engineer',
-        company: 'Shanghai Huaixin Intelligent Technology Co., Ltd.',
+        company: 'An intelligent manufacturing software company',
         location: 'Shanghai',
         highlights: [
           'Developed Web-based frontend pages for the MES system.',
@@ -262,7 +245,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: 'Dec 2022 – May 2023',
         role: 'Frontend Engineer',
-        company: 'Shanghai Lingyun Information Technology Co., Ltd.',
+        company: 'A software technology company',
         location: 'Shanghai',
         highlights: [
           'Built ToB admin systems using Vue 3, TypeScript, Element Plus, and ECharts for complex data visualization and permission configuration.',
@@ -303,21 +286,20 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       {
         period: 'Sep 2014 – Jun 2018',
         degree: 'Bachelor of Engineering',
-        school: 'Shanghai University of Electric Power',
+        school: 'xx University',
         major: 'Electronic Information Engineering',
       },
     ],
     projects: [
       {
         period: 'Oct 2025 – Mar 2026',
-        name: 'Helix AI Research Workstation',
-        url: 'https://workstation.newidea.pro',
+        name: 'AI Research Writing Workstation',
         intro:
           'AI-powered research and writing workstation: create and manage AI writing tasks, view real-time execution logs and dashboards, edit/review/export in a rich-text environment; supports SaaS and on-premise multi-site deployments.',
         tech: 'Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, Zustand/Immer, umi-request, SSE, Plate (Slate) editor, Chart.js, Zod/TanStack Form, pnpm, biome/Husky.',
         highlights: [
           'Built core business pages: task list/pagination, task detail step flows, dashboards, and token usage with optimized data fetching, state sync, and interaction (visibility-based refresh, debouncing).',
-          'Designed unified API layer: umi-request prefix, Bearer auth, 401/token refresh via @helix/helix-token-manager, business error routing, and i18n error messages.',
+          'Designed unified API layer: umi-request prefix, Bearer auth, 401/token refresh via an internal token manager, business error routing, and i18n error messages.',
           'Implemented streaming AI output and task logs via SSE, with Streamdown + Markdown for incremental rendering and Safari compatibility.',
           'Complex multi-type task forms with field dependencies, validation hooks, and conditional rendering.',
           'Plate plugin system for Diff, Mermaid, tables, and serialization — supporting long-document editing, comparison, and export.',
@@ -325,8 +307,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       },
       {
         period: 'May 2025 – Present',
-        name: 'NewIdea AI Medical Research Workbench',
-        url: 'https://newidea.pro',
+        name: 'AI Medical Research Workbench',
         intro:
           'Vertical AI collaboration platform for medical and research workflows. Integrates Dify orchestration and CopilotKit tool-calling to expose page capabilities to AI assistants — covering literature analysis, academic writing, and grant proposal assistance.',
         tech: 'Next.js, React, Tailwind CSS, Dify, Docker, CopilotKit',
@@ -338,8 +319,7 @@ export const resumeData: Record<'zh' | 'en', ResumeContent> = {
       },
       {
         period: 'May 2024 – Dec 2024',
-        name: 'Knowlengine Editor',
-        url: 'https://www.knowlengine.com',
+        name: 'Enterprise Intelligent Writing Editor',
         intro:
           'Enterprise intelligent writing editor built on React and SlateJS. Monorepo architecture with pnpm workspaces for modular, extensible document editing.',
         tech: 'React, TypeScript, SlateJS, Vite, pnpm',

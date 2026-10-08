@@ -5,7 +5,7 @@ export { COMMENT_MAX_LENGTH, COMMENT_RATE_LIMIT, COMMENT_RATE_WINDOW_MS }
 
 export const postPathSchema = z
   .string()
-  .regex(/^\/(blog|weekly|thoughts)\/[a-zA-Z0-9._/-]+$/, 'Invalid post path')
+  .regex(/^\/(blog|weekly)\/[a-zA-Z0-9._/-]+$/, 'Invalid post path')
 
 export function sanitizeCommentBody(value: string) {
   let result = ''

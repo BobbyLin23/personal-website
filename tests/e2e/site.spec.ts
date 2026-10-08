@@ -200,9 +200,7 @@ const smokeRoutes = [
   { path: '/en/projects', heading: 'Projects' },
   { path: '/es/projects', heading: 'Proyectos' },
   { path: '/en/weekly', heading: 'Weekly' },
-  { path: '/en/resume', heading: 'Lin Zhangsheng' },
-  { path: '/en/thoughts', heading: 'Thoughts' },
-  { path: '/zh/thoughts', heading: '随想' },
+  { path: '/en/resume', heading: 'Bobby Lin' },
 ]
 
 for (const route of smokeRoutes) {
@@ -212,21 +210,6 @@ for (const route of smokeRoutes) {
     await expect(page.getByRole('heading', { level: 1, name: route.heading })).toBeVisible()
   })
 }
-
-test('thoughts hydrates without warnings in persisted dark mode', async ({ goto, page }) => {
-  const hydrationWarnings: string[] = []
-  page.on('console', (message) => {
-    if (message.type() === 'warning' && /hydration/i.test(message.text())) {
-      hydrationWarnings.push(message.text())
-    }
-  })
-  await page.addInitScript(() => localStorage.setItem('nuxt-color-mode', 'dark'))
-
-  await goto('/en/thoughts', { waitUntil: 'hydration' })
-
-  await expect(page.locator('html')).toHaveClass(/dark/)
-  expect(hydrationWarnings).toEqual([])
-})
 
 test('sitemap exposes localized pages and content', async ({ request }) => {
   const response = await request.get('/sitemap.xml')
@@ -312,14 +295,14 @@ test('weekly calendar opens the highlighted weekly report for the active locale'
 test('projects and resume expose expected links and resume actions', async ({ goto, page }) => {
   await goto('/en/projects', { waitUntil: 'hydration' })
 
-  await expect(page.getByRole('heading', { name: 'Calora' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Chestnut Chat' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Source Code' }).first()).toHaveAttribute(
     'href',
-    'https://github.com/chestnut-studio/calora',
+    'https://github.com/chestnut-studio/chestnut-chat',
   )
 
   await goto('/en/resume', { waitUntil: 'hydration' })
-  await expect(page.getByRole('heading', { level: 1, name: 'Lin Zhangsheng' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Bobby Lin' })).toBeVisible()
 
   await expect(page.getByRole('link', { name: 'PDF' })).toHaveAttribute('href', '/resume-zh.pdf')
   await expect(page.getByRole('link', { name: 'PDF' })).toHaveAttribute('download', '')
@@ -337,7 +320,7 @@ test('projects and resume expose expected links and resume actions', async ({ go
 
   await page.getByRole('link', { name: '简体中文' }).click()
   await expect(page).toHaveURL(/\/zh\/resume$/)
-  await expect(page.getByRole('heading', { level: 1, name: '林张生' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Bobby Lin' })).toBeVisible()
 })
 
 test('header login opens a GitHub and Google modal', async ({ goto, page }) => {
@@ -357,9 +340,10 @@ test('rendered comments sanitize raw HTML and open login when signed out', async
 
   await expect(page.getByRole('heading', { name: '评论' })).toBeVisible()
 
-  // 评论区内的 HTML 必须经过 DOMPurify 消毒：img 保留、onerror 事件被移除
+  // 评论中的原生 HTML 不会被解析为元素，只作为纯文本显示
   const commentSection = page.locator('[aria-labelledby="comments-title"]')
-  await expect(commentSection.locator('img[src="x"]')).toHaveCount(1)
+  await expect(commentSection.getByText(xssComment)).toBeVisible()
+  await expect(commentSection.locator('img[src="x"]')).toHaveCount(0)
   await expect(commentSection.locator('[onerror]')).toHaveCount(0)
 
   // <script> 标签不应出现在最终 DOM 中
