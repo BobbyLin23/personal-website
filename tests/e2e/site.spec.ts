@@ -295,10 +295,10 @@ test('weekly calendar opens the highlighted weekly report for the active locale'
 test('projects and resume expose expected links and resume actions', async ({ goto, page }) => {
   await goto('/en/projects', { waitUntil: 'hydration' })
 
-  await expect(page.getByRole('heading', { name: 'Calora' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Chestnut Chat' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Source Code' }).first()).toHaveAttribute(
     'href',
-    'https://github.com/chestnut-studio/calora',
+    'https://github.com/chestnut-studio/chestnut-chat',
   )
 
   await goto('/en/resume', { waitUntil: 'hydration' })
@@ -340,9 +340,10 @@ test('rendered comments sanitize raw HTML and open login when signed out', async
 
   await expect(page.getByRole('heading', { name: '评论' })).toBeVisible()
 
-  // 评论区内的 HTML 必须经过 DOMPurify 消毒：img 保留、onerror 事件被移除
+  // 评论中的原生 HTML 不会被解析为元素，只作为纯文本显示
   const commentSection = page.locator('[aria-labelledby="comments-title"]')
-  await expect(commentSection.locator('img[src="x"]')).toHaveCount(1)
+  await expect(commentSection.getByText(xssComment)).toBeVisible()
+  await expect(commentSection.locator('img[src="x"]')).toHaveCount(0)
   await expect(commentSection.locator('[onerror]')).toHaveCount(0)
 
   // <script> 标签不应出现在最终 DOM 中
