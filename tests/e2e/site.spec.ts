@@ -201,8 +201,6 @@ const smokeRoutes = [
   { path: '/es/projects', heading: 'Proyectos' },
   { path: '/en/weekly', heading: 'Weekly' },
   { path: '/en/resume', heading: 'Bobby Lin' },
-  { path: '/en/thoughts', heading: 'Thoughts' },
-  { path: '/zh/thoughts', heading: '随想' },
 ]
 
 for (const route of smokeRoutes) {
@@ -212,21 +210,6 @@ for (const route of smokeRoutes) {
     await expect(page.getByRole('heading', { level: 1, name: route.heading })).toBeVisible()
   })
 }
-
-test('thoughts hydrates without warnings in persisted dark mode', async ({ goto, page }) => {
-  const hydrationWarnings: string[] = []
-  page.on('console', (message) => {
-    if (message.type() === 'warning' && /hydration/i.test(message.text())) {
-      hydrationWarnings.push(message.text())
-    }
-  })
-  await page.addInitScript(() => localStorage.setItem('nuxt-color-mode', 'dark'))
-
-  await goto('/en/thoughts', { waitUntil: 'hydration' })
-
-  await expect(page.locator('html')).toHaveClass(/dark/)
-  expect(hydrationWarnings).toEqual([])
-})
 
 test('sitemap exposes localized pages and content', async ({ request }) => {
   const response = await request.get('/sitemap.xml')

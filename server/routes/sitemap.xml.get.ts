@@ -1,7 +1,7 @@
 import { queryCollection } from '@nuxt/content/server'
 
 const locales = ['en', 'zh', 'zh-TW', 'es', 'ja', 'fr']
-const staticPaths = ['/', '/about', '/blog', '/projects', '/resume', '/thoughts', '/weekly']
+const staticPaths = ['/', '/about', '/blog', '/projects', '/resume', '/weekly']
 
 export default defineEventHandler(async (event) => {
   const siteUrl = getSiteUrl(event)

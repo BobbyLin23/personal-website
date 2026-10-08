@@ -30,11 +30,6 @@ const navItems = computed<NavigationMenuItem[]>(() => [
     active: route.path.startsWith(localePath('/weekly')),
   },
   {
-    label: t('nav.thoughts'),
-    to: localePath('/thoughts'),
-    active: route.path.startsWith(localePath('/thoughts')),
-  },
-  {
     label: t('nav.about'),
     to: localePath('/about'),
     active: route.path.startsWith(localePath('/about')),

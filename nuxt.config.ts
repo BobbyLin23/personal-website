@@ -50,8 +50,6 @@ export default defineNuxtConfig({
       repo: serverEnv.NUXT_GITHUB_REPO,
       branch: serverEnv.NUXT_GITHUB_BRANCH,
     },
-    siteOwnerEmails: serverEnv.NUXT_SITE_OWNER_EMAILS ?? '',
-    tmdbApiKey: serverEnv.NUXT_TMDB_API_KEY ?? '',
     authGithub: {
       clientId: serverEnv.NUXT_AUTH_GITHUB_CLIENT_ID ?? '',
       clientSecret: serverEnv.NUXT_AUTH_GITHUB_CLIENT_SECRET ?? '',
