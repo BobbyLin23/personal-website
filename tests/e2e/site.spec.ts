@@ -200,7 +200,7 @@ const smokeRoutes = [
   { path: '/en/projects', heading: 'Projects' },
   { path: '/es/projects', heading: 'Proyectos' },
   { path: '/en/weekly', heading: 'Weekly' },
-  { path: '/en/resume', heading: 'Lin Zhangsheng' },
+  { path: '/en/resume', heading: 'Bobby Lin' },
   { path: '/en/thoughts', heading: 'Thoughts' },
   { path: '/zh/thoughts', heading: '随想' },
 ]
@@ -319,7 +319,7 @@ test('projects and resume expose expected links and resume actions', async ({ go
   )
 
   await goto('/en/resume', { waitUntil: 'hydration' })
-  await expect(page.getByRole('heading', { level: 1, name: 'Lin Zhangsheng' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Bobby Lin' })).toBeVisible()
 
   await expect(page.getByRole('link', { name: 'PDF' })).toHaveAttribute('href', '/resume-zh.pdf')
   await expect(page.getByRole('link', { name: 'PDF' })).toHaveAttribute('download', '')
@@ -337,7 +337,7 @@ test('projects and resume expose expected links and resume actions', async ({ go
 
   await page.getByRole('link', { name: '简体中文' }).click()
   await expect(page).toHaveURL(/\/zh\/resume$/)
-  await expect(page.getByRole('heading', { level: 1, name: '林张生' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1, name: 'Bobby Lin' })).toBeVisible()
 })
 
 test('header login opens a GitHub and Google modal', async ({ goto, page }) => {
