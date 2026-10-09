@@ -211,6 +211,43 @@ for (const route of smokeRoutes) {
   })
 }
 
+for (const colorScheme of ['light', 'dark'] as const) {
+  test(`page headings and articles stay free of devtools styles in ${colorScheme} mode`, async ({
+    goto,
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme })
+    await page.addInitScript((mode) => {
+      localStorage.setItem('nuxt-color-mode', mode)
+    }, colorScheme)
+
+    await goto('/en', { waitUntil: 'hydration' })
+    const writing = page.getByRole('heading', { name: 'Writing', exact: true })
+    await expect(writing).toHaveCSS('border-bottom-width', '0px')
+    await expect(writing).toHaveCSS('padding-top', '0px')
+
+    await goto('/en/blog', { waitUntil: 'hydration' })
+    await expect(page.getByRole('heading', { name: '2026', exact: true })).toHaveCSS(
+      'border-bottom-width',
+      '0px',
+    )
+
+    await page.getByRole('link', { name: /5-Month Review: Resetting My Direction/ }).click()
+    await expect(page.locator('article')).toHaveCSS('border-top-width', '0px')
+    await expect(page.locator('article')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(page.getByRole('heading', { name: 'AI insights', exact: true })).toHaveCSS(
+      'border-bottom-width',
+      '0px',
+    )
+    // The summary card and the author's Markdown divider remain intentional.
+    await expect(page.locator('[aria-labelledby="ai-insights-title"]')).toHaveCSS(
+      'border-top-width',
+      '1px',
+    )
+    await expect(page.locator('article hr')).toBeVisible()
+  })
+}
+
 test('sitemap exposes localized pages and content', async ({ request }) => {
   const response = await request.get('/sitemap.xml')
   const sitemap = await response.text()
