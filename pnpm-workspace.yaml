@@ -23,3 +23,4 @@ allowBuilds:
 
 patchedDependencies:
   '@nuxthub/core@0.10.8': patches/@nuxthub__core@0.10.8.patch
+  '@nuxtjs/better-auth@0.3.9': patches/@nuxtjs__better-auth@0.3.9.patch

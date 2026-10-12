@@ -21,7 +21,7 @@
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
     "@fontsource/instrument-serif": "^5.3.0",
-    "@iconify-json/lucide": "^1.2.140",
+    "@iconify-json/lucide": "^1.2.142",
     "@iconify-json/simple-icons": "^1.2.99",
     "@internationalized/date": "^3.12.4",
     "@libsql/client": "^0.18.0",
@@ -38,26 +38,26 @@
     "better-auth": "1.7.7",
     "better-sqlite3": "^13.0.3",
     "dompurify": "^3.4.16",
-    "drizzle-orm": "^0.45.3",
+    "drizzle-orm": "^0.45.4",
     "md-editor-v3": "^7.1.0",
     "minimark": "^1.0.0",
     "motion-v": "^2.6.0",
-    "nuxt": "^4.6.0",
+    "nuxt": "^4.6.1",
     "nuxt-studio": "1.7.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vue": "^3.5.43",
-    "vue-router": "^5.3.1",
+    "vue-router": "^5.4.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
     "@nuxt/test-utils": "^4.3.3",
-    "@playwright/test": "^1.63.0",
-    "@types/node": "^26.6.4",
+    "@playwright/test": "^1.64.0",
+    "@types/node": "^26.6.5",
     "drizzle-kit": "^0.31.11",
     "oxfmt": "^0.72.0",
     "oxlint": "^1.87.0",
-    "oxlint-tsgolint": "^7.0.2003"
+    "oxlint-tsgolint": "^7.0.2004"
   },
   "packageManager": "pnpm@11.1.3"
 }
