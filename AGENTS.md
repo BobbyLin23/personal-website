@@ -15,7 +15,7 @@ Personal website built with **Nuxt 4** (Vue 3). Content-driven (blog, weekly not
 - **UI**: `@nuxt/ui` v4, Iconify (`lucide`, `simple-icons`)
 - **Validation**: `zod` v4
 - **DB (content SQLite)**: `better-sqlite3`
-- **Package manager**: `pnpm@11.1.3` (enforced via `packageManager` field)
+- **Package manager**: `pnpm@11.28.7` (enforced via `packageManager` field)
 - **Linting**: Oxlint (`.oxlintrc.json`, type-aware via `oxlint-tsgolint`)
 - **Formatting**: Oxfmt (`.oxfmtrc.json`)
 
